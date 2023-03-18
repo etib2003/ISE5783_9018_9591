@@ -1,3 +1,8 @@
+
+/* Chavi Bombach 213419591 chavibombach1@gmail.com
+   Ester Bernat 325179018 etib2003@gmail.com */
+
+
 package test;
 
 import static java.lang.System.out;
@@ -5,6 +10,7 @@ import static primitives.Util.isZero;
 
 import primitives.Point;
 import primitives.Vector;
+
 
 /** Test program for the 1st stage
  * @author Dan Zilberstein */
