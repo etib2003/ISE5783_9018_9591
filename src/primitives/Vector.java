@@ -1,6 +1,11 @@
 package primitives;
 
+/**
+ * 
+ * The Vector class represents a vector in 3-dimensional space.
+ */
 public class Vector extends Point {
+		
 	/**
 	 * Constructs a new vector from the given x, y, and z components. Throws an
 	 * IllegalArgumentException if the vector is the zero vector.
@@ -38,6 +43,16 @@ public class Vector extends Point {
 	public Vector add(Vector v) {
 		return new Vector(this.xyz.add(v.xyz));
 	}
+	
+	/**
+	 * Subtracts this vector to the given vector and returns the result as a new vector.
+	 *
+	 * @param v the vector to subtract to this vector
+	 * @return the difference of this vector and the given vector as a new vector
+	 */
+	public Vector subtract(Vector v) {
+		return new Vector(this.xyz.subtract(v.xyz));
+	}
 
 	/**
 	 * 
@@ -71,7 +86,8 @@ public class Vector extends Point {
 	 *         with v.
 	 */
 	public Vector crossProduct(Vector v) {
-		return new Vector((xyz.d2 * v.xyz.d3) - (xyz.d3 * v.xyz.d2), (xyz.d3 * v.xyz.d1) - (xyz.d1 * v.xyz.d3),
+		return new Vector((xyz.d2 * v.xyz.d3) - (xyz.d3 * v.xyz.d2),
+				(xyz.d3 * v.xyz.d1) - (xyz.d1 * v.xyz.d3),
 				(xyz.d1 * v.xyz.d2) - (xyz.d2 * v.xyz.d1));
 	}
 

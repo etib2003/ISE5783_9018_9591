@@ -7,7 +7,7 @@ import primitives.*;
 public class Sphere extends RadialGeometry {
 	
 	/** The center point of the sphere */
-	private Point center;
+	private final Point center;
 
 	/**
 	 * Constructs a new sphere with the specified center point and radius.
@@ -31,6 +31,6 @@ public class Sphere extends RadialGeometry {
 
 	@Override
 	public Vector getNormal(Point p) {
-		return null;
+		return (p.subtract(getCenter())).normalize();
 	}
 }

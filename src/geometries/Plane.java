@@ -9,10 +9,10 @@ import primitives.Vector;
 public class Plane implements Geometry {
 	
 	/** A point on the plane */
-	private Point p0;
+	private final Point p0;
 	
 	/** The normal vector to the plane */
-	private Vector normal;
+	private final Vector normal;
 
 	/**
 	 * Constructs a new plane from three non-collinear points on the plane.
@@ -23,7 +23,10 @@ public class Plane implements Geometry {
 	 */
 	public Plane(Point p1, Point p2, Point p3) {
 		p0 = p1;
-		normal = null;
+		Vector U = (Vector)p2.subtract(p1);
+		Vector V = (Vector)p3.subtract(p1);
+		Vector N = U.crossProduct(V);
+		normal = N.normalize();
 	}
 
 	/**
@@ -43,7 +46,7 @@ public class Plane implements Geometry {
 	 * @return the normal vector to the plane
 	 */
 	public Vector getNormal() {
-		return null;
+		return normal;
 	}
 
 	/**
@@ -57,3 +60,4 @@ public class Plane implements Geometry {
 		return getNormal();
 	}
 }
+

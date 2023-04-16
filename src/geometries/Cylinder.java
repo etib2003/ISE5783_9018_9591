@@ -8,7 +8,7 @@ import primitives.*;
 public class Cylinder extends Tube {
 	
 	/** The height of the cylinder */
-	private double height;
+	private final double height;
 	
 	/**
 	 * Constructs a new cylinder with the specified height, axis, and radius.
