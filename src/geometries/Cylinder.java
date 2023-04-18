@@ -1,5 +1,5 @@
 package geometries;
-
+import static primitives.Util.isZero;
 import primitives.*;
 
 /**
@@ -32,16 +32,19 @@ public class Cylinder extends Tube {
 		return height;
 	}
 
-	/**
-	 * Returns the normal vector to the surface of the cylinder at the specified
-	 * point.
-	 * 
-	 * @param p the point on the surface of the cylinder
-	 * @return the normal vector to the surface of the cylinder at the specified
-	 *         point
+	/*
+ 	@Override
+    public Vector getNormal(Point point) {
+		Vector dir=axisRay.getDir();
+        double t = dir.dotProduct(point.subtract(axisRay.getP0()));
+        if (isZero(t) || isZero(t - height))
+            return dir;
+        else
+            return super.getNormal(point);
+    }
 	 */
-	@Override
-	public Vector getNormal(Point p) {
-		return null;
-	}
+
+       
+        
+	
 }

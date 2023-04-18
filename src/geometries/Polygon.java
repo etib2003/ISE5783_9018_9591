@@ -3,6 +3,7 @@ package geometries;
 import static primitives.Util.isZero;
 import java.util.List;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 /**
@@ -83,5 +84,11 @@ public class Polygon implements Geometry {
 	@Override
 	public Vector getNormal(Point point) {
 		return plane.getNormal();
+	}
+
+	@Override
+	public List<Point> findIntsersections(Ray ray) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

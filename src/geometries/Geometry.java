@@ -1,12 +1,11 @@
 package geometries;
-
 import primitives.Point;
 import primitives.Vector;
 
 /**
  * The Geometry interface represents a geometric object in 3D space.
  */
-public interface Geometry {
+public interface Geometry extends Intersectable {
 
 	/**
 	 * Returns the normal vector to the surface of the geometry at the specified

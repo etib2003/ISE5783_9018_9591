@@ -1,7 +1,9 @@
 package geometries;
 
 import primitives.*;
-import static primitives.Util.isZero;;
+import static primitives.Util.isZero;
+
+import java.util.List;;
 
 
 
@@ -51,5 +53,11 @@ public class Tube extends RadialGeometry {
 		if (isZero(t)) return p.subtract(p0).normalize();
 		Point point0 = p0.add(dir.scale(t));
 		return p.subtract(point0).normalize();
+	}
+
+	@Override
+	public List<Point> findIntsersections(Ray ray) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

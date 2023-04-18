@@ -52,4 +52,14 @@ class PlaneTests {
 		assertEquals(new Vector(1 / Math.sqrt(3), 1 / Math.sqrt(3), 1 / Math.sqrt(3)), pl.getNormal(new Point(1, 0, 0)),
 				"Bad normal to plane");
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
