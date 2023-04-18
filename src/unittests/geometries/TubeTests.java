@@ -30,7 +30,7 @@ class TubeTests {
 		// =============== Boundary Values Tests ==================
 		// TC11: Test that works for connection of the point to the head of the ray of
 		// the tube
-		assertEquals(new Vector(1, 1, 0).normalize(), tube.getNormal(new Point(1, 1, 1)), "the normal is not correct");
+		assertEquals(new Vector(1, 1, 0).normalize(), tube.getNormal(new Point(1, 1, 0)), "the normal is not correct");
 
 	}
 }

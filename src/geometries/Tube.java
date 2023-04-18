@@ -1,8 +1,9 @@
 package geometries;
 
-import primitives.Ray;
-import primitives.Vector;
-import primitives.Point;
+import primitives.*;
+import static primitives.Util.isZero;;
+
+
 
 /**
  * Represents a tube in 3D space, which is defined by its central axis Ray and
@@ -47,6 +48,7 @@ public class Tube extends RadialGeometry {
 		Vector dir=axisRay.getDir();
 		Point p0=axisRay.getP0();
 		double t = dir.dotProduct(p.subtract(p0));
+		if (isZero(t)) return p.subtract(p0).normalize();
 		Point point0 = p0.add(dir.scale(t));
 		return p.subtract(point0).normalize();
 	}
