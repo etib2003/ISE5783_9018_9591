@@ -3,8 +3,7 @@
  */
 package unittests.geometries;
 
-import primitives.*;
-import geometries.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;

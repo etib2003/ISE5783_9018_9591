@@ -24,11 +24,9 @@ class TriangleTests {
 		double sqrt = Math.sqrt(1d / 3);
 		assertEquals(new Vector(sqrt, sqrt, sqrt), t.getNormal(new Point(0, 0, 1)), "Not good normal");
 
-		try {
-			new Triangle(new Point(1, 0, 0), new Point(0, 1, 0), new Point(0, 0, 1));
-		} catch (IllegalArgumentException e) {
-			fail("Failed constructing a correct triangle");
-		}
+		assertDoesNotThrow(()->new Triangle(new Point(1, 0, 0), new Point(0, 1, 0), new Point(0, 0, 1)),
+						"Failed constructing a correct triangle");
+
 		// =============== Equivalence Partitions Tests ==============
 		// TC01: simple check
 		Triangle tr = new Triangle(new Point(0, 1, 0), new Point(1, 0, 0), new Point(1, 1, 0));

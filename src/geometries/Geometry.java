@@ -9,10 +9,12 @@ import primitives.Vector;
 public interface Geometry {
 
 	/**
-	 * Returns the normal vector to the surface of the geometry at the specified point.
+	 * Returns the normal vector to the surface of the geometry at the specified
+	 * point.
 	 *
 	 * @param p the point on the surface of the geometry
-	 * @return the normal vector to the surface of the geometry at the specified point
+	 * @return the normal vector to the surface of the geometry at the specified
+	 *         point
 	 */
-	public Vector getNormal(Point p); 
+	public Vector getNormal(Point p);
 }

@@ -3,13 +3,14 @@ package geometries;
 import primitives.*;
 
 /**
- * Represents a cylinder in 3D space, which is a solid geometric shape with a circular base and straight sides.
+ * Represents a cylinder in 3D space, which is a solid geometric shape with a
+ * circular base and straight sides.
  */
 public class Cylinder extends Tube {
-	
+
 	/** The height of the cylinder */
 	private final double height;
-	
+
 	/**
 	 * Constructs a new cylinder with the specified height, axis, and radius.
 	 *
@@ -32,10 +33,12 @@ public class Cylinder extends Tube {
 	}
 
 	/**
-	 * Returns the normal vector to the surface of the cylinder at the specified point.
+	 * Returns the normal vector to the surface of the cylinder at the specified
+	 * point.
 	 * 
 	 * @param p the point on the surface of the cylinder
-	 * @return the normal vector to the surface of the cylinder at the specified point
+	 * @return the normal vector to the surface of the cylinder at the specified
+	 *         point
 	 */
 	@Override
 	public Vector getNormal(Point p) {

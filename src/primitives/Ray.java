@@ -4,12 +4,12 @@ package primitives;
  * Represents a ray in 3D space, defined by a starting point and a direction.
  */
 public class Ray {
-	
+
 	/**
 	 * The starting point of the ray.
 	 */
 	private final Point p0;
-	
+
 	/**
 	 * The normalized direction vector of the ray.
 	 */
@@ -45,8 +45,8 @@ public class Ray {
 	}
 
 	/**
-	 * Checks whether this ray is equal to the specified object. Two rays are equal if their starting points and
-	 * direction vectors are equal.
+	 * Checks whether this ray is equal to the specified object. Two rays are equal
+	 * if their starting points and direction vectors are equal.
 	 * 
 	 * @param obj the object to compare this ray with
 	 * @return true if the specified object is equal to this ray, false otherwise
@@ -59,7 +59,8 @@ public class Ray {
 	}
 
 	/**
-	 * Returns a string representation of this ray in the format "Ray : p0={x,y,z}, dir={x,y,z}".
+	 * Returns a string representation of this ray in the format "Ray : p0={x,y,z},
+	 * dir={x,y,z}".
 	 * 
 	 * @return a string representation of this ray
 	 */

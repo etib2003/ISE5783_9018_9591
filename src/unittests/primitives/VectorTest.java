@@ -3,10 +3,8 @@
  */
 package unittests.primitives;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.function.BooleanSupplier;
 import static primitives.Util.isZero;
 
 import primitives.*;
@@ -175,6 +173,6 @@ class VectorTest {
 		assertThrows(IllegalArgumentException.class, () -> v1.crossProduct(v1.normalize()),
 				"the normalized vector is not parallel to the original one");
 		// TN12: Test vector scalar multiplies its normalized in the same direction
-		assertTrue(v1.dotProduct(v1.normalize())>0,"the normalized vector is opposite to the original one");
+		assertTrue(v1.dotProduct(v1.normalize()) > 0, "the normalized vector is opposite to the original one");
 	}
 }

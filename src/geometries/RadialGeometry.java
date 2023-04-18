@@ -1,10 +1,11 @@
 package geometries;
 
 /**
- * Represents a geometric object that has a radial dimension, such as a sphere or a cylinder.
+ * Represents a geometric object that has a radial dimension, such as a sphere
+ * or a cylinder.
  */
 public abstract class RadialGeometry implements Geometry {
-	
+
 	/** The radius of the object */
 	protected final double radius;
 

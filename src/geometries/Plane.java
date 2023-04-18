@@ -4,13 +4,14 @@ import primitives.Point;
 import primitives.Vector;
 
 /**
- * Represents a plane in 3D space, which is a flat surface that extends infinitely in all directions.
+ * Represents a plane in 3D space, which is a flat surface that extends
+ * infinitely in all directions.
  */
 public class Plane implements Geometry {
-	
+
 	/** A point on the plane */
 	private final Point p0;
-	
+
 	/** The normal vector to the plane */
 	private final Vector normal;
 
@@ -23,14 +24,15 @@ public class Plane implements Geometry {
 	 */
 	public Plane(Point p1, Point p2, Point p3) {
 		p0 = p1;
-		Vector U = (Vector)p2.subtract(p1);
-		Vector V = (Vector)p3.subtract(p1);
-		Vector N = U.crossProduct(V);
-		normal = N.normalize();
+		Vector u = p2.subtract(p0);
+		Vector v = p3.subtract(p0);
+		Vector n = u.crossProduct(v);
+		normal = n.normalize();
 	}
 
 	/**
-	 * Constructs a new plane from a point on the plane and a normal vector to the plane.
+	 * Constructs a new plane from a point on the plane and a normal vector to the
+	 * plane.
 	 *
 	 * @param p the point on the plane
 	 * @param n the normal vector to the plane
@@ -60,4 +62,3 @@ public class Plane implements Geometry {
 		return getNormal();
 	}
 }
-

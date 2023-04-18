@@ -5,16 +5,15 @@ import primitives.Vector;
 import primitives.Point;
 
 /**
- * Represents a tube in 3D space, which is defined by its central axis Ray and radius.
+ * Represents a tube in 3D space, which is defined by its central axis Ray and
+ * radius.
  */
 public class Tube extends RadialGeometry {
-	
+
 	/**
 	 * The central axis Ray of the tube.
 	 */
 	protected final Ray axisRay;
-
-	
 
 	/**
 	 * Constructs a Tube object with the given axis Ray and radius.
@@ -45,8 +44,10 @@ public class Tube extends RadialGeometry {
 	 */
 	@Override
 	public Vector getNormal(Point p) {
-		double t=axisRay.getDir().dotProduct(p.subtract(axisRay.getP0()));
-		Point point0 =axisRay.getP0().add(axisRay.getDir().scale(t));
+		Vector dir=axisRay.getDir();
+		Point p0=axisRay.getP0();
+		double t = dir.dotProduct(p.subtract(p0));
+		Point point0 = p0.add(dir.scale(t));
 		return p.subtract(point0).normalize();
 	}
 }

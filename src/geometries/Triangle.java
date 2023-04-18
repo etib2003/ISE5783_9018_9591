@@ -6,7 +6,7 @@ import primitives.Point;
  * Represents a triangle in 3D space.
  */
 public class Triangle extends Polygon {
-	
+
 	/**
 	 * Constructs a new triangle with the specified vertices.
 	 *

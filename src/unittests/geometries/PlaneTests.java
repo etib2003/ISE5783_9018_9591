@@ -22,11 +22,8 @@ class PlaneTests {
 	public void testPlane() {
 		// =============== Equivalence Partitions Tests ==============
 		// TC01: constructor acting well
-		try {
-			new Plane(new Point(0, 1, 0), new Point(1, 0, 0), new Point(1, 1, 0));
-		} catch (IllegalArgumentException e) {
-			fail("Failed constructing a correct plane");
-		}
+		assertDoesNotThrow(()->new Plane(new Point(0, 1, 0), new Point(1, 0, 0), new Point(1, 1, 0)),
+				"Failed constructing a correct plane");
 
 		// =============== Boundary Values Tests ==================
 
@@ -47,11 +44,12 @@ class PlaneTests {
 	@Test
 	public void testGetNormal() {
 		Plane pl = new Plane(new Point(1, 0, 0), new Point(0, 1, 0), new Point(0, 0, 1));
-		
+
 		assertEquals(1, pl.getNormal().length(), "ERROR: Normal length diffrent than 1");
 
 		// =============== Equivalence Partitions Tests ==============
 		// TC01:
-		assertEquals(new Vector(1/Math.sqrt(3),1/Math.sqrt(3),1/Math.sqrt(3)), pl.getNormal(new Point(1, 0, 0)), "Bad normal to plane");
+		assertEquals(new Vector(1 / Math.sqrt(3), 1 / Math.sqrt(3), 1 / Math.sqrt(3)), pl.getNormal(new Point(1, 0, 0)),
+				"Bad normal to plane");
 	}
 }
