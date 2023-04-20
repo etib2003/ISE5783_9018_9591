@@ -93,13 +93,13 @@ class PlaneTests {
 				"Ray is neither orthogonal nor parallel to and begins at the plane");
 
 		// ============ Equivalence Partitions Tests ================
-		// TC08: The Ray must be neither orthogonal nor parallel to the plane
+		// TC11: The Ray must be neither orthogonal nor parallel to the plane
 		// Ray does not intersect the plane
 		myRay = new Ray(new Point(1, 2, 0), new Vector(-3, -7, 0));
 		assertNull(myPlane.findIntersections(myRay),
 				"Ray is neither orthogonal nor parallel but doesnt intersects the plane");
 
-		// TC09:
+		// TC12:
 		// Ray intersects the plane
 		myRay = new Ray(new Point(4, 3, 0), new Vector(-5.75, 3.57, 0));// the ray isn't orthogonal or parallel to the
 																		// plane and intersects the plane

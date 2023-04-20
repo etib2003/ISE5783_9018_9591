@@ -1,12 +1,13 @@
 package geometries;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import primitives.Point;
 import primitives.Ray;
 
-public class Geometries extends Intersectable{
+public class Geometries implements Intersectable{
 	
 	private List<Intersectable> geometricBodies;
 
@@ -46,30 +47,20 @@ public class Geometries extends Intersectable{
 		}
 	}
 
-	/**
-	 * This function returns only the relevant point of the intersection using the
-	 * help of regular grid structure if the box is null that means we call the
-	 * regular find intersection (without acceleration)
-	 * 
-	 * @param ray            - Ray that intersect
-	 * @param box            - box of the scene
-	 * @param shadowRaysCase - if its shadow ray we traverse always all the way .
-	 * @param dis            - distance for find intersection
-	 * @return the relevant point
-	 */
+
 	@Override
-	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
-		List<GeoPoint> points = null;
-		if (geometricBodies != null) {
-			for (var body : geometricBodies) {
-				var result = body.findGeoIntersections(ray, maxDistance);
-				if (result != null)
-					if (points == null)
-						points = new LinkedList<GeoPoint>(result);
-					else
-						points.addAll(result);
-			}
+	public List<Point> findIntersections(Ray ray) {
+		List<Point> temp = new ArrayList<Point>();
+		for (Intersectable intersectable : geometricBodies) 
+		{
+			List<Point> intersection = intersectable.findIntersections(ray);
+			if (intersection != null)
+				temp.addAll(intersection); 
 		}
-		return points;
+		
+		if (temp.isEmpty())
+			return null;
+		return temp;
 	}
+
 }

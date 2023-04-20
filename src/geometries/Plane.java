@@ -1,6 +1,7 @@
 package geometries;
 
 import java.util.List;
+import static primitives.Util.*;
 
 import primitives.Point;
 import primitives.Ray;
@@ -67,7 +68,33 @@ public class Plane implements Geometry {
 
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-		// TODO Auto-generated method stub
-		return null;
+
+		double nv = normal.dotProduct(ray.getDir());
+		if (isZero(nv))
+		{
+			return null;
+		}
+		
+		try 
+		{
+			Vector pSubtractP0 = p0.subtract(ray.getP0());
+			double t = alignZero((normal.dotProduct(pSubtractP0))/nv);
+
+			if(t <= 0)
+			{
+				return null;
+			}
+			return List.of(ray.getPoint(t));
+		}
+		catch(Exception ex)
+		{
+			return null;
+		}
+	
 	}
+
+
+	
+
+
 }

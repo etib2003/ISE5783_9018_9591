@@ -372,7 +372,7 @@ class TubeTests {
         ray = new Ray(new Point(value2, value2, 2 + value2), new Vector(1, 1, 1));
         result = tube2.findIntersections(ray);
         assertNull(result, "Bad intersections");
-        // TC81: Ray's begins at the surface and goes outside and the line crosses the
+		// TC81: Ray's begins at the surface and goes outside and the line crosses the
         // axis head
         ray = new Ray(new Point(value2, value2, value2), new Vector(1, 1, 1));
         result = tube2.findIntersections(ray);

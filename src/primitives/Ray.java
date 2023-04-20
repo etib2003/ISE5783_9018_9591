@@ -1,4 +1,5 @@
 package primitives;
+import static primitives.Util.*;
 
 /**
  * Represents a ray in 3D space, defined by a starting point and a direction.
@@ -67,5 +68,15 @@ public class Ray {
 	@Override
 	public String toString() {
 		return "Ray : p0=" + p0 + ", dir=" + dir;
+	}
+	
+	public Point getPoint(double t) {
+		try {
+			if (isZero(t))
+				return p0;			 			
+			return p0.add(dir.scale(t));
+		} catch (Exception e) {
+			return p0;
+		}
 	}
 }

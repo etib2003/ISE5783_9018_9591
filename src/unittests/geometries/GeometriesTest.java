@@ -1,7 +1,8 @@
-package geometries;
+package unittests.geometries;
 
 import org.junit.jupiter.api.Test;
 
+import geometries.Geometries;
 import geometries.Polygon;
 import geometries.Sphere;
 import geometries.Triangle;

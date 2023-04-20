@@ -125,17 +125,17 @@ class PolygonTests {
 		assertNull(pol.findIntersections(ray), errorBadIntersection);
 
 		// =============== Boundary Values Tests ==================
-		// TC04: In vertex
+		// TC11: In vertex
 		ray = new Ray(new Point(0, 2, 0), v1);
 		assertEquals(List.of(new Point(0, 2, 1)), pl.findIntersections(ray), errorInIntersectionPlane);
 		assertNull(pol.findIntersections(ray), errorBadIntersection);
 
-		// TC05: On edge
+		// TC12: On edge
 		ray = new Ray(new Point(0, 1, 0), v1);
 		assertEquals(List.of(new Point(0, 1, 1)), pl.findIntersections(ray), errorInIntersectionPlane);
 		assertNull(pol.findIntersections(ray), errorBadIntersection);
 
-		// TC06: On edge continuation
+		// TC13: On edge continuation
 		ray = new Ray(new Point(0, 3, 0), v1);
 		assertEquals(List.of(new Point(0, 3, 1)), pl.findIntersections(ray), errorInIntersectionPlane);
 		assertNull(pol.findIntersections(ray), errorBadIntersection);
