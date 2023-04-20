@@ -70,31 +70,21 @@ public class Plane implements Geometry {
 	public List<Point> findIntersections(Ray ray) {
 
 		double nv = normal.dotProduct(ray.getDir());
-		if (isZero(nv))
-		{
+		if (isZero(nv)) {
 			return null;
 		}
-		
-		try 
-		{
+		try {
 			Vector pSubtractP0 = p0.subtract(ray.getP0());
-			double t = alignZero((normal.dotProduct(pSubtractP0))/nv);
+			double t = alignZero((normal.dotProduct(pSubtractP0)) / nv);
 
-			if(t <= 0)
-			{
+			if (t <= 0) {
 				return null;
 			}
 			return List.of(ray.getPoint(t));
-		}
-		catch(Exception ex)
-		{
+		} catch (Exception ex) {
 			return null;
 		}
-	
+
 	}
-
-
-	
-
 
 }

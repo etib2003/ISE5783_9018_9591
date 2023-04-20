@@ -1,11 +1,14 @@
 package geometries;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
+
 import static primitives.Util.*;
+
+import java.util.List;
+
 import primitives.Point;
 import primitives.Ray;
+import primitives.Vector;
+
 
 
 
@@ -26,31 +29,36 @@ public class Triangle extends Polygon {
 	}
 	
 	@Override
-    public List<Point> findIntersections(Ray ray) {
-        int len = vertices.size();
-		Point p0 = ray.getP0();
-		primitives.Vector v = ray.getDir();
-		List<Vector> vectors = new ArrayList<Vector>(len);
+	public List<Point> findIntersections(Ray ray) {
+		List<Point> rayPoints = plane.findIntersections(ray);
+		if (rayPoints == null)
+			return null;
+		//check if the point in out or on the triangle:
+		Point rayP0=ray.getP0();
+		Vector v1 = vertices.get(0).subtract(rayP0);
+		Vector v2 = vertices.get(1).subtract(rayP0);
+		Vector v3 = vertices.get(2).subtract(rayP0);
+		
+		Vector n1 = v1.crossProduct(v2).normalize();
+		Vector n2 = v2.crossProduct(v3).normalize();
+		Vector n3 = v3.crossProduct(v1).normalize();
 
-		//all the vectors
-		for (Point vertex : vertices) {
-			vectors.add(vertex.subtract(p0));
+		
+		//The point is inside if all  have the same sign (+/-)
+		Vector rayDir=ray.getDir();
+
+		if (alignZero(n1.dotProduct(rayDir)) > 0 && alignZero(n2.dotProduct(rayDir)) > 0 && alignZero(n3.dotProduct(rayDir)) > 0)
+		{
+			return rayPoints;
 		}
-
-		int sign = 0;
-		for (int i = 0; i < len; i++) {
-			// calculate the normal using the formula in the course slides
-			Vector N = vectors.get(i).crossProduct(vectors.get((i+1)%len)).normalize();
-			double dotProd = v.dotProduct(N);
-
-			if (i == 0)
-				sign = dotProd > 0 ? 1 : -1;
-
-			if (!checkSign(sign,dotProd) || isZero(dotProd))
-				return null;
+		else if (alignZero(n1.dotProduct(rayDir)) < 0 && alignZero(n2.dotProduct(rayDir)) < 0 && alignZero(n3.dotProduct(rayDir)) < 0)
+		{
+			return rayPoints;
 		}
-		return plane.findIntersections(ray);
-    }
+		if (isZero(n1.dotProduct(rayDir)) || isZero(n2.dotProduct(rayDir)) || isZero(n3.dotProduct(rayDir)))
+			return null; //there is no instruction point
+		return null;
+	}
 
 
 }

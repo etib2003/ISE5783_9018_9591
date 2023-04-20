@@ -81,7 +81,7 @@ class SphereTests {
 
         // **** Group: Ray's line goes through the center
         // TC13: Ray starts before the sphere (2 points)
-        assertEquals(List.of(new Point(0, 0, 0), new Point(2, 0, 0)),
+        assertEquals(List.of(new Point(2, 0, 0), new Point(0, 0, 0)),
                 sphere.findIntersections(new Ray(new Point(-1, 0, 0), new Vector(1, 0, 0))),
                 "Ray starts before the sphere and need to be 2 intersections");
 

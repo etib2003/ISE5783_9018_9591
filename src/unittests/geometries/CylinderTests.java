@@ -43,9 +43,11 @@ class CylinderTest {
 
     }
 
+    
     /**
      * Test method for {@link Cylinder#findIntersections(Ray)}.
      */
+    
     @Test
     void findIntersectionsTest() {
 
