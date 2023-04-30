@@ -90,6 +90,7 @@ class PolygonTests {
 					"Polygon's normal is not orthogonal to one of the edges");
 	}
 
+	//BONUS
 	/**
 	 * Test method for {@link geometries.Polygon#findIntersections(primitives.Ray)}.
 	 */

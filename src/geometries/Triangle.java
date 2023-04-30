@@ -1,16 +1,11 @@
 package geometries;
 
-
 import static primitives.Util.*;
 
 import java.util.List;
-
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
-
-
 
 /**
  * Represents a triangle in 3D space.
@@ -27,38 +22,50 @@ public class Triangle extends Polygon {
 	public Triangle(Point p1, Point p2, Point p3) {
 		super(p1, p2, p3);
 	}
-	
+
 	@Override
+	/**
+	 * Computes the intersections of a given ray with this triangle.
+	 *
+	 * @param ray the ray to intersect with this triangle
+	 * @return a list of intersection points between the ray and the triangle, or
+	 *         null if there are no intersections
+	 */
 	public List<Point> findIntersections(Ray ray) {
-		List<Point> rayPoints = plane.findIntersections(ray);
-		if (rayPoints == null)
+		// Check if the ray starts at one of the triangle's vertices
+		Point rayP0 = ray.getP0();
+		if (rayP0.equals(this.vertices.get(0)) || rayP0.equals(this.vertices.get(1))
+				|| rayP0.equals(this.vertices.get(2))) {
 			return null;
-		//check if the point in out or on the triangle:
-		Point rayP0=ray.getP0();
-		Vector v1 = vertices.get(0).subtract(rayP0);
-		Vector v2 = vertices.get(1).subtract(rayP0);
-		Vector v3 = vertices.get(2).subtract(rayP0);
-		
-		Vector n1 = v1.crossProduct(v2).normalize();
-		Vector n2 = v2.crossProduct(v3).normalize();
-		Vector n3 = v3.crossProduct(v1).normalize();
-
-		
-		//The point is inside if all  have the same sign (+/-)
-		Vector rayDir=ray.getDir();
-
-		if (alignZero(n1.dotProduct(rayDir)) > 0 && alignZero(n2.dotProduct(rayDir)) > 0 && alignZero(n3.dotProduct(rayDir)) > 0)
-		{
-			return rayPoints;
 		}
-		else if (alignZero(n1.dotProduct(rayDir)) < 0 && alignZero(n2.dotProduct(rayDir)) < 0 && alignZero(n3.dotProduct(rayDir)) < 0)
-		{
-			return rayPoints;
+
+		// Calculate the normals of the triangle's three edges
+		Vector v1 = this.vertices.get(0).subtract(rayP0);
+		Vector v2 = this.vertices.get(1).subtract(rayP0);
+		Vector v3 = this.vertices.get(2).subtract(rayP0);
+		Vector n1, n2, n3;
+		try {
+			n1 = v1.crossProduct(v2).normalize();
+			n2 = v2.crossProduct(v3).normalize();
+			n3 = v3.crossProduct(v1).normalize();
+		} catch (IllegalArgumentException e) {
+			return null;
 		}
-		if (isZero(n1.dotProduct(rayDir)) || isZero(n2.dotProduct(rayDir)) || isZero(n3.dotProduct(rayDir)))
-			return null; //there is no instruction point
+
+		// Check if the ray is parallel to any of the triangle's edges
+		Vector rayDir = ray.getDir();
+		double vn1 = rayDir.dotProduct(n1);
+		double vn2 = rayDir.dotProduct(n2);
+		double vn3 = rayDir.dotProduct(n3);
+		if (isZero(vn1) || isZero(vn2) || isZero(vn3)) {
+			return null;
+		}
+
+		// Check if the ray intersects the triangle
+		if ((vn1 > 0 && vn2 > 0 && vn3 > 0) || (vn1 < 0 && vn2 < 0 && vn3 < 0)) {
+			return this.plane.findIntersections(ray);
+		}
 		return null;
 	}
-
 
 }

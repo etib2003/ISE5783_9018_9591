@@ -1,8 +1,6 @@
 package geometries;
-import static primitives.Util.isZero;
 
 import java.util.List;
-
 import primitives.Ray;
 import primitives.Point;
 import primitives.Vector;
@@ -69,6 +67,7 @@ public class Cylinder extends Tube {
         return v.normalize();
     }
     
+	//BONUS
     @Override
 	public List<Point> findIntersections(Ray ray) {
 		// TODO Auto-generated method stub

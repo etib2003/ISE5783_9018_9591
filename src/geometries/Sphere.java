@@ -2,7 +2,6 @@ package geometries;
 
 import static primitives.Util.*;
 import java.util.List;
-
 import primitives.*;
 
 /**
@@ -38,11 +37,18 @@ public class Sphere extends RadialGeometry {
 		return (p.subtract(getCenter())).normalize();
 	}
 
+	/**
+	 * Finds the intersections of a given ray with a sphere. 
+	 * @param ray the ray to intersect with the sphere
+	 * 
+	 * @return a list of intersection points, or null if there are no intersections
+	 */
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-
-		if (ray.getP0().equals(center)) // if the begin of the ray in the center, the point, is on the radius
+		// If the beginning point of the ray is on the sphere center, return the point on the sphere's radius
+		if (ray.getP0().equals(center))
 			return List.of(ray.getPoint(radius));
+
 		Vector u = center.subtract(ray.getP0());
 		double tM = alignZero(ray.getDir().dotProduct(u));
 		double d = alignZero(Math.sqrt(u.lengthSquared() - tM * tM));
@@ -50,20 +56,22 @@ public class Sphere extends RadialGeometry {
 		double t1 = alignZero(tM + tH);
 		double t2 = alignZero(tM - tH);
 
+		// If there are no intersections, return null
 		if (d > radius)
-			return null; // there are no instructions
-
+			return null;
+		
 		if (t1 <= 0 && t2 <= 0)
 			return null;
 
+		// If there are two intersections, return them as a list
 		if (t1 > 0 && t2 > 0)
 			return List.of(ray.getPoint(t1), ray.getPoint(t2));
-		
-		if (t1 > 0) 
+
+		// If there is one intersection, return it as a list
+		if (t1 > 0)
 			return List.of(ray.getPoint(t1));
 		else
 			return List.of(ray.getPoint(t2));
-
 	}
 
 }
