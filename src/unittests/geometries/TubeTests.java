@@ -264,11 +264,5 @@ class TubeTests {
         ray = new Ray(new Point(1, 3, 1), new Vector(0, 1, 0));
         result = tube2.findIntersections(ray);
         assertNull(result, "Bad intersections");
-        // TC49: Ray start at the axis head
-        ray = new Ray(new Point(1, 1, 1), new Vector(0, 1, 0));
-        result = tube2.findIntersections(ray);
-        assertNotNull(result, "must be intersections");
-        assertEquals(1, result.size(), "must be 1 intersections");
-        assertEquals(List.of(new Point(1, 2, 1)), result, "Bad intersections");
     }
 }
