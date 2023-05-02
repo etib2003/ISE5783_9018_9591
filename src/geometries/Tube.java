@@ -55,7 +55,7 @@ public class Tube extends RadialGeometry {
 		return p.subtract(point0).normalize();
 	}
 
-	//BONUS
+	// BONUS
 	/**
 	 * 
 	 * This method finds the intersections of the given ray with this cylinder.
@@ -133,7 +133,7 @@ public class Tube extends RadialGeometry {
 		double k = width / radius;
 
 		// calculate the intersection points
-		double th = Math.sqrt(radius * radius - dis * dis) * k;
+		double th = Math.sqrt(radius2 - dis * dis) * k;
 
 		Point p1 = d.subtract(vecA.scale(th));
 		Point p2 = d.add(vecA.scale(th));

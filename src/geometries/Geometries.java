@@ -7,28 +7,31 @@ import primitives.Ray;
 
 /**
  * The Geometries class represents a collection of intersectable geometries.
+ * 
  * @author אתוש
  *
  */
-public class Geometries implements Intersectable{
-	
+public class Geometries implements Intersectable {
+
 	private List<Intersectable> geometricBodies;
 
 	/**
 	 * Default constructor that initializes an empty list of bodies.
 	 */
 	public Geometries() {
-	    this.geometricBodies = new LinkedList<Intersectable>();
+		this.geometricBodies = new LinkedList<Intersectable>();
 	}
 
 	/**
-	 * Constructor that accepts a list of geometries as its argument and initializes the list.
+	 * Constructor that accepts a list of geometries as its argument and initializes
+	 * the list.
 	 *
-	 * @param geometries A variable number of intersectable objects to add to the list.
+	 * @param geometries A variable number of intersectable objects to add to the
+	 *                   list.
 	 */
 	public Geometries(Intersectable... geometries) {
-	    this();
-	    add(geometries);
+		this();
+		add(geometries);
 	}
 
 	/**
@@ -37,18 +40,19 @@ public class Geometries implements Intersectable{
 	 * @return A list of intersectable objects.
 	 */
 	public List<Intersectable> getBodies() {
-	    return geometricBodies;
+		return geometricBodies;
 	}
 
 	/**
 	 * Adds a variable number of intersectable objects to the list.
 	 *
-	 * @param geometries A variable number of intersectable objects to add to the list.
+	 * @param geometries A variable number of intersectable objects to add to the
+	 *                   list.
 	 */
 	public void add(Intersectable... geometries) {
-	    for (var intersectable : geometries) {
-	        geometricBodies.add(intersectable);
-	    }
+		for (var intersectable : geometries) {
+			geometricBodies.add(intersectable);
+		}
 	}
 
 	/**
@@ -59,16 +63,16 @@ public class Geometries implements Intersectable{
 	 */
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-	    List<Point> res = null;
-	    for (Intersectable geometry : this.geometricBodies) {
-	        List<Point> resi = geometry.findIntersections(ray);
-	        if (resi != null) {
-	            if (res == null) {
-	                res = new LinkedList<Point>();
-	            }
-	            res.addAll(resi);
-	        }
-	    }
-	    return res;
+		List<Point> res = null;
+		for (Intersectable geometry : this.geometricBodies) {
+			List<Point> resi = geometry.findIntersections(ray);
+			if (resi != null) {
+				if (res == null) {
+					res = new LinkedList<Point>();
+				}
+				res.addAll(resi);
+			}
+		}
+		return res;
 	}
 }

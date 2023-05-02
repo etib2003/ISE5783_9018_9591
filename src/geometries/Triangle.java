@@ -32,40 +32,34 @@ public class Triangle extends Polygon {
 	 *         null if there are no intersections
 	 */
 	public List<Point> findIntersections(Ray ray) {
+		List<Point> planeIntersection = this.plane.findIntersections(ray);
+		if (planeIntersection == null)
+			return null;
+
 		// Check if the ray starts at one of the triangle's vertices
 		Point rayP0 = ray.getP0();
-		if (rayP0.equals(this.vertices.get(0)) || rayP0.equals(this.vertices.get(1))
-				|| rayP0.equals(this.vertices.get(2))) {
-			return null;
-		}
+		Vector rayDir = ray.getDir();
 
 		// Calculate the normals of the triangle's three edges
 		Vector v1 = this.vertices.get(0).subtract(rayP0);
 		Vector v2 = this.vertices.get(1).subtract(rayP0);
+		Vector n1 = v1.crossProduct(v2).normalize();
+		double vn1 = alignZero(rayDir.dotProduct(n1));
+		if (vn1 == 0)
+			return null;
+
 		Vector v3 = this.vertices.get(2).subtract(rayP0);
-		Vector n1, n2, n3;
-		try {
-			n1 = v1.crossProduct(v2).normalize();
-			n2 = v2.crossProduct(v3).normalize();
-			n3 = v3.crossProduct(v1).normalize();
-		} catch (IllegalArgumentException e) {
+		Vector n2 = v2.crossProduct(v3).normalize();
+		double vn2 = alignZero(rayDir.dotProduct(n2));
+		if (vn1 * vn2 <= 0)
 			return null;
-		}
 
-		// Check if the ray is parallel to any of the triangle's edges
-		Vector rayDir = ray.getDir();
-		double vn1 = rayDir.dotProduct(n1);
-		double vn2 = rayDir.dotProduct(n2);
+		Vector n3 = v3.crossProduct(v1).normalize();
 		double vn3 = rayDir.dotProduct(n3);
-		if (isZero(vn1) || isZero(vn2) || isZero(vn3)) {
+		if (vn1 * vn3 <= 0)
 			return null;
-		}
 
-		// Check if the ray intersects the triangle
-		if ((vn1 > 0 && vn2 > 0 && vn3 > 0) || (vn1 < 0 && vn2 < 0 && vn3 < 0)) {
-			return this.plane.findIntersections(ray);
-		}
-		return null;
+		return planeIntersection;
 	}
 
 }

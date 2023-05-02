@@ -49,7 +49,8 @@ class TriangleTests {
 		assertNull(triangle.findIntersections(ray),
 				"the intersection point is out of the triangle - need 0 intersections");
 
-		// TC02: The ray intersects the plane on which the triangle is in front of the vertex:
+		// TC02: The ray intersects the plane on which the triangle is in front of the
+		// vertex:
 		ray = new Ray(new Point(-0.93, 6.2, 0), new Vector(2.54, 2.23, 0));
 		assertNull(triangle.findIntersections(ray),
 				"the intersection point is out of the triangle - need 0 intersections");

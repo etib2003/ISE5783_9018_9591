@@ -104,14 +104,16 @@ public class Point {
 		return Math.sqrt(distanceSquared(p));
 	}
 
-    public double getX() {
-        return this.xyz.d1;
-    }
-    public double getY() {
-        return this.xyz.d2;
-    }
-    public double getZ() {
-        return this.xyz.d3;
-    }
+	public double getX() {
+		return this.xyz.d1;
+	}
+
+	public double getY() {
+		return this.xyz.d2;
+	}
+
+	public double getZ() {
+		return this.xyz.d3;
+	}
 
 }

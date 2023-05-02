@@ -1,4 +1,5 @@
 package primitives;
+
 import static primitives.Util.*;
 
 /**
@@ -69,14 +70,8 @@ public class Ray {
 	public String toString() {
 		return "Ray : p0=" + p0 + ", dir=" + dir;
 	}
-	
+
 	public Point getPoint(double t) {
-		try {
-			if (isZero(t))
-				return p0;			 			
-			return p0.add(dir.scale(t));
-		} catch (Exception e) {
-			return p0;
-		}
+		return isZero(t) ? p0 : p0.add(dir.scale(t));
 	}
 }
