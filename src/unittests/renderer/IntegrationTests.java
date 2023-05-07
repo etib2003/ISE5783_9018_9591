@@ -1,3 +1,5 @@
+package unittests.renderer;
+
 /**
  * 
  */
@@ -96,15 +98,16 @@ class IntegrationTests {
         Camera camera = new Camera(new Point(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0))
             .setVPSize(3, 3)
             .setVPDistance(1);
-        Plane p1 = new Plane(new Point(1, 1, -3), new Vector(0, 0, 1));
+        
+        Plane p1 = new Plane(new Point(1, 1, -3), new Point(2,1,-3),  new Point(1,2,-3));
         int sum1 = sumIntersection(camera, p1, 3, 3);
 
         //TC01: test plane parallar to view plane
         assertEquals(9, sum1,
             "constructRay() and findIntersections() wrong result");
 
-
-        Plane p2 = new Plane(new Point(0, 0, -3), new Vector(0, -0.5, 1));
+ 
+        Plane p2 = new Plane(new Point(0, 0, -3), new Point(1, 0, -3),new Point(0, 1, -2.5));
         int sum2 = sumIntersection(camera, p2, 3, 3);
 
         //TC02: test plane not parallar to view plane
@@ -112,7 +115,7 @@ class IntegrationTests {
             "constructRay() and findIntersections() wrong result");
 
         
-        Plane p3 = new Plane(new Point(0, 0, -3), new Vector(0, -1, 1));
+        Plane p3 = new Plane(new Point(0, 0, -3), new Point(1, 0, -3), new Point(0, 1, -2));
         int sum3 = sumIntersection(camera, p3, 3, 3);
 
         //TC03: test plane not parallar to view plane
