@@ -20,6 +20,8 @@ import renderer.Camera;
  * @author user
  *
  */
+
+
 class IntegrationTests {
 
     /**
@@ -141,7 +143,7 @@ class IntegrationTests {
         Triangle t2 = new Triangle(new Point(0, 20, -2), new Point(1, -1, -2), new Point(-1, -1, -2));
         int sum2 = sumIntersection(camera, t2, 3, 3);
 
-        //TC01: test plane not parallar to view plane
+        //TC02: test plane not parallar to view plane
         assertEquals(2, sum2,
             "constructRay() and findIntersections() wrong result");
     }

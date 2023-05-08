@@ -1,84 +1,97 @@
 package renderer;
 
-import static primitives.Util.isZero;
-
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import static primitives.Util.*;
+
+/**
+ * a class that represents a camera.
+ */
 public class Camera {
+    private Point p0;
+    private Vector vUp;
+    private Vector vTo;
+    private Vector vRight;
+    private double width;
+    private double height;
+    private double distance;
 
-	private Point p0;
-	private Vector vUp;
-	private Vector vTo;
-	private Vector vRight;
-	private double width;
-	private double height;
-	private double distance;
+    //getters:
+    public Point getP0() {
+        return p0;
+    }
 
-	public double getDistance() {
-		return distance;
-	}
+    public Vector getvUp() {
+        return vUp;
+    }
 
-	public Point getP0() {
-		return p0;
-	}
+    public Vector getvTo() {
+        return vTo;
+    }
 
-	public double getHeight() {
-		return height;
-	}
+    public Vector getvRight() {
+        return vRight;
+    }
 
-	public double getWidth() {
-		return width;
-	}
+    public double getWidth() {
+        return width;
+    }
 
-	public Vector getvRight() {
-		return vRight;
-	}
+    public double getHeight() {
+        return height;
+    }
 
-	public Vector getvTo() {
-		return vTo;
-	}
+    public double getDistance() {
+        return distance;
+    }
 
-	public Vector getvUp() {
-		return vUp;
-	}
+    //constructor:
+    public Camera(Point p0, Vector vTo, Vector vUp) throws IllegalArgumentException{
+        if (!isZero(vTo.dotProduct(vUp))){
+            throw new IllegalArgumentException("constructor threw - vUp and vTo are not orthogonal");
+        }
+        this.p0 = p0;
+        this.vUp = vUp.normalize();
+        this.vTo = vTo.normalize();
+        this.vRight = vTo.crossProduct(vUp).normalize();
+    }
 
-	public Camera(Point p, Vector up, Vector to) {
-		if (!isZero(up.dotProduct(to))) {
-			throw new IllegalArgumentException("the vectors are not orthogonal");
-		}
+    //setViewPlane:
+    public Camera setVPSize(double width, double height) {
+        this.width = width;
+        this.height = height;
+        return this;
+    }
 
-		vUp = up.normalize();
-		vTo = to.normalize();
-		vRight = (vUp.crossProduct(vTo)).normalize();
-	}
+    //setVPDistance:
+    public Camera setVPDistance(double distance) {
+        this.distance = distance;
+        return this;
+    }
 
-	public Camera setVPSize(double tmpWidth, double tmpHeight) {
-		width = tmpWidth;
-		height = tmpHeight;
-		return this;
-	}
+    //region constructRay
+    /**
+     * constructs a ray from the camera through pixel i,j.
+     * @param nX number of pixels on the width of the view plane.
+     * @param nY number of pixels on the height of the view plane.
+     * @param j location of the pixel in the X direction.
+     * @param i location of the pixel in the Y direction.
+     * @return the constructed ray - from p0 through the wanted pixel.
+     */ 
+    public Ray constructRay(int nX, int nY, int j, int i){
+        Point pc = p0.add(vTo.scale(distance));     // center of the view plane
+        double Ry = height/nY;                      // Ratio - pixel height
+        double Rx = width/nX;                       // Ratio - pixel width
 
-	public Camera setVPDistance(double tmpDistance) {
-		distance = tmpDistance;
-		return this;
-	}
+        double yJ = alignZero(-(i - (nY - 1) / 2d) * Ry);       // move pc Yi pixels
+        double xJ = alignZero((j - (nX - 1) / 2d) * Rx);        // move pc Xj pixels
 
-	public Ray constructRay(int nX, int nY, int j, int i) {
-		Point imgCenter = p0.add(vTo.scale(distance));
-		double rY = height / nY, rX = width / nX;
-		double iY = -(i - (nY - 1d) / 2) * rY, jX = (j - (nX - 1d) / 2) * rX;
-		Point ijP = imgCenter;
-		if (jX != 0)
-			ijP = ijP.add(vRight.scale(jX));
-		if (iY != 0)
-			ijP = ijP.add(vUp.scale(iY));
-		Vector ijV = ijP.subtract(p0);
-		return new Ray(p0, ijV);
-	}
-	// public Ray constructRay(int nX, int nY, int j, int i) {
-	// return null;
+        Point PIJ = pc;
+        if(!isZero(xJ))  PIJ = PIJ.add(vRight.scale(xJ));
+        if(!isZero(yJ))  PIJ = PIJ.add(vUp.scale(yJ));
 
-	// }
+        return new Ray(p0, PIJ.subtract(p0));
+    }
 }
