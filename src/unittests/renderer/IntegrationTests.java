@@ -90,7 +90,7 @@ class IntegrationTests {
         Sphere s5 = new Sphere(new Point(0, 0, 1), 0.5);
         int sum5 = sumIntersection(camera1, s5, 3, 3);
 
-        //TC04: test shpere with radius 5
+        //TC05: test shpere with radius 5
         assertEquals(0, sum5,
             "constructRay() and findIntersections() wrong result");
     }
