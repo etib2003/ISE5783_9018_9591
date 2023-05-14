@@ -2,6 +2,8 @@ package primitives;
 
 import static primitives.Util.*;
 
+import java.util.List;
+
 /**
  * Represents a ray in 3D space, defined by a starting point and a direction.
  */
@@ -72,15 +74,36 @@ public class Ray {
 	}
 
 	/**
-     * Refactoring must be performed for the calculation code of a point on a ray:
-     * P = p0 + t∙v.
-     * Used wherever required in the implementations of findIntersections function.
-     *
-     * @param t The distance to be calculated for the ray from its head
-     *
-     * @return The 3D-point on the ray that is at a distance of t from the head of the ray
-     */
+	 * Refactoring must be performed for the calculation code of a point on a ray: P
+	 * = p0 + t∙v. Used wherever required in the implementations of
+	 * findIntersections function.
+	 *
+	 * @param t The distance to be calculated for the ray from its head
+	 *
+	 * @return The 3D-point on the ray that is at a distance of t from the head of
+	 *         the ray
+	 */
 	public Point getPoint(double t) {
 		return isZero(t) ? p0 : p0.add(dir.scale(t));
+	}
+
+	/**
+	 * Returns the point closest to the start of the ray.
+	 *
+	 * @param points a collection of points to search from
+	 * @return the point closest to the start of the ray
+	 */
+	public Point findClosestPoint(List<Point> points) {
+		if (points.size() == 0)
+			return null;
+		double close = p0.distance(points.get(0));
+		int index = 0;
+		for (int i = 1; i < points.size(); i++) {
+			if (p0.distance(points.get(i)) < close) {
+				close = p0.distance(points.get(i));
+				index = i;
+			}
+		}
+		return points.get(index);
 	}
 }

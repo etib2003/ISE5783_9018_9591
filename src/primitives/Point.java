@@ -6,6 +6,8 @@ package primitives;
  */
 public class Point {
 
+    public static final Point ZERO = new Point(0,0,0);
+
 	/**
 	 * 
 	 * The 3-dimensional coordinates of this point.
