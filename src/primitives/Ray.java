@@ -98,7 +98,8 @@ public class Ray {
 			return null;
 		double close = p0.distance(points.get(0));
 		int index = 0;
-		for (int i = 1; i < points.size(); i++) {
+		int size=points.size();
+		for (int i = 1; i < size; i++) {
 			if (p0.distance(points.get(i)) < close) {
 				close = p0.distance(points.get(i));
 				index = i;
