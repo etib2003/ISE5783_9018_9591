@@ -16,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for {@link geometries.Geometries} class.
+ * 
+ * @author Eti and Chavi
  */
 public class GeometriesTest {
 

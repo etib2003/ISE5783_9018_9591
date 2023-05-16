@@ -3,6 +3,8 @@ package geometries;
 /**
  * Represents a geometric object that has a radial dimension, such as a sphere
  * or a cylinder.
+ * 
+ * @author Eti and Chavi
  */
 public abstract class RadialGeometry implements Geometry {
 

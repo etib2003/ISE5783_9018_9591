@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import primitives.*;
 
 /**
- * * Unit tests for primitives.Point class
+ * Unit tests for primitives.Point class
  * 
- * @author אתוש
+ * @author Eti and Chavi
  *
  */
 class PointTest {

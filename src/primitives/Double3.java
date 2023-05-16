@@ -5,6 +5,8 @@ import static primitives.Util.isZero;
 
 /**
  * This class will serve all primitive classes based on three numbers
+ * 
+ * @author Eti and Chavi
  */
 public class Double3 {
 	/** First number */

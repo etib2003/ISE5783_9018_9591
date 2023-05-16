@@ -9,6 +9,8 @@ import primitives.Vector;
 /**
  * Represents a plane in 3D space, which is a flat surface that extends
  * infinitely in all directions.
+ * 
+ * @author Eti and Chavi
  */
 public class Plane implements Geometry {
 

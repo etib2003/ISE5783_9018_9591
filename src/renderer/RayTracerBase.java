@@ -8,12 +8,14 @@ import primitives.Ray;
 import primitives.Color;
 
 /**
- * The RayTracerBase class represents a base class for ray-tracing algorithms in a 3D scene.
- * @author אתוש
+ * The RayTracerBase class represents a base class for ray-tracing algorithms in
+ * a 3D scene.
+ * 
+ * @author Eti and Chavi
  *
  */
 public abstract class RayTracerBase {
-	protected Scene scene;
+	protected final Scene scene;
 
 	/**
 	 * Constructs a RayTracerBase object with the given scene.
@@ -25,10 +27,12 @@ public abstract class RayTracerBase {
 	}
 
 	/**
-	 * Traces a given ray and returns the color of the first hit object in the scene, or black if there is no hit.
+	 * Traces a given ray and returns the color of the first hit object in the
+	 * scene, or black if there is no hit.
 	 * 
 	 * @param ray the ray to trace
-	 * @return the color of the first hit object in the scene, or black if there is no hit
+	 * @return the color of the first hit object in the scene, or black if there is
+	 *         no hit
 	 */
 	public abstract Color traceRay(Ray ray);
 

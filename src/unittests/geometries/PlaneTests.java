@@ -11,7 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 /**
- * @author אתוש
+ * Unit tests for {@link geometries.Plane} class.
+ * 
+ * @author Eti and Chavi
  *
  */
 class PlaneTests {

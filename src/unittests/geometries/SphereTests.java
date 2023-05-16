@@ -12,7 +12,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
- * @author אתוש
+ * Unit tests for {@link geometries.Sphere} class.
+ * 
+ * @author Eti and Chavi
  *
  */
 class SphereTests {

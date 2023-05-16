@@ -12,7 +12,7 @@ import geometries.Cylinder;
 import org.junit.jupiter.api.Test;
 
 /**
- * @author אתוש
+ * @author Eti and Chavi
  *
  */
 

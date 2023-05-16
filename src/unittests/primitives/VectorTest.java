@@ -10,9 +10,9 @@ import primitives.*;
 import org.junit.jupiter.api.Test;
 
 /**
- * * Unit tests for primitives.Vector class
+ * Unit tests for primitives.Vector class
  * 
- * @author אתוש
+ * @author Eti and Chavi
  */
 class VectorTest {
 

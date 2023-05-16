@@ -15,9 +15,9 @@ import primitives.Ray;
 import primitives.Vector;
 
 /**
- * Testing Polygons
+ * Unit tests for {@link geometries.Polygon} class.
  * 
- * @author אתוש
+ * @author Eti and Chavi
  *
  */
 class PolygonTests {

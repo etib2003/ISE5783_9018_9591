@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * Represents a ray in 3D space, defined by a starting point and a direction.
+ * 
+ * @author Eti and Chavi
  */
 public class Ray {
 
@@ -96,15 +98,15 @@ public class Ray {
 	public Point findClosestPoint(List<Point> points) {
 		if (points.size() == 0)
 			return null;
-		double close = p0.distance(points.get(0));
-		int index = 0;
-		int size=points.size();
-		for (int i = 1; i < size; i++) {
-			if (p0.distance(points.get(i)) < close) {
-				close = p0.distance(points.get(i));
-				index = i;
+		double close = Double.POSITIVE_INFINITY;
+		Point closest = null;
+		for (var p : points) {
+			double dist = p0.distance(p);
+			if (dist < close) {
+				close = dist;
+				closest = p;
 			}
 		}
-		return points.get(index);
+		return closest;
 	}
 }

@@ -12,11 +12,11 @@ import geometries.Geometries;
  * ambient light, and geometries. The class provides methods to set and get the
  * background color, ambient light, and geometries.
  * 
- * @author אתוש
+ * @author Eti and Chavi
  */
 public class Scene {
 	/** The name of the scene. */
-	public String name;
+	public final String name;
 	/** The background color of the scene. */
 	public Color background = Color.BLACK;
 	/** The ambient light of the scene. */

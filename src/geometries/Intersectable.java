@@ -8,16 +8,14 @@ import primitives.Point;
 import primitives.Ray;
 
 /**
- * @author user
- *
- */
-/**
  * 
  * The Intersectable interface represents any object in the scene that can be
  * intersected by a ray.
  * 
  * This interface provides a method to find intersections between a given ray
  * and the object.
+ * 
+ * @author Eti and Chavi
  */
 public interface Intersectable {
 

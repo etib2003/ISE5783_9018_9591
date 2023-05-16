@@ -10,7 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 /**
- * @author אתוש
+ * Unit tests for {@link geometries.Triangle} class.
+ * 
+ * @author Eti and Chavi
  *
  */
 class TriangleTests {

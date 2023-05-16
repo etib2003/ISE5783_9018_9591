@@ -3,6 +3,8 @@ package primitives;
 /**
  * 
  * The Vector class represents a vector in 3-dimensional space.
+ * 
+ * @author Eti and Chavi
  */
 public class Vector extends Point {
 

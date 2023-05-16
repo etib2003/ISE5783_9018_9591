@@ -9,6 +9,8 @@ import primitives.Vector;
 
 /**
  * Represents a triangle in 3D space.
+ * 
+ * @author Eti and Chavi
  */
 public class Triangle extends Polygon {
 

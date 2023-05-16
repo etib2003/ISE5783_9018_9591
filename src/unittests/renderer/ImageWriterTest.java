@@ -8,7 +8,7 @@ import renderer.ImageWriter;
 import org.junit.jupiter.api.Test;
 
 /**
- * @author אתוש
+ * @author Eti and Chavi
  *
  */
 class ImageWriterTest {
@@ -23,15 +23,11 @@ class ImageWriterTest {
 		Color lightBlue = new Color(173, 216, 230);
 		Color red = new Color(255, 0, 0);
 		ImageWriter imageWriter = new ImageWriter("pixels", 801, 501);
-		int nX=imageWriter.getNx();
-		int nY=imageWriter.getNy();
-		for (int i = 0; i < nX; i++)
-			for (int j = 0; j < nY; j++) {
-				if ((i % 50 == 0) || (j % 50 == 0))
-					imageWriter.writePixel(i,j, red);
-				else
-					imageWriter.writePixel(i,j, lightBlue);
-			}
+		int nX = imageWriter.getNx();
+		int nY = imageWriter.getNy();
+		for (int j = 0; j < nX; j++)
+			for (int i = 0; i < nY; i++)
+				imageWriter.writePixel(j, i, (j % 50 == 0) || (i % 50 == 0) ? red : lightBlue);
 		imageWriter.writeToImage();
 	}
 

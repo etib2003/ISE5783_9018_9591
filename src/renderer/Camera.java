@@ -13,24 +13,26 @@ import java.util.MissingResourceException;
  * This class represents a camera in a 3D space. It is responsible for creating
  * rays from the camera's position to the view plane, and rendering the image
  * seen by the camera using a ray tracing algorithm.
+ * 
+ * @author Eti and Chavi
  */
 public class Camera {
-	/* The position of the camera */
-	private Point p0;
-	/* The up direction of the camera */
+	/** The position of the camera */
+	private final Point p0;
+	/** The up direction of the camera */
 	private Vector vUp;
-	/* The direction the camera is facing */
+	/** The direction the camera is facing */
 	private Vector vTo;
-	/* The vector to the right of the camera */
+	/** The vector to the right of the camera */
 	private Vector vRight;
-	/* The width and height of the view plane */
+	/** The width and height of the view plane */
 	private double width;
 	private double height;
-	/* The distance from the camera to the view plane */
+	/** The distance from the camera to the view plane */
 	private double distance;
-	/* The image writer used to write the rendered image */
+	/** The image writer used to write the rendered image */
 	private ImageWriter imageWriter;
-	/* The ray tracer used to trace the rays from the camera to the scene */
+	/** The ray tracer used to trace the rays from the camera to the scene */
 	private RayTracerBase rayTracerBase;
 
 	/**
@@ -55,31 +57,65 @@ public class Camera {
 		return this;
 	}
 
-	// getters:
+	/**
+	 * Returns the point P0 of the camera.
+	 *
+	 * @return The point P0 of the camera.
+	 */
 	public Point getP0() {
 		return p0;
 	}
 
+	/**
+	 * Returns the up vector (vUp) of the camera.
+	 *
+	 * @return The up vector (vUp) of the camera.
+	 */
 	public Vector getvUp() {
 		return vUp;
 	}
 
+	/**
+	 * Returns the "to" vector (vTo) of the camera.
+	 *
+	 * @return The "to" vector (vTo) of the camera.
+	 */
 	public Vector getvTo() {
 		return vTo;
 	}
 
+	/**
+	 * Returns the right vector (vRight) of the camera.
+	 *
+	 * @return The right vector (vRight) of the camera.
+	 */
 	public Vector getvRight() {
 		return vRight;
 	}
 
+	/**
+	 * Returns the width of the camera.
+	 *
+	 * @return The width of the camera.
+	 */
 	public double getWidth() {
 		return width;
 	}
 
+	/**
+	 * Returns the height of the camera.
+	 *
+	 * @return The height of the camera.
+	 */
 	public double getHeight() {
 		return height;
 	}
 
+	/**
+	 * Returns the distance of the camera from the screen.
+	 *
+	 * @return The distance of the camera from the screen.
+	 */
 	public double getDistance() {
 		return distance;
 	}
@@ -138,19 +174,19 @@ public class Camera {
 	 */
 	public Ray constructRay(int nX, int nY, int j, int i) {
 		Point pc = p0.add(vTo.scale(distance)); // center of the view plane
-		double Ry = height / nY; // Ratio - pixel height
-		double Rx = width / nX; // Ratio - pixel width
+		double rY = height / nY; // Ratio - pixel height
+		double rX = width / nX; // Ratio - pixel width
 
-		double yJ = alignZero(-(i - (nY - 1) / 2d) * Ry); // move pc Yi pixels
-		double xJ = alignZero((j - (nX - 1) / 2d) * Rx); // move pc Xj pixels
+		double yI = alignZero(-(i - (nY - 1) / 2d) * rY); // move pc Yi pixels
+		double xJ = alignZero((j - (nX - 1) / 2d) * rX); // move pc Xj pixels
 
-		Point PIJ = pc;
+		Point pIJ = pc;
 		if (!isZero(xJ))
-			PIJ = PIJ.add(vRight.scale(xJ));
-		if (!isZero(yJ))
-			PIJ = PIJ.add(vUp.scale(yJ));
+			pIJ = pIJ.add(vRight.scale(xJ));
+		if (!isZero(yI))
+			pIJ = pIJ.add(vUp.scale(yI));
 
-		return new Ray(p0, PIJ.subtract(p0));
+		return new Ray(p0, pIJ.subtract(p0));
 	}
 
 	/**
@@ -169,10 +205,10 @@ public class Camera {
 		int nX = imageWriter.getNx();
 		int nY = imageWriter.getNy();
 
-		for (int i = 0; i < nX; i++) {
-			for (int j = 0; j < nY; j++) {
-				Color color = castRay(i, j);
-				this.imageWriter.writePixel(i,j, color);
+		for (int j = 0; j < nX; j++) {
+			for (int i = 0; i < nY; i++) {
+				Color color = castRay(j, i, nX, nY);
+				this.imageWriter.writePixel(j, i, color);
 			}
 		}
 	}
@@ -185,8 +221,8 @@ public class Camera {
 	 * @param j the y-coordinate of the pixel on the view plane
 	 * @return the color resulting from tracing the ray through the given pixel
 	 */
-	private Color castRay(int i, int j) {
-		Ray ray = constructRay(this.imageWriter.getNx(), this.imageWriter.getNy(), i, j);
+	private Color castRay(int j, int i, int nX, int nY) {
+		Ray ray = constructRay(nX, nY, j, i);
 		return this.rayTracerBase.traceRay(ray);
 	}
 
@@ -205,10 +241,10 @@ public class Camera {
 		int nX = imageWriter.getNx();
 		int nY = imageWriter.getNy();
 
-		for (int i = 0; i < nX; ++i)
-			for (int j = 0; j < nY; ++j)
-				if (j % interval == 0 || i % interval == 0)
-					imageWriter.writePixel(i,j, color);
+		for (int j = 0; j < nX; ++j)
+			for (int i = 0; i < nY; ++i)
+				if (i % interval == 0 || j % interval == 0)
+					imageWriter.writePixel(j, i, color);
 
 	}
 
@@ -222,6 +258,3 @@ public class Camera {
 		imageWriter.writeToImage();
 	}
 }
-
-
-

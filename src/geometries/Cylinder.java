@@ -8,6 +8,8 @@ import primitives.Vector;
 /**
  * Represents a cylinder in 3D space, which is a solid geometric shape with a
  * circular base and straight sides.
+ * 
+ * @author Eti and Chavi
  */
 public class Cylinder extends Tube {
 
@@ -44,7 +46,7 @@ public class Cylinder extends Tube {
 		Point centerOfSecondSide = axisRay.getP0().add(axisRay.getDir().scale(height));
 
 		// The normal at a base will be simply equal to central ray's
-		// direction vector 𝑣 or opposite to it (−𝑣) so we check it
+		// direction vector v or opposite to it (-v) so we check it
 		if (point.equals(centerOfOneSide)) {
 			return cylinderCenterVector.scale(-1);
 		} else if (point.equals(centerOfSecondSide)) {

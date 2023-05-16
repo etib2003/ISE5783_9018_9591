@@ -5,6 +5,8 @@ import primitives.Vector;
 
 /**
  * The Geometry interface represents a geometric object in 3D space.
+ * 
+ * @author Eti and Chavi
  */
 public interface Geometry extends Intersectable {
 

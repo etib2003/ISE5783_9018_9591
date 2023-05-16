@@ -8,18 +8,17 @@ import primitives.Ray;
 /**
  * The Geometries class represents a collection of intersectable geometries.
  * 
- * @author אתוש
+ * @author Eti and Chavi
  *
  */
 public class Geometries implements Intersectable {
 
-	private List<Intersectable> geometricBodies;
+	private List<Intersectable> geometricBodies = new LinkedList<Intersectable>();
 
 	/**
 	 * Default constructor that initializes an empty list of bodies.
 	 */
 	public Geometries() {
-		this.geometricBodies = new LinkedList<Intersectable>();
 	}
 
 	/**
@@ -30,7 +29,6 @@ public class Geometries implements Intersectable {
 	 *                   list.
 	 */
 	public Geometries(Intersectable... geometries) {
-		this();
 		add(geometries);
 	}
 
@@ -50,9 +48,7 @@ public class Geometries implements Intersectable {
 	 *                   list.
 	 */
 	public void add(Intersectable... geometries) {
-		for (var intersectable : geometries) {
-			geometricBodies.add(intersectable);
-		}
+		geometricBodies.addAll(List.of(geometries));
 	}
 
 	/**
@@ -67,9 +63,8 @@ public class Geometries implements Intersectable {
 		for (Intersectable geometry : this.geometricBodies) {
 			List<Point> resi = geometry.findIntersections(ray);
 			if (resi != null) {
-				if (res == null) {
-					res = new LinkedList<Point>();
-				}
+				if (res == null)
+					res = new LinkedList<>();
 				res.addAll(resi);
 			}
 		}

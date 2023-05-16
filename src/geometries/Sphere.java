@@ -6,6 +6,8 @@ import primitives.*;
 
 /**
  * Represents a sphere in 3D space.
+ * 
+ * @author Eti and Chavi
  */
 public class Sphere extends RadialGeometry {
 

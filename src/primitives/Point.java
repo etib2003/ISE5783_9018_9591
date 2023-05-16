@@ -3,10 +3,12 @@ package primitives;
 /**
  * 
  * The Point class represents a point in 3-dimensional space.
+ * 
+ * @author Eti and Chavi
  */
 public class Point {
 
-    public static final Point ZERO = new Point(0,0,0);
+	public static final Point ZERO = new Point(0, 0, 0);
 
 	/**
 	 * 
