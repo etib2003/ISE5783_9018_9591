@@ -62,6 +62,7 @@ public class Triangle extends Polygon {
 		if (vn1 * vn3 <= 0)
 			return null;
 
+		planeIntersection.get(0).geometry = this;
 		return planeIntersection;
 	}
 

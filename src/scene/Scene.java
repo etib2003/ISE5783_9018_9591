@@ -5,6 +5,10 @@ package scene;
 
 import primitives.Color;
 import lighting.AmbientLight;
+import lighting.LightSource;
+import java.util.LinkedList;
+import java.util.List;
+
 import geometries.Geometries;
 
 /**
@@ -24,6 +28,8 @@ public class Scene {
 	/** The geometries of the scene. */
 	public Geometries geometries = new Geometries();
 
+	public List<LightSource> lights = new LinkedList<>();
+
 	/**
 	 * Constructs a new scene with the given name.
 	 *
@@ -41,6 +47,14 @@ public class Scene {
 	 */
 	public Scene setBackground(Color background) {
 		this.background = background;
+		return this;
+	}
+
+	/**
+	 * @param lights the lights to set
+	 */
+	public Scene setLights(List<LightSource> lights) {
+		this.lights = lights;
 		return this;
 	}
 

@@ -90,45 +90,30 @@ public class Ray {
 		return isZero(t) ? p0 : p0.add(dir.scale(t));
 	}
 
-	/**
-	 * Returns the point closest to the start of the ray.
-	 *
-	 * @param points a collection of points to search from
-	 * @return the point closest to the start of the ray
-	 */
 	public Point findClosestPoint(List<Point> points) {
-		if (points.size() == 0)
+		return points == null || points.isEmpty() ? null
+				: findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+	}
+
+	/**
+	 * Find closest GeoPoint
+	 * 
+	 * @param points list of GeoPoints
+	 * @return closest GeoPoint
+	 */
+	public GeoPoint findClosestGeoPoint(List<GeoPoint> points) {
+		if (points == null || points.isEmpty())
 			return null;
-		double close = Double.POSITIVE_INFINITY;
-		Point closest = null;
-		for (var p : points) {
-			double dist = p0.distance(p);
-			if (dist < close) {
-				close = dist;
+		GeoPoint closest = null;
+		double minDistance = Double.MAX_VALUE;
+		for (GeoPoint p : points) {
+			double distance = p.point.distance(p0);
+			if (distance < minDistance) {
 				closest = p;
+				minDistance = distance;
 			}
 		}
 		return closest;
 	}
-	
-	/////צריך לבדוק לגבי זה גב....
-	public GeoPoint findClosestGeoPoint(List<GeoPoint> points) {
-		if (points.isEmpty())
-			return null;
-		
-		double closestDistance = Double.POSITIVE_INFINITY;
-		GeoPoint closestGeoPoint = null;
-		
-		for (GeoPoint geoPoint : points) {
-			double distance = p0.distance(geoPoint.point);
-			if (distance < closestDistance) {
-				closestDistance = distance;
-				closestGeoPoint = geoPoint;
-			}
-		}
-		
-		return closestGeoPoint;
-	}
 
-					
 }

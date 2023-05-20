@@ -10,7 +10,6 @@ import primitives.Ray;
 import primitives.Vector;
 import static primitives.Util.checkSign;;
 
-
 /**
  * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
  * system
@@ -107,7 +106,7 @@ public class Polygon extends Geometry {
 		Vector v = ray.getDir();
 		List<Vector> vectors = new ArrayList<>(len);
 
-		//all the vectors
+		// all the vectors
 		for (Point vertex : vertices) {
 			vectors.add(vertex.subtract(p0));
 		}
@@ -115,13 +114,13 @@ public class Polygon extends Geometry {
 		int sign = 0;
 		for (int i = 0; i < len; i++) {
 			// calculate the normal using the formula in the course slides
-			Vector N = vectors.get(i).crossProduct(vectors.get((i+1)%len)).normalize();
+			Vector N = vectors.get(i).crossProduct(vectors.get((i + 1) % len)).normalize();
 			double dotProd = v.dotProduct(N);
 
 			if (i == 0)
 				sign = dotProd > 0 ? 1 : -1;
 
-			if (!checkSign(sign,dotProd) || isZero(dotProd))
+			if (!checkSign(sign, dotProd) || isZero(dotProd))
 				return null;
 		}
 		return plane.findGeoIntersectionsHelper(ray);

@@ -88,7 +88,7 @@ public class Plane extends Geometry {
 			// Calculate the parameter t at which the ray intersects the plane
 			Vector pSubtractP0 = p0.subtract(ray.getP0());
 			double t = alignZero((normal.dotProduct(pSubtractP0)) / nv);
-            return t <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
+			return t <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
 		} catch (Exception ex) { // if an exception occurs during the calculation, return null
 			return null;
 		}

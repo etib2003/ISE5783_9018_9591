@@ -52,7 +52,7 @@ public class Camera {
 	 * @param rayTracerBase The ray tracer to set.
 	 * @return This camera instance.
 	 */
-	public Camera setRayTracerBase(RayTracerBase rayTracerBase) {
+	public Camera setRayTracer(RayTracerBase rayTracerBase) {
 		this.rayTracerBase = rayTracerBase;
 		return this;
 	}
@@ -195,7 +195,7 @@ public class Camera {
 	 * writer. Throws a MissingResourceException if either the image writer or the
 	 * ray tracer base are not set.
 	 */
-	public void renderImage() throws MissingResourceException {
+	public Camera renderImage() throws MissingResourceException {
 		if (imageWriter == null)
 			throw new MissingResourceException("Camera resource not set", "Camera", "imageWriter");
 
@@ -211,6 +211,7 @@ public class Camera {
 				this.imageWriter.writePixel(j, i, color);
 			}
 		}
+		return this;
 	}
 
 	/**

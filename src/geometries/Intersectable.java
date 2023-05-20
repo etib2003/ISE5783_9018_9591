@@ -75,35 +75,34 @@ public abstract class Intersectable {
 
 	}
 
-	 /**
-     * Returns all the intersections of ray with geometry shape
-     *
-     * @param ray {@link Ray} pointing toward the object
-     * @return List of intersection {@link Point}s
-     */
-    public final List<Point> findIntersections(Ray ray) {
-        var geoList = findGeoIntersections(ray);
-        return geoList == null ? null
-                : geoList.stream()
-                .map(gp -> gp.point)
-                .toList();
-    }
-    
-    /**
-     * This function returns a list of all the intersections of the ray with the geometry of the scene
-     *
-     * @param ray The ray to find intersections with.
-     * @return A list of GeoPoints.
-     */
-    public final List<GeoPoint> findGeoIntersections(Ray ray){
-        return findGeoIntersectionsHelper(ray);
-    }
-	
-    /**
-     * Finds the intersection points of the ray with the surface of the object
-     *
-     * @param ray The ray to intersect with the GeoPoint.
-     * @return A list of GeoPoints that are the intersections of the ray with the object.
-     */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+	/**
+	 * Returns all the intersections of ray with geometry shape
+	 *
+	 * @param ray {@link Ray} pointing toward the object
+	 * @return List of intersection {@link Point}s
+	 */
+	public List<Point> findIntersections(Ray ray) {
+		var geoList = findGeoIntersections(ray);
+		return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
+	}
+
+	/**
+	 * This function returns a list of all the intersections of the ray with the
+	 * geometry of the scene
+	 *
+	 * @param ray The ray to find intersections with.
+	 * @return A list of GeoPoints.
+	 */
+	public final List<GeoPoint> findGeoIntersections(Ray ray) {
+		return findGeoIntersectionsHelper(ray);
+	}
+
+	/**
+	 * Finds the intersection points of the ray with the surface of the object
+	 *
+	 * @param ray The ray to intersect with the GeoPoint.
+	 * @return A list of GeoPoints that are the intersections of the ray with the
+	 *         object.
+	 */
+	protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
 }
