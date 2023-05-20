@@ -1,10 +1,15 @@
 package geometries;
 
 import static primitives.Util.isZero;
+
+import java.util.ArrayList;
 import java.util.List;
+
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import static primitives.Util.checkSign;;
+
 
 /**
  * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
@@ -12,7 +17,7 @@ import primitives.Vector;
  * 
  * @author Dan
  */
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
 	/** List of polygon's vertices */
 	protected final List<Point> vertices;
 	/** Associated plane in which the polygon lays */
@@ -95,53 +100,30 @@ public class Polygon implements Geometry {
 	 *         null if there are no intersections
 	 */
 	@Override
-	public List<Point> findIntersections(Ray ray) {
-		// Check if the ray's start point is a vertex of the polygon, return null if so
-		Point rayP0 = ray.getP0();
-		for (int i = 0; i < vertices.size(); i++) {
-			if (rayP0.equals(this.vertices.get(i)))
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+
+		int len = vertices.size();
+		Point p0 = ray.getP0();
+		Vector v = ray.getDir();
+		List<Vector> vectors = new ArrayList<>(len);
+
+		//all the vectors
+		for (Point vertex : vertices) {
+			vectors.add(vertex.subtract(p0));
+		}
+
+		int sign = 0;
+		for (int i = 0; i < len; i++) {
+			// calculate the normal using the formula in the course slides
+			Vector N = vectors.get(i).crossProduct(vectors.get((i+1)%len)).normalize();
+			double dotProd = v.dotProduct(N);
+
+			if (i == 0)
+				sign = dotProd > 0 ? 1 : -1;
+
+			if (!checkSign(sign,dotProd) || isZero(dotProd))
 				return null;
 		}
-
-		// Calculate vectors from ray's start point to each vertex of the polygon
-		Vector[] vectorsToP0 = new Vector[this.vertices.size()];
-		for (int i = 0; i < vertices.size(); ++i) {
-			vectorsToP0[i] = this.vertices.get(i).subtract(rayP0);
-		}
-
-		// Calculate normal vectors for each edge of the polygon
-		Vector[] normalVectors = new Vector[this.vertices.size()];
-		try {
-			for (int i = 0; i < vertices.size(); ++i) {
-				normalVectors[i] = vectorsToP0[i].crossProduct(vectorsToP0[(i + 1) % vectorsToP0.length]).normalize();
-			}
-		} catch (IllegalArgumentException e) {
-			return null;
-		}
-
-		// Calculate dot products between the ray's direction and each normal vector
-		Vector rayDir = ray.getDir();
-		double[] dotProdCal = new double[this.vertices.size()];
-		for (int i = 0; i < vertices.size(); ++i) {
-			dotProdCal[i] = rayDir.dotProduct(normalVectors[i]);
-			if (isZero(dotProdCal[i]))
-				return null;
-		}
-
-		// Check if all dot products are either positive or negative
-		boolean allPositive = true, allNegative = true;
-		for (int i = 0; i < vertices.size(); ++i) {
-			if (dotProdCal[i] < 0 && allPositive)
-				allPositive = false;
-			if (dotProdCal[i] > 0 && allNegative)
-				allNegative = false;
-		}
-
-		// If all dot products have the same sign, find intersections with the polygon's
-		// plane
-		if (allNegative || allPositive) {
-			return this.plane.findIntersections(ray);
-		}
-		return null;
+		return plane.findGeoIntersectionsHelper(ray);
 	}
 }

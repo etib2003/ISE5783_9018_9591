@@ -11,7 +11,7 @@ import primitives.Ray;
  * @author Eti and Chavi
  *
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 
 	private List<Intersectable> geometricBodies = new LinkedList<Intersectable>();
 
@@ -58,16 +58,18 @@ public class Geometries implements Intersectable {
 	 * @return A list of intersection points, or null if there are no intersections.
 	 */
 	@Override
-	public List<Point> findIntersections(Ray ray) {
-		List<Point> res = null;
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		List<GeoPoint> res = null;
 		for (Intersectable geometry : this.geometricBodies) {
-			List<Point> resi = geometry.findIntersections(ray);
+			List<GeoPoint> resi = geometry.findGeoIntersections(ray);
 			if (resi != null) {
-				if (res == null)
-					res = new LinkedList<>();
+				if (res == null) {
+					res = new LinkedList<GeoPoint>();
+				}
 				res.addAll(resi);
 			}
 		}
 		return res;
 	}
+
 }

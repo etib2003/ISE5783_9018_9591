@@ -3,6 +3,7 @@ package geometries;
 import static primitives.Util.*;
 
 import java.util.List;
+
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -25,7 +26,6 @@ public class Triangle extends Polygon {
 		super(p1, p2, p3);
 	}
 
-	@Override
 	/**
 	 * Computes the intersections of a given ray with this triangle.
 	 *
@@ -33,8 +33,9 @@ public class Triangle extends Polygon {
 	 * @return a list of intersection points between the ray and the triangle, or
 	 *         null if there are no intersections
 	 */
-	public List<Point> findIntersections(Ray ray) {
-		List<Point> planeIntersection = this.plane.findIntersections(ray);
+	@Override
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		List<GeoPoint> planeIntersection = this.plane.findGeoIntersections(ray);
 		if (planeIntersection == null)
 			return null;
 

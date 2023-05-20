@@ -2,6 +2,7 @@ package geometries;
 
 import static primitives.Util.*;
 import java.util.List;
+
 import primitives.*;
 
 /**
@@ -47,13 +48,13 @@ public class Sphere extends RadialGeometry {
 	 * @return a list of intersection points, or null if there are no intersections
 	 */
 	@Override
-	public List<Point> findIntersections(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		Point p0 = ray.getP0();
 
 		// If the beginning point of the ray is on the sphere center, return the point
 		// on the sphere's radius
 		if (p0.equals(center))
-			return List.of(ray.getPoint(radius));
+			return List.of(new GeoPoint(this, ray.getPoint(radius)));
 
 		Vector u = center.subtract(p0);
 		double tM = alignZero(ray.getDir().dotProduct(u));
@@ -69,8 +70,9 @@ public class Sphere extends RadialGeometry {
 			return null;
 
 		double t1 = alignZero(tM - tH);
-		return t1 <= 0 ? List.of(ray.getPoint(t2)) // P2 only
-				: List.of(ray.getPoint(t1), ray.getPoint(t2)); // P1 & P2
+		return t1 <= 0 ? List.of(new GeoPoint(this, ray.getPoint(t2)))// P2 only
+				: List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2))); // P1 & P2
+
 	}
 
 }

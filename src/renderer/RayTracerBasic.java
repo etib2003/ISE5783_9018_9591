@@ -4,10 +4,10 @@
 package renderer;
 
 import java.util.List;
+import geometries.Intersectable.GeoPoint;
 
 import primitives.Color;
 import primitives.Ray;
-import primitives.Point;
 
 import scene.Scene;
 
@@ -44,11 +44,11 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	@Override
 	public Color traceRay(Ray ray) {
-		List<Point> intersections = scene.geometries.findIntersections(ray);
+		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
 		if (intersections == null) {
 			return scene.background;
 		}
-		Point closestPoint = ray.findClosestPoint(intersections);
+		GeoPoint closestPoint = ray.findClosestGeoPoint(intersections);
 		return calcColor(closestPoint);
 	}
 
@@ -58,8 +58,26 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @param point the point for which to calculate the color.
 	 * @return the color at the given point in the scene.
 	 */
-	private Color calcColor(Point point) {
-		return scene.ambientLight.getIntensity();
-	}
+	private Color calcColor(GeoPoint geoPoint) {
+		return scene.ambientLight.getIntensity().add(geoPoint.geometry.getEmission());
+	} /////////////////// לטפל בזה
+
+	/*
+	 * private Color calcLocalEffects(GeoPoint intersection, Ray ray) {
+	 * 
+	 * Vector v = ray.getDir(); Vector n =
+	 * intersection.geometry.getNormal(intersection.point); double nv =
+	 * alignZero(n.dotProduct(v)); if (nv == 0) return Color.BLACK;
+	 * 
+	 * Material material = intersection.geometry.getMaterial(); int nShininess =
+	 * material.getnShininess(); double kd = material.getkD(), ks =
+	 * material.getkS(); //Color color = Color.BLACK; Color color =
+	 * intersection.geometry.getEmission(); for (LightSource lightSource :
+	 * scene.lights) { Vector l = lightSource.getL(intersection.point); double nl =
+	 * alignZero(n.dotProduct(l)); if (nl * nv > 0) { // sign(nl) == sing(nv) Color
+	 * lightIntensity = lightSource.getIntensity(intersection.point); color =
+	 * color.add(calcDiffusive(kd, l, n, lightIntensity), calcSpecular(ks, l, n, v,
+	 * nShininess, lightIntensity)); } } return color; }
+	 */
 
 }

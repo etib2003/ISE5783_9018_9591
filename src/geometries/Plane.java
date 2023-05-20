@@ -12,7 +12,7 @@ import primitives.Vector;
  * 
  * @author Eti and Chavi
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 
 	/** A point on the plane */
 	private final Point p0;
@@ -67,7 +67,6 @@ public class Plane implements Geometry {
 		return getNormal();
 	}
 
-	@Override
 	/**
 	 * Computes the intersection points of a given {@link Ray} with the plane. If
 	 * the ray doesn't intersect the plane, the method returns null.
@@ -76,7 +75,8 @@ public class Plane implements Geometry {
 	 * @return a list of intersection points if the ray intersects the plane, null
 	 *         otherwise
 	 */
-	public List<Point> findIntersections(Ray ray) {
+	@Override
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		// Calculate the dot product of the plane's normal vector with the ray's
 		// direction vector
 		double nv = normal.dotProduct(ray.getDir());
@@ -88,13 +88,10 @@ public class Plane implements Geometry {
 			// Calculate the parameter t at which the ray intersects the plane
 			Vector pSubtractP0 = p0.subtract(ray.getP0());
 			double t = alignZero((normal.dotProduct(pSubtractP0)) / nv);
-			if (t <= 0) { // if t is negative or zero, the intersection point is behind the ray's origin
-				return null;
-			}
-			// Return a list containing the intersection point
-			return List.of(ray.getPoint(t));
+            return t <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
 		} catch (Exception ex) { // if an exception occurs during the calculation, return null
 			return null;
 		}
 	}
+
 }

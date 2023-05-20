@@ -28,7 +28,7 @@ public class AmbientLight {
 	 * coefficient. The intensity of the light is calculated by scaling the ambient
 	 * coefficient with the given color.
 	 * 
-	 * @param iA          the color of the light source
+	 * @param iA the color of the light source
 	 * @param kA (Double3) the ambient coefficient of the light source
 	 */
 	public AmbientLight(Color iA, Double3 kA) {
