@@ -17,7 +17,6 @@ class ImageWriterTest {
 	 * image with alternating red and light blue pixels, with red pixels at every
 	 * 50th column and row.
 	 */
-
 	@Test
 	void test1() {
 		Color lightBlue = new Color(173, 216, 230);

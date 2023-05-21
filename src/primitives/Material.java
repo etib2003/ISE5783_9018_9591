@@ -1,4 +1,5 @@
 package primitives;
+
 //תועד
 /**
  * Represents the material properties of an object, including diffuse
@@ -7,11 +8,11 @@ package primitives;
  * @author Eti and Chavi
  */
 public class Material {
-	/**Diffuse coefficient for the material.*/
+	/** Diffuse coefficient for the material. */
 	public Double3 kD = Double3.ZERO;
-	/**Specular coefficient for the material.*/
-	public Double3 kS = Double3.ZERO; 
-	/**Shininess exponent for the material.*/
+	/** Specular coefficient for the material. */
+	public Double3 kS = Double3.ZERO;
+	/** Shininess exponent for the material. */
 	public int nShininess = 0;
 
 	/**

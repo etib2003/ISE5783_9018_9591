@@ -8,6 +8,7 @@ import primitives.Color;
 import static primitives.Util.*;
 
 import java.util.MissingResourceException;
+
 //תועד
 /**
  * This class represents a camera in a 3D space. It is responsible for creating

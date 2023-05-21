@@ -6,6 +6,7 @@ package renderer;
 import scene.Scene;
 import primitives.Ray;
 import primitives.Color;
+
 //תועד
 /**
  * The RayTracerBase class represents a base class for ray-tracing algorithms in
@@ -15,7 +16,7 @@ import primitives.Color;
  *
  */
 public abstract class RayTracerBase {
-	/**The scene to trace rays in.*/
+	/** The scene to trace rays in. */
 	protected final Scene scene;
 
 	/**

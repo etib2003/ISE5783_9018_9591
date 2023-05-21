@@ -1,4 +1,5 @@
 package primitives;
+
 //תועד
 /**
  * Wrapper class for java.jwt.Color The constructors operate with any

@@ -4,6 +4,7 @@ import static primitives.Util.*;
 import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
+
 //תועד
 /**
  * Represents a ray in 3D space, defined by a starting point and a direction.
