@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import geometries.Geometries;
-
+//תועד
 /**
  * The Scene class represents a 3D scene that includes a name, background color,
  * ambient light, and geometries. The class provides methods to set and get the
@@ -27,7 +27,7 @@ public class Scene {
 	public AmbientLight ambientLight = AmbientLight.NONE;
 	/** The geometries of the scene. */
 	public Geometries geometries = new Geometries();
-
+	/** The lights list contains all the light sources in the scene. */
 	public List<LightSource> lights = new LinkedList<>();
 
 	/**
@@ -51,7 +51,10 @@ public class Scene {
 	}
 
 	/**
-	 * @param lights the lights to set
+	 * Sets the list of light sources in the scene.
+	 * 
+	 * @param lights the list of light sources to set
+	 * @return the updated scene object
 	 */
 	public Scene setLights(List<LightSource> lights) {
 		this.lights = lights;

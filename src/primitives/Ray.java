@@ -4,7 +4,7 @@ import static primitives.Util.*;
 import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
-
+//תועד
 /**
  * Represents a ray in 3D space, defined by a starting point and a direction.
  * 
@@ -77,29 +77,39 @@ public class Ray {
 	}
 
 	/**
-	 * Refactoring must be performed for the calculation code of a point on a ray: P
-	 * = p0 + t∙v. Used wherever required in the implementations of
-	 * findIntersections function.
-	 *
-	 * @param t The distance to be calculated for the ray from its head
-	 *
-	 * @return The 3D-point on the ray that is at a distance of t from the head of
-	 *         the ray
+	 * 
+	 * Returns the 3D-point on the ray that is at a distance of {@code t} from the
+	 * starting point of the ray. The point is calculated using the formula: P = p0
+	 * + t * v, where p0 is the starting point of the ray and v is the direction
+	 * vector of the ray.
+	 * 
+	 * @param t the distance from the starting point of the ray
+	 * @return the 3D-point on the ray at the specified distance
 	 */
 	public Point getPoint(double t) {
 		return isZero(t) ? p0 : p0.add(dir.scale(t));
 	}
 
+	/**
+	 * Finds the closest intersection point with a list of points.
+	 * 
+	 * @param points the list of points to find the closest intersection with
+	 * @return the closest intersection point, or {@code null} if the list is null
+	 *         or empty
+	 * 
+	 */
 	public Point findClosestPoint(List<Point> points) {
 		return points == null || points.isEmpty() ? null
 				: findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
 	}
 
 	/**
-	 * Find closest GeoPoint
 	 * 
-	 * @param points list of GeoPoints
-	 * @return closest GeoPoint
+	 * Finds the closest intersection GeoPoint with a list of GeoPoints.
+	 * 
+	 * @param points the list of GeoPoints to find the closest intersection with
+	 * @return the closest intersection GeoPoint, or {@code null} if the list is
+	 *         null or empty
 	 */
 	public GeoPoint findClosestGeoPoint(List<GeoPoint> points) {
 		if (points == null || points.isEmpty())

@@ -1,12 +1,12 @@
 package primitives;
-
+//תועד
 /**
  * Util class is used for some internal utilities, e.g. controlling accuracy
  * 
  * @author Dan
  */
 public abstract class Util {
-	// It is binary, equivalent to ~1/1,000,000,000,000 in decimal (12 digits)
+	/** It is binary, equivalent to ~1/1,000,000,000,000 in decimal (12 digits)*/
 	private static final int ACCURACY = -40;
 
 	/**

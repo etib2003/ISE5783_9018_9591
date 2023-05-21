@@ -1,5 +1,5 @@
 package renderer;
-
+//תועד
 import primitives.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;

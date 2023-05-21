@@ -1,5 +1,5 @@
 package primitives;
-
+//תועד
 /**
  * 
  * The Point class represents a point in 3-dimensional space.
@@ -8,12 +8,10 @@ package primitives;
  */
 public class Point {
 
+	/** The origin point with coordinates (0, 0, 0). */
 	public static final Point ZERO = new Point(0, 0, 0);
 
-	/**
-	 * 
-	 * The 3-dimensional coordinates of this point.
-	 */
+	/** The 3-dimensional coordinates of this point. */
 	protected final Double3 xyz;
 
 	/**
@@ -104,18 +102,39 @@ public class Point {
 		return d1 * d1 + d2 * d2 + d3 * d3;
 	}
 
+	/**
+	 * Returns the distance between this point and the given point.
+	 * 
+	 * @param p the point to calculate the distance to
+	 * @return the distance between this point and the given point
+	 */
 	public double distance(Point p) {
 		return Math.sqrt(distanceSquared(p));
 	}
 
+	/**
+	 * Returns the x-coordinate of this point.
+	 * 
+	 * @return the x-coordinate of this point
+	 */
 	public double getX() {
 		return this.xyz.d1;
 	}
 
+	/**
+	 * Returns the y-coordinate of this point.
+	 * 
+	 * @return the y-coordinate of this point
+	 */
 	public double getY() {
 		return this.xyz.d2;
 	}
 
+	/**
+	 * Returns the z-coordinate of this point.
+	 * 
+	 * @return the z-coordinate of this point
+	 */
 	public double getZ() {
 		return this.xyz.d3;
 	}
