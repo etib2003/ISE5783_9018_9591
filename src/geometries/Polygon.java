@@ -10,9 +10,11 @@ import primitives.Ray;
 import primitives.Vector;
 import static primitives.Util.checkSign;;
 
+//תועד
 /**
- * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
- * system
+ * Polygon class represents a two-dimensional polygon in a 3D Cartesian
+ * coordinate system.
+ * 
  * 
  * @author Dan
  */
@@ -85,6 +87,12 @@ public class Polygon extends Geometry {
 		}
 	}
 
+	/**
+	 * Computes the normal vector to the polygon at the specified point.
+	 *
+	 * @param point the point on the polygon's surface
+	 * @return the normal vector to the polygon at the specified point
+	 */
 	@Override
 	public Vector getNormal(Point point) {
 		return plane.getNormal();
@@ -92,7 +100,7 @@ public class Polygon extends Geometry {
 
 	// BONUS
 	/**
-	 * Finds the intersections between the ray and the polygon.
+	 * Computes the intersection points between a given ray and the polygon.
 	 * 
 	 * @param ray the ray to find intersections with the polygon
 	 * @return a list of intersection points between the ray and the polygon, or
@@ -114,8 +122,8 @@ public class Polygon extends Geometry {
 		int sign = 0;
 		for (int i = 0; i < len; i++) {
 			// calculate the normal using the formula in the course slides
-			Vector N = vectors.get(i).crossProduct(vectors.get((i + 1) % len)).normalize();
-			double dotProd = v.dotProduct(N);
+			Vector n = vectors.get(i).crossProduct(vectors.get((i + 1) % len)).normalize();
+			double dotProd = v.dotProduct(n);
 
 			if (i == 0)
 				sign = dotProd > 0 ? 1 : -1;

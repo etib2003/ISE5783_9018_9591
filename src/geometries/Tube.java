@@ -7,6 +7,7 @@ import static primitives.Util.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//תועד
 /**
  * Represents a tube in 3D space, which is defined by its central axis Ray and
  * radius.
@@ -64,7 +65,7 @@ public class Tube extends RadialGeometry {
 	 * This method finds the intersections of the given ray with this cylinder.
 	 * 
 	 * @param ray the ray to intersect with this cylinder.
-	 * @return a list of intersection points, or null if there are no intersections.
+	 * @return A list of intersection points, or null if there are no intersections.
 	 */
 	@Override
 	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {

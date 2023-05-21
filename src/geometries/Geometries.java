@@ -4,8 +4,13 @@ import java.util.LinkedList;
 import java.util.List;
 import primitives.Ray;
 
+//תועד
 /**
  * The Geometries class represents a collection of intersectable geometries.
+ * 
+ * It extends the Intersectable class and stores a list of intersectable
+ * objects. This class allows for adding intersectable objects to the list and
+ * finding the intersections of a ray with the geometries in the list.
  * 
  * @author Eti and Chavi
  *
@@ -70,5 +75,4 @@ public class Geometries extends Intersectable {
 		}
 		return res;
 	}
-
 }

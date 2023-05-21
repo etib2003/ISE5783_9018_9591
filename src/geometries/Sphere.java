@@ -5,8 +5,14 @@ import java.util.List;
 
 import primitives.*;
 
+//תועד
 /**
  * Represents a sphere in 3D space.
+ * 
+ * The Sphere class extends the RadialGeometry class and represents a sphere
+ * with a center point and a radius. It provides methods for retrieving the
+ * center point, calculating the normal vector at a given point on the sphere,
+ * and finding intersections of a ray with the sphere.
  * 
  * @author Eti and Chavi
  */
@@ -18,12 +24,12 @@ public class Sphere extends RadialGeometry {
 	/**
 	 * Constructs a new sphere with the specified center point and radius.
 	 *
-	 * @param p      the center point of the sphere
+	 * @param center the center point of the sphere
 	 * @param radius the radius of the sphere
 	 */
-	public Sphere(Point p, double radius) {
+	public Sphere(Point center, double radius) {
 		super(radius);
-		center = p;
+		this.center = center;
 	}
 
 	/**
@@ -35,16 +41,21 @@ public class Sphere extends RadialGeometry {
 		return center;
 	}
 
+	/**
+	 * Returns the normal vector at a given point on the sphere's surface.
+	 * 
+	 * @param point the point on the sphere's surface
+	 * @return the normalized normal vector at the given point
+	 */
 	@Override
-	public Vector getNormal(Point p) {
-		return (p.subtract(getCenter())).normalize();
+	public Vector getNormal(Point point) {
+		return (point.subtract(center)).normalize();
 	}
 
 	/**
-	 * Finds the intersections of a given ray with a sphere.
+	 * Finds the intersections of a given ray with the sphere.
 	 * 
 	 * @param ray the ray to intersect with the sphere
-	 * 
 	 * @return a list of intersection points, or null if there are no intersections
 	 */
 	@Override
@@ -60,9 +71,11 @@ public class Sphere extends RadialGeometry {
 		double tM = alignZero(ray.getDir().dotProduct(u));
 		double d2 = u.lengthSquared() - tM * tM; // squared d
 		double delta2 = alignZero(radius2 - d2);
+
 		// If there are no intersections, return null
 		if (delta2 <= 0)
 			return null;
+
 		double tH = Math.sqrt(delta2);
 
 		double t2 = alignZero(tM + tH);
@@ -70,9 +83,7 @@ public class Sphere extends RadialGeometry {
 			return null;
 
 		double t1 = alignZero(tM - tH);
-		return t1 <= 0 ? List.of(new GeoPoint(this, ray.getPoint(t2)))// P2 only
+		return t1 <= 0 ? List.of(new GeoPoint(this, ray.getPoint(t2))) // P2 only
 				: List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2))); // P1 & P2
-
 	}
-
 }

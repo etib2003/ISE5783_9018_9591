@@ -1,8 +1,9 @@
 package geometries;
 
+//תועד
 /**
- * Represents a geometric object that has a radial dimension, such as a sphere
- * or a cylinder.
+ * Represents a geometric object with a radial dimension, such as a sphere or a
+ * cylinder.
  * 
  * @author Eti and Chavi
  */
@@ -17,10 +18,10 @@ public abstract class RadialGeometry extends Geometry {
 	/**
 	 * Constructs a new radial geometry object with the specified radius.
 	 *
-	 * @param r the radius of the object
+	 * @param radius the radius of the object
 	 */
-	RadialGeometry(double r) {
-		radius = r;
-		radius2 = r * r;
+	RadialGeometry(double radius) {
+		this.radius = radius;
+		this.radius2 = radius * radius;
 	}
 }

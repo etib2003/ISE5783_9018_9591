@@ -5,9 +5,13 @@ import primitives.Ray;
 import primitives.Point;
 import primitives.Vector;
 
+//תועד
 /**
  * Represents a cylinder in 3D space, which is a solid geometric shape with a
  * circular base and straight sides.
+ * 
+ * This class extends the Tube class and adds a height parameter to define the
+ * height of the cylinder.
  * 
  * @author Eti and Chavi
  */
@@ -37,41 +41,50 @@ public class Cylinder extends Tube {
 		return height;
 	}
 
+	/**
+	 * Calculates the normal vector to the cylinder at the specified point.
+	 * 
+	 * @param point the point on the cylinder surface
+	 * @return the normal vector at the specified point
+	 */
 	public Vector getNormal(Point point) {
-
-		// define the center of cylinder's sides
+		// Define the center of the cylinder's sides
 		Vector cylinderCenterVector = axisRay.getDir();
-
 		Point centerOfOneSide = axisRay.getP0();
 		Point centerOfSecondSide = axisRay.getP0().add(axisRay.getDir().scale(height));
 
-		// The normal at a base will be simply equal to central ray's
-		// direction vector v or opposite to it (-v) so we check it
+		// The normal at a base will be simply equal to the central ray's direction
+		// vector v or opposite to it (-v), so we check it
 		if (point.equals(centerOfOneSide)) {
 			return cylinderCenterVector.scale(-1);
 		} else if (point.equals(centerOfSecondSide)) {
 			return cylinderCenterVector;
 		}
 
-		// If the point on one of the cylinder's bases, but it's not the center point
+		// If the point is on one of the cylinder's bases, but it's not the center point
 		double projection = cylinderCenterVector.dotProduct(point.subtract(centerOfOneSide));
 		if (projection == 0) {
 			Vector v1 = point.subtract(centerOfOneSide);
 			return v1.normalize();
 		}
 
-		// If the point on the side of the cylinder.
+		// If the point is on the side of the cylinder
 		Point center = centerOfOneSide.add(cylinderCenterVector.scale(projection));
 		Vector v = point.subtract(center);
 
 		return v.normalize();
 	}
 
-	// BONUS
+	/**
+	 * Helper method for finding geometric intersections of a ray with the cylinder.
+	 * 
+	 * @param ray the ray to intersect with the cylinder
+	 * @return a list of GeoPoint objects representing the intersection points, or
+	 *         null if there are no intersections
+	 */
 	@Override
 	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-		// TODO Auto-generated method stub
+		// TODO: Implement the intersection calculation for a cylinder
 		return null;
 	}
-
 }

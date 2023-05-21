@@ -1,6 +1,3 @@
-/**
- * 
- */
 package geometries;
 
 import java.util.List;
@@ -9,8 +6,8 @@ import java.util.Objects;
 import primitives.Point;
 import primitives.Ray;
 
+//תועד
 /**
- * 
  * The Intersectable interface represents any object in the scene that can be
  * intersected by a ray.
  * 
@@ -72,14 +69,13 @@ public abstract class Intersectable {
 		public String toString() {
 			return "GeoPoint{" + "geometry=" + geometry + ", point=" + point + '}';
 		}
-
 	}
 
 	/**
-	 * Returns all the intersections of ray with geometry shape
+	 * Returns all the intersections of ray with the geometry shape.
 	 *
-	 * @param ray {@link Ray} pointing toward the object
-	 * @return List of intersection {@link Point}s
+	 * @param ray {@link Ray} pointing toward the object.
+	 * @return List of intersection {@link Point}s.
 	 */
 	public List<Point> findIntersections(Ray ray) {
 		var geoList = findGeoIntersections(ray);
@@ -87,20 +83,22 @@ public abstract class Intersectable {
 	}
 
 	/**
-	 * This function returns a list of all the intersections of the ray with the
-	 * geometry of the scene
+	 * Finds the intersection points of the ray with the surface of the object.
 	 *
-	 * @param ray The ray to find intersections with.
-	 * @return A list of GeoPoints.
+	 * @param ray The ray to intersect with the GeoPoint.
+	 * @return A list of GeoPoints that are the intersections of the ray with the
+	 *         object.
 	 */
 	public final List<GeoPoint> findGeoIntersections(Ray ray) {
 		return findGeoIntersectionsHelper(ray);
 	}
 
 	/**
-	 * Finds the intersection points of the ray with the surface of the object
+	 * Finds the intersection points of the ray with the surface of the object. This
+	 * method should be implemented by the subclasses to provide their own
+	 * intersection logic.
 	 *
-	 * @param ray The ray to intersect with the GeoPoint.
+	 * @param ray The ray to intersect with the object.
 	 * @return A list of GeoPoints that are the intersections of the ray with the
 	 *         object.
 	 */

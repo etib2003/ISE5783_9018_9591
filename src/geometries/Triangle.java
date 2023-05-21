@@ -8,8 +8,13 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+//תועד
 /**
  * Represents a triangle in 3D space.
+ * 
+ * The Triangle class extends the Polygon class and represents a triangle
+ * defined by three vertices. It provides a method for finding intersections
+ * between a ray and the triangle.
  * 
  * @author Eti and Chavi
  */
@@ -65,5 +70,4 @@ public class Triangle extends Polygon {
 		planeIntersection.get(0).geometry = this;
 		return planeIntersection;
 	}
-
 }

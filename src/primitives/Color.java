@@ -1,5 +1,5 @@
 package primitives;
-
+//תועד
 /**
  * Wrapper class for java.jwt.Color The constructors operate with any
  * non-negative RGB values. The colors are maintained without upper limit of
