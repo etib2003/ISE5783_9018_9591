@@ -5,11 +5,16 @@ package renderer;
 
 import java.util.List;
 import geometries.Intersectable.GeoPoint;
-
+import lighting.LightSource;
 import primitives.Color;
+import primitives.Double3;
 import primitives.Ray;
-
+import primitives.Vector;
 import scene.Scene;
+import primitives.Material;
+import static primitives.Util.alignZero;
+
+
 
 /**
  * The RayTracerBasic class is a concrete implementation of the RayTracerBase
@@ -49,35 +54,70 @@ public class RayTracerBasic extends RayTracerBase {
 			return scene.background;
 		}
 		GeoPoint closestPoint = ray.findClosestGeoPoint(intersections);
-		return calcColor(closestPoint);
+		return calcColor(closestPoint, ray);
 	}
+	
+	 /**
+     * function calculates color of point
+     *
+     * @param geoPoint point to color
+     * @return color
+     */
+    private Color calcColor(GeoPoint geoPoint, Ray ray) {
+        return geoPoint.geometry.getEmission().add(scene.ambientLight.getIntensity(), calcLocalEffects(geoPoint, ray));
+    }
 
-	/**
-	 * Calculates the color at a given point in the scene.
-	 * 
-	 * @param point the point for which to calculate the color.
-	 * @return the color at the given point in the scene.
-	 */
-	private Color calcColor(GeoPoint geoPoint) {
-		return scene.ambientLight.getIntensity().add(geoPoint.geometry.getEmission());
-	} /////////////////// לטפל בזה
 
-	/*
-	 * private Color calcLocalEffects(GeoPoint intersection, Ray ray) {
-	 * 
-	 * Vector v = ray.getDir(); Vector n =
-	 * intersection.geometry.getNormal(intersection.point); double nv =
-	 * alignZero(n.dotProduct(v)); if (nv == 0) return Color.BLACK;
-	 * 
-	 * Material material = intersection.geometry.getMaterial(); int nShininess =
-	 * material.getnShininess(); double kd = material.getkD(), ks =
-	 * material.getkS(); //Color color = Color.BLACK; Color color =
-	 * intersection.geometry.getEmission(); for (LightSource lightSource :
-	 * scene.lights) { Vector l = lightSource.getL(intersection.point); double nl =
-	 * alignZero(n.dotProduct(l)); if (nl * nv > 0) { // sign(nl) == sing(nv) Color
-	 * lightIntensity = lightSource.getIntensity(intersection.point); color =
-	 * color.add(calcDiffusive(kd, l, n, lightIntensity), calcSpecular(ks, l, n, v,
-	 * nShininess, lightIntensity)); } } return color; }
-	 */
+	 /**
+     * function calculates local effects of color on point
+     * @param gp geometry point to color
+     * @param ray ray that intersects
+     * @return color
+     */
+    private Color calcLocalEffects(GeoPoint gp, Ray ray) {
+        Color color = Color.BLACK;
+        Vector vector = ray.getDir();
+        Vector normal = gp.geometry.getNormal(gp.point);
+        double nv = alignZero(normal.dotProduct(vector));
+        if (nv == 0)
+            return color;
+        Material material = gp.geometry.getMaterial();
+        for (LightSource lightSource : scene.lights) {
+            Vector lightVector = lightSource.getL(gp.point);
+            double nl = alignZero(normal.dotProduct(lightVector));
+            if (nl * nv > 0) {
+                Color lightIntensity = lightSource.getIntensity(gp.point);
+                color = color.add(lightIntensity.scale(calcDiffusive(material, nl)), lightIntensity.scale(calcSpecular(material, normal, lightVector, nl, vector)));
+            }
+        }
+        return color;
+    }
 
+    /**
+     * function calculates specular color
+     * @param material material of geometry
+     * @param normal normal of geometry
+     * @param lightVector light vector
+     * @param nl dot product of normal and light vector
+     * @param vector direction of ray
+     * @return specular color
+     */
+    private Double3 calcSpecular(Material material, Vector normal, Vector lightVector, double nl, Vector vector) {
+        Vector reflectedVector = lightVector.subtract(normal.scale(2 * nl));
+        double max = Math.max(0, vector.scale(-1).dotProduct(reflectedVector));
+        return material.kS.scale(Math.pow(max, material.nShininess));
+
+    }
+
+    /**
+     * function calculates diffusive color
+     * @param material material of geometry
+     * @param nl dot product of normal and light vector
+     * @return diffusive color
+     */
+    private Double3 calcDiffusive(Material material, double nl) {
+        return material.kD.scale(Math.abs(nl));
+    }
+
+   
 }

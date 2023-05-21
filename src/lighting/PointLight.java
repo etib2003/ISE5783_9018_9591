@@ -16,6 +16,15 @@ public class PointLight extends Light implements LightSource {
 	private double kC = 1;
 	private double kL = 0;
 	private double kQ = 0;
+	
+	/**
+	 * @param intensity
+	 * @param position
+	 */
+	public PointLight(Color intensity, Point position) {
+		super(intensity);
+		this.position = position;
+	}
 
 	/**
 	 * @param kC the kC to set
@@ -43,14 +52,6 @@ public class PointLight extends Light implements LightSource {
 
 	}
 
-	/**
-	 * @param intensity
-	 * @param position
-	 */
-	public PointLight(Color intensity, Point position) {
-		super(intensity);
-		this.position = position;
-	}
 
 	// לבדוק לגבי זה
 	@Override

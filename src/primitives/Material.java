@@ -8,8 +8,8 @@ package primitives;
  *
  */
 public class Material {
-	private Double3 kD = Double3.ZERO; // diffuse
-	private Double3 kS = Double3.ZERO; // specular
+	public Double3 kD = Double3.ZERO; // diffuse
+	public Double3 kS = Double3.ZERO; // specular
 	public int nShininess = 0;
 
 	/**
