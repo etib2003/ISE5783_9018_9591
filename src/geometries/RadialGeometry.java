@@ -1,6 +1,5 @@
 package geometries;
 
-//תועד
 /**
  * Represents a geometric object with a radial dimension, such as a sphere or a
  * cylinder.

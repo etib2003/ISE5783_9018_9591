@@ -3,7 +3,6 @@ package lighting;
 import primitives.Color;
 import primitives.Double3;
 
-//תועד
 /**
  * The AmbientLight class represents an ambient light source in a 3D scene.
  * 

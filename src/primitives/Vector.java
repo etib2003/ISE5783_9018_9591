@@ -1,6 +1,5 @@
 package primitives;
 
-//תועד
 /**
  * 
  * The Vector class represents a vector in 3-dimensional space.

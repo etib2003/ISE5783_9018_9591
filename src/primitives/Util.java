@@ -1,6 +1,5 @@
 package primitives;
 
-//תועד
 /**
  * Util class is used for some internal utilities, e.g. controlling accuracy
  * 

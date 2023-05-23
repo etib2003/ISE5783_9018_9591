@@ -2,7 +2,6 @@ package lighting;
 
 import primitives.Color;
 
-//תועד
 /**
  * Abstract class representing a light source in a 3D scene.
  * 
@@ -10,7 +9,7 @@ import primitives.Color;
  */
 abstract class Light {
 	/** Represents the intensity of a light source. */
-	private Color intensity;
+	protected final Color intensity;
 
 	/**
 	 * Constructs a Light object with the given intensity.

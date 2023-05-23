@@ -4,7 +4,6 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
-//תועד
 /**
  * Represents a point light source in a lighting system. It extends the Light
  * class and implements the LightSource interface.
@@ -14,7 +13,7 @@ import primitives.Vector;
  */
 public class PointLight extends Light implements LightSource {
 	/** Represents the position of the point light source. */
-	private Point position;
+	private final Point position;
 	/** Represents the constant attenuation factor of the point light source. */
 	private double kC = 1;
 	/** Represents the linear attenuation factor of the point light source. */
@@ -78,8 +77,8 @@ public class PointLight extends Light implements LightSource {
 	 */
 	@Override
 	public Color getIntensity(Point point) {
-		double d = position.distance(point);
-		return super.getIntensity().reduce(kC + kL * d + kQ * d * d);
+		double d2 = position.distanceSquared(point);
+		return intensity.reduce(kC + kL * Math.sqrt(d2) + kQ * d2);
 	}
 
 	/**

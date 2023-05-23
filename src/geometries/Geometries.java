@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 import primitives.Ray;
 
-//תועד
 /**
  * The Geometries class represents a collection of intersectable geometries.
  * 
@@ -17,7 +16,7 @@ import primitives.Ray;
  */
 public class Geometries extends Intersectable {
 
-	private List<Intersectable> geometricBodies = new LinkedList<Intersectable>();
+	private List<Intersectable> geometricBodies = new LinkedList<>();
 
 	/**
 	 * Default constructor that initializes an empty list of bodies.
@@ -65,10 +64,10 @@ public class Geometries extends Intersectable {
 	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		List<GeoPoint> res = null;
 		for (Intersectable geometry : this.geometricBodies) {
-			List<GeoPoint> resi = geometry.findGeoIntersections(ray);
+			var resi = geometry.findGeoIntersections(ray);
 			if (resi != null) {
 				if (res == null) {
-					res = new LinkedList<GeoPoint>();
+					res = new LinkedList<>();
 				}
 				res.addAll(resi);
 			}

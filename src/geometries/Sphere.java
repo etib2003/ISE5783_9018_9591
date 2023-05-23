@@ -5,7 +5,6 @@ import java.util.List;
 
 import primitives.*;
 
-//תועד
 /**
  * Represents a sphere in 3D space.
  * 

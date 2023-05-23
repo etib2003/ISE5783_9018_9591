@@ -8,7 +8,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-//תועד
 /**
  * Represents a triangle in 3D space.
  * 

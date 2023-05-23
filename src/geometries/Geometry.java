@@ -5,7 +5,6 @@ import primitives.Vector;
 import primitives.Color;
 import primitives.Material;
 
-//תועד
 /**
  * The Geometry interface represents a geometric object in 3D space.
  * 

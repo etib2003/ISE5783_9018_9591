@@ -4,7 +4,6 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
-//תועד
 /**
  * The DirectionalLight class represents a directional light source in a 3D
  * scene.
@@ -13,7 +12,7 @@ import primitives.Vector;
  */
 public class DirectionalLight extends Light implements LightSource {
 	/** The direction of the light rays in a DirectionalLight object. */
-	private Vector direction;
+	private final Vector direction;
 
 	/**
 	 * Constructs a directional light object with the given intensity and direction.
@@ -37,7 +36,7 @@ public class DirectionalLight extends Light implements LightSource {
 	 */
 	@Override
 	public Color getIntensity(Point point) {
-		return getIntensity();
+		return intensity;
 	}
 
 	/**

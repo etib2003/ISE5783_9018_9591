@@ -7,7 +7,6 @@ import static primitives.Util.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//תועד
 /**
  * Represents a tube in 3D space, which is defined by its central axis Ray and
  * radius.

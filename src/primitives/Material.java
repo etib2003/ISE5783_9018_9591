@@ -1,6 +1,5 @@
 package primitives;
 
-//תועד
 /**
  * Represents the material properties of an object, including diffuse
  * coefficient, specular coefficient, and shininess.

@@ -5,7 +5,6 @@ import primitives.Ray;
 import primitives.Point;
 import primitives.Vector;
 
-//תועד
 /**
  * Represents a cylinder in 3D space, which is a solid geometric shape with a
  * circular base and straight sides.

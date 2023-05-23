@@ -3,8 +3,8 @@ package lighting;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
+import static primitives.Util.*;
 
-//תועד
 /**
  * Represents a spot light source in a lighting system.
  *
@@ -60,10 +60,12 @@ public class SpotLight extends PointLight {
 	 */
 	@Override
 	public Color getIntensity(Point point) {
+		double dirL = direction.dotProduct(getL(point));
+		if (alignZero(dirL) <= 0)
+			return Color.BLACK;
 		// check if it is flashlight
-		return narrowBeam != 1
-				? super.getIntensity(point).scale(Math.pow(Math.max(0, direction.dotProduct(getL(point))), narrowBeam))
-				: super.getIntensity(point).scale(Math.max(0, direction.dotProduct(getL(point))));
+		return narrowBeam != 1 ? super.getIntensity(point).scale(Math.pow(dirL, narrowBeam))
+				: super.getIntensity(point).scale(dirL);
 
 	}
 

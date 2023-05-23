@@ -7,7 +7,6 @@ import scene.Scene;
 import primitives.Ray;
 import primitives.Color;
 
-//תועד
 /**
  * The RayTracerBase class represents a base class for ray-tracing algorithms in
  * a 3D scene.

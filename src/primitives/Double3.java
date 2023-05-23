@@ -2,7 +2,6 @@ package primitives;
 
 import static primitives.Util.isZero;
 
-//תועד
 /**
  * Represents a triple of double values. This class serves as a foundation for
  * other primitive classes based on three numbers.

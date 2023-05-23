@@ -1,6 +1,5 @@
 package primitives;
 
-//תועד
 /**
  * 
  * The Point class represents a point in 3-dimensional space.

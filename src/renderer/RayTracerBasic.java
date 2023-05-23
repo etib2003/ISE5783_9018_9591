@@ -10,7 +10,6 @@ import primitives.Vector;
 import scene.Scene;
 import primitives.Material;
 import static primitives.Util.alignZero;
-//תועד
 
 /**
  * The RayTracerBasic class is a concrete implementation of the RayTracerBase
@@ -103,9 +102,8 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	private Double3 calcSpecular(Material material, Vector normal, Vector lightVector, double nl, Vector vector) {
 		Vector reflectedVector = lightVector.subtract(normal.scale(2 * nl));
-		double max = Math.max(0, vector.scale(-1).dotProduct(reflectedVector));
-		return material.kS.scale(Math.pow(max, material.nShininess));
-
+		double minusVR = alignZero(-vector.dotProduct(reflectedVector));
+		return minusVR <= 0 ? Double3.ZERO : material.kS.scale(Math.pow(minusVR, material.nShininess));
 	}
 
 	/**
@@ -116,7 +114,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @return the diffusive color at the given point
 	 */
 	private Double3 calcDiffusive(Material material, double nl) {
-		return material.kD.scale(Math.abs(nl));
+		return material.kD.scale(nl < 0 ? -nl : nl);
 	}
 
 }

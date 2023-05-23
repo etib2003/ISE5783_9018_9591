@@ -6,7 +6,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-//תועד
 /**
  * Represents a plane in 3D space, which is a flat surface that extends
  * infinitely in all directions.

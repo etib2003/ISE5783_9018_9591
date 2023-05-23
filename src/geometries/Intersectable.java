@@ -6,7 +6,6 @@ import java.util.Objects;
 import primitives.Point;
 import primitives.Ray;
 
-//תועד
 /**
  * The Intersectable interface represents any object in the scene that can be
  * intersected by a ray.

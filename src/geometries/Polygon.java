@@ -10,7 +10,6 @@ import primitives.Ray;
 import primitives.Vector;
 import static primitives.Util.checkSign;;
 
-//תועד
 /**
  * Polygon class represents a two-dimensional polygon in a 3D Cartesian
  * coordinate system.
