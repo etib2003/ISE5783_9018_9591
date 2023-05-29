@@ -9,6 +9,8 @@ import primitives.Ray;
 import primitives.Vector;
 import scene.Scene;
 import primitives.Material;
+import primitives.Point;
+
 import static primitives.Util.alignZero;
 
 /**
@@ -23,6 +25,7 @@ import static primitives.Util.alignZero;
  *
  */
 public class RayTracerBasic extends RayTracerBase {
+	private static final double DELTA = 0.1;
 
 	/**
 	 * Constructs a RayTracerBasic object with the given scene.
@@ -70,25 +73,26 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @param ray the ray that intersects the point
 	 * @return the color at the given point, accounting for local effects
 	 */
-	private Color calcLocalEffects(GeoPoint gp, Ray ray) {
-		Color color = Color.BLACK;
-		Vector vector = ray.getDir();
-		Vector normal = gp.geometry.getNormal(gp.point);
-		double nv = alignZero(normal.dotProduct(vector));
-		if (nv == 0)
-			return color;
-		Material material = gp.geometry.getMaterial();
-		for (LightSource lightSource : scene.lights) {
-			Vector lightVector = lightSource.getL(gp.point);
-			double nl = alignZero(normal.dotProduct(lightVector));
-			if (nl * nv > 0) {
-				Color lightIntensity = lightSource.getIntensity(gp.point);
-				color = color.add(lightIntensity.scale(calcDiffusive(material, nl)),
-						lightIntensity.scale(calcSpecular(material, normal, lightVector, nl, vector)));
-			}
-		}
-		return color;
-	}
+	 private Color calcLocalEffects(GeoPoint gp, Ray ray) {
+	        Color color = Color.BLACK;
+	        Vector vector = ray.getDir();
+	        Vector normal = gp.geometry.getNormal(gp.point);
+	        double nv = alignZero(normal.dotProduct(vector));
+	        if (nv == 0)
+	            return color;
+	        Material material = gp.geometry.getMaterial();
+	        for (LightSource lightSource : scene.lights) {
+	            Vector lightVector = lightSource.getL(gp.point);
+	            double nl = alignZero(normal.dotProduct(lightVector));
+	            if (nl * nv > 0) {
+	                if (unshaded(gp, lightVector, normal, lightSource, nv)) {
+	                    Color lightIntensity = lightSource.getIntensity(gp.point);
+	                    color = color.add(lightIntensity.scale(calcDiffusive(material, nl)), lightIntensity.scale(calcSpecular(material, normal, lightVector, nl, vector)));
+	                }
+	            }
+	        }
+	        return color;
+	    }
 
 	/**
 	 * Calculates the specular color at a point on a geometry.
@@ -116,5 +120,31 @@ public class RayTracerBasic extends RayTracerBase {
 	private Double3 calcDiffusive(Material material, double nl) {
 		return material.kD.scale(nl < 0 ? -nl : nl);
 	}
+
+	/**
+     * function will check if point is unshaded
+     *
+     * @param gp geometry point to check
+     * @param l  light vector
+     * @param n  normal vector
+     * @return true if unshaded
+     */
+    private boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource lightSource, double nv) {
+        Vector lightDirection = l.scale(-1); // from point to light source
+        Vector epsVector = n.scale(nv < 0 ? DELTA : -DELTA);
+        Point point = gp.point.add(epsVector);
+        Ray lightRay = new Ray(point, lightDirection);
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+
+        if (intersections != null) {
+            double distance = lightSource.getDistance(gp.point);
+            for (GeoPoint intersection : intersections) {
+                if (intersection.point.distance(gp.point) < distance)
+                    return false;
+            }
+        }
+
+        return true;
+    }
 
 }
