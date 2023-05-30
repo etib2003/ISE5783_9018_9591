@@ -11,6 +11,7 @@ import java.util.List;
  * @author Eti and Chavi
  */
 public class Ray {
+    private static final double DELTA = 0.1;
 
 	/**
 	 * The starting point of the ray.
@@ -31,6 +32,12 @@ public class Ray {
 	public Ray(Point p, Vector v) {
 		p0 = p;
 		dir = v.normalize();
+	}
+	
+	public Ray(Point p, Vector dir, Vector normal) {
+		Vector delta = normal.scale(normal.dotProduct(dir) > 0 ? DELTA : - DELTA);
+        this.p0 = p.add(delta);
+        this.dir = dir;
 	}
 
 	/**

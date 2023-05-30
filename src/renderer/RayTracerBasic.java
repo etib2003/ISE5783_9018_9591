@@ -12,6 +12,7 @@ import primitives.Material;
 import primitives.Point;
 
 import static primitives.Util.alignZero;
+import static primitives.Util.isZero;;
 
 /**
  * The RayTracerBasic class is a concrete implementation of the RayTracerBase
@@ -28,6 +29,7 @@ public class RayTracerBasic extends RayTracerBase {
 	private static final double DELTA = 0.1;
 	private static final int MAX_CALC_COLOR_LEVEL = 10;
 	private static final double MIN_CALC_COLOR_K = 0.001;
+	private static final Double3 INIT_CALC_COLOR_K = Double3.ONE;
 
 	/**
 	 * Constructs a RayTracerBasic object with the given scene.
@@ -49,7 +51,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	@Override
 	public Color traceRay(Ray ray) {
-		GeoPoint closestPoint =  findClosestIntersection(ray);
+		GeoPoint closestPoint = findClosestIntersection(ray);
 		return closestPoint == null ? scene.background : calcColor(closestPoint, ray);
 	}
 
@@ -66,7 +68,42 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @return the color at the given point
 	 */
 	private Color calcColor(GeoPoint geoPoint, Ray ray) {
-		return geoPoint.geometry.getEmission().add(scene.ambientLight.getIntensity(), calcLocalEffects(geoPoint, ray));
+		return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, INIT_CALC_COLOR_K).add(scene.ambientLight.getIntensity());
+	}
+
+	private Color calcColor(GeoPoint geoPoint, Ray ray, int level, Double3 k) {
+		Color color = calcLocalEffects(geoPoint, ray);
+		return 1 == level ? color : color.add(calcGlobalEffects(geoPoint, ray, level, k));
+	}
+
+	private Color calcGlobalEffects(GeoPoint gp, Ray ray, int level, Double3 k) {
+		Color color = Color.BLACK;
+		Vector v = ray.getDir();
+		Vector n = gp.geometry.getNormal(gp.point);
+		Material material = gp.geometry.getMaterial();
+		return calcGlobalEffect(constructReflectedRay(gp, v, n), level, k, material.kR)
+				.add(calcGlobalEffect(constructRefractedRay(gp, v, n), level, k, material.kT));
+	}
+
+	private Color calcGlobalEffect(Ray ray, int level, Double3 k, Double3 kx) {
+		Double3 kkx = k.product(kx);
+		if (kkx.lowerThan(MIN_CALC_COLOR_K))
+			return Color.BLACK;
+		GeoPoint gp = findClosestIntersection(ray);
+		if (gp == null)
+			return scene.background.scale(kx);
+		return isZero(gp.geometry.getNormal(gp.point).dotProduct(ray.getDir())) ? Color.BLACK
+				: calcColor(gp, ray, level - 1, kkx);
+	}
+	
+	private Ray constructReflectedRay(GeoPoint gp,Vector v,Vector n)
+	{//#TODO
+		return null;
+	}
+	
+	private Ray constructRefractedRay(GeoPoint gp,Vector v,Vector n)
+	{//#TODO
+		return null;
 	}
 
 	/**
