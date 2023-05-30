@@ -26,7 +26,6 @@ import static primitives.Util.isZero;;
  *
  */
 public class RayTracerBasic extends RayTracerBase {
-	private static final double DELTA = 0.1;
 	private static final int MAX_CALC_COLOR_LEVEL = 10;
 	private static final double MIN_CALC_COLOR_K = 0.001;
 	private static final Double3 INIT_CALC_COLOR_K = Double3.ONE;
@@ -77,7 +76,7 @@ public class RayTracerBasic extends RayTracerBase {
 	}
 
 	private Color calcGlobalEffects(GeoPoint gp, Ray ray, int level, Double3 k) {
-		Color color = Color.BLACK;
+		//Color color = Color.BLACK;
 		Vector v = ray.getDir();
 		Vector n = gp.geometry.getNormal(gp.point);
 		Material material = gp.geometry.getMaterial();
@@ -172,9 +171,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	private boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource lightSource, double nv) {
 		Vector lightDirection = l.scale(-1); // from point to light source
-		Vector epsVector = n.scale(nv < 0 ? DELTA : -DELTA);
-		Point point = gp.point.add(epsVector);
-		Ray lightRay = new Ray(point, lightDirection);
+		Ray lightRay= new Ray(gp.point, lightDirection, n);
 		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
 
 		if (intersections != null) {
