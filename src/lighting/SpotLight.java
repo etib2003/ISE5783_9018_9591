@@ -36,7 +36,6 @@ public class SpotLight extends PointLight {
 		this.direction = direction.normalize();
 	}
 
-	// from 4253
 	/**
 	 * Sets the narrowness of the light beam. A value of 1 represents a wide beam,
 	 * while values less than 1 create a narrower beam.
@@ -49,7 +48,6 @@ public class SpotLight extends PointLight {
 		return this;
 	}
 
-	// from 4253
 	/**
 	 * Calculates and returns the intensity of the light at the specified point. The
 	 * intensity is attenuated based on the distance and the angle between the light

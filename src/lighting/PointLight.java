@@ -67,7 +67,6 @@ public class PointLight extends Light implements LightSource {
 
 	}
 
-	// לבדוק לגבי זה
 	/**
 	 * Calculates and returns the intensity of the light at the specified point. The
 	 * intensity is attenuated based on the distance from the light source.
@@ -92,6 +91,12 @@ public class PointLight extends Light implements LightSource {
 		return point.subtract(position).normalize();
 	}
 
+	/**
+	 * Returns the distance from the light source to a given point.
+	 *
+	 * @param point The point for which to calculate the distance.
+	 * @return The distance from the light source to the point.
+	 */
 	@Override
 	public double getDistance(Point point) {
 		return point.distance(position);
