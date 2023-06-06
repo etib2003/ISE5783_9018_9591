@@ -43,6 +43,9 @@ class IntegrationTests {
 		return sum;
 	}
 
+	/**
+	 * Test method for testing spheres.
+	 */
 	@Test
 	void shpereTest() {
 		Camera camera1 = new Camera(new Point(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPSize(3, 3)
@@ -76,6 +79,9 @@ class IntegrationTests {
 		assertEquals(0, sum5, "constructRay() and findIntersections() wrong result");
 	}
 
+	/**
+	 * Test method for testing planes.
+	 */
 	@Test
 	void planeTest() {
 		Camera camera = new Camera(new Point(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPSize(3, 3)
@@ -86,7 +92,7 @@ class IntegrationTests {
 		int sum1 = sumIntersection(camera, p1, 3, 3);
 		assertEquals(9, sum1, "constructRay() and findIntersections() wrong result");
 
-		// TC02: test plane not parallar to view plane
+		// TC02: test plane not parallel to view plane
 		Plane p2 = new Plane(new Point(0, 0, -3), new Point(1, 0, -3), new Point(0, 1, -2.5));
 		int sum2 = sumIntersection(camera, p2, 3, 3);
 		assertEquals(9, sum2, "constructRay() and findIntersections() wrong result");
@@ -98,6 +104,9 @@ class IntegrationTests {
 
 	}
 
+	/**
+	 * Test method for testing triangles.
+	 */
 	@Test
 	void TriangleTest() {
 		Camera camera = new Camera(new Point(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPSize(3, 3)

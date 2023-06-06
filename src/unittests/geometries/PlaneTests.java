@@ -55,6 +55,9 @@ class PlaneTests {
 				"Bad normal to plane");
 	}
 
+	/**
+	 * Unit test for the {@link geometries.Plane#findIntersections(Ray)} method.
+	 */
 	@Test
 	public void testFindIntersections() {
 		Plane myPlane = new Plane(new Point(0, 5, 0), new Point(-5, 0, 0), new Point(0, 0, 3));

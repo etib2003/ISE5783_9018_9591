@@ -38,7 +38,7 @@ public class Ray {
 	 * Constructs a ray with a given starting point, direction, and surface normal.
 	 *
 	 * @param p The starting point of the ray.
-	 * @param dir The direction of the ray.
+	 * @param dir The direction of the ray (must be already normalized)
 	 * @param normal The surface normal at the starting point.
 	 */
 	public Ray(Point p, Vector dir, Vector normal) {

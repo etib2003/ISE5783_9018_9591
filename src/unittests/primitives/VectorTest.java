@@ -18,15 +18,19 @@ class VectorTest {
 
 	private static final double EPSILON = 0.00001;
 
-	Vector v1 = new Vector(1, 2, 3);
-	Vector v2 = new Vector(2, 4, 6);
-	Vector v3 = new Vector(1, 2, 4);
-	Vector v4 = new Vector(1, 4, -3);
-	Vector v5 = new Vector(-1, -2, -3);
-	Vector v6 = new Vector(3, 6, 9);
-	Vector v7 = new Vector(2, 6, 0);
-	Vector v8 = new Vector(0, 3, -2);
+	private Vector v1 = new Vector(1, 2, 3);
+	private Vector v2 = new Vector(2, 4, 6);
+	private Vector v3 = new Vector(1, 2, 4);
+	private Vector v4 = new Vector(1, 4, -3);
+	private Vector v5 = new Vector(-1, -2, -3);
+	private Vector v6 = new Vector(3, 6, 9);
+	private Vector v7 = new Vector(2, 6, 0);
+	private Vector v8 = new Vector(0, 3, -2);
 
+	/**
+	 * Test method for {@link primitives.Vector}.
+	 */
+	@Test
 	public void testVector() {
 		assertThrows(IllegalArgumentException.class, () -> new Vector(0, 0, 0),
 				"zero vector does not throw an suitable exception");

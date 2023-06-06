@@ -22,7 +22,7 @@ import primitives.Material;
  * @author Eti and Chavi
  */
 public abstract class Geometry extends Intersectable {
-	protected Color emission = Color.BLACK;
+	private Color emission = Color.BLACK;
 	private Material material = new Material();
 
 	/**

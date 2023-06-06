@@ -194,8 +194,9 @@ public class Camera {
 	 * casting a ray for each pixel, then writing the resulting color to the image
 	 * writer. Throws a MissingResourceException if either the image writer or the
 	 * ray tracer base are not set.
+	 * @return camera object itself
 	 */
-	public Camera renderImage() throws MissingResourceException {
+	public Camera renderImage() {
 		if (imageWriter == null)
 			throw new MissingResourceException("Camera resource not set", "Camera", "imageWriter");
 

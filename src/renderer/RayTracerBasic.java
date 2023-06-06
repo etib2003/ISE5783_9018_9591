@@ -256,16 +256,21 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @param n  normal vector
 	 * @return true if unshaded
 	 */
-	/*
-	 * private boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource
-	 * lightSource) { Vector lightDirection = l.scale(-1); // from point to light
-	 * source Ray lightRay = new Ray(gp.point, lightDirection, n); List<GeoPoint>
-	 * intersections = scene.geometries.findGeoIntersections(lightRay);
-	 * 
-	 * if (intersections == null) return true; double distance =
-	 * lightSource.getDistance(gp.point); for (GeoPoint intersection :
-	 * intersections) { if (alignZero(intersection.point.distance(gp.point)) <=
-	 * distance && intersection.geometry.getMaterial().kT.equals(Double3.ZERO))
-	 * return false; } return true; }
-	 */
+	@SuppressWarnings("unused")
+	private boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource lightSource) {
+		Vector lightDirection = l.scale(-1); // from point to light source
+		Ray lightRay = new Ray(gp.point, lightDirection, n);
+		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+
+		if (intersections == null)
+			return true;
+		double distance = lightSource.getDistance(gp.point);
+		for (GeoPoint intersection : intersections) {
+			if (alignZero(intersection.point.distance(gp.point)) <= distance
+					&& intersection.geometry.getMaterial().kT.equals(Double3.ZERO))
+				return false;
+		}
+		return true;
+	}
+
 }

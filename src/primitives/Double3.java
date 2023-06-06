@@ -72,7 +72,7 @@ public class Double3 {
 	 * Scales (multiplies) this Double3 by a scalar value and returns the result as
 	 * a new Double3 object. Each number is multiplied by the scalar value.
 	 * 
-	 * @param scalar the scalar value to scale by
+	 * @param rhs the scalar value to scale by
 	 * @return the result of the scaling as a new Double3 object
 	 */
 	public Double3 scale(double rhs) {
@@ -83,7 +83,7 @@ public class Double3 {
 	 * Reduces (divides) this Double3 by a divisor value and returns the result as a
 	 * new Double3 object. Each number is divided by the divisor value.
 	 * 
-	 * @param divisor the divisor value to reduce by
+	 * @param rhs the divisor value to reduce by
 	 * @return the result of the reduction as a new Double3 object
 	 */
 	public Double3 reduce(double rhs) {

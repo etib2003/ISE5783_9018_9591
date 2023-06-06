@@ -16,13 +16,13 @@ import primitives.*;
  *
  */
 class PointTest {
-	Point p0 = new Point(0, 0, 0);
-	Point p1 = new Point(1, 1, 1);
-	Point p2 = new Point(2, 2, 2);
-	Vector v1 = new Vector(-1, -1, -1);
-	Vector v2 = new Vector(-1, 1, 0);
-	Vector v3 = new Vector(1, 1, 1);
-	Vector v4 = new Vector(3, 3, 3);
+	private Point p0 = new Point(0, 0, 0);
+	private Point p1 = new Point(1, 1, 1);
+	private Point p2 = new Point(2, 2, 2);
+	private Vector v1 = new Vector(-1, -1, -1);
+	private Vector v2 = new Vector(-1, 1, 0);
+	private Vector v3 = new Vector(1, 1, 1);
+	private Vector v4 = new Vector(3, 3, 3);
 
 	/**
 	 * Test method for {@link primitives.Point#add(primitives.Vector)}.
