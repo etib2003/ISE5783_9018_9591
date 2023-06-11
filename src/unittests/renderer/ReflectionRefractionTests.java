@@ -8,7 +8,9 @@ import geometries.Plane;
 import geometries.Polygon;
 import geometries.Sphere;
 import geometries.Triangle;
+import geometries.Tube;
 import lighting.AmbientLight;
+import lighting.PointLight;
 import lighting.SpotLight;
 import primitives.*;
 import renderer.*;
@@ -148,6 +150,182 @@ public class ReflectionRefractionTests {
 				.setkL(4E-5).setkQ(2E-7));
 
 		ImageWriter imageWriter = new ImageWriter("refractionShadowPyramid", 600, 600);
+		camera.setImageWriter(imageWriter).setRayTracer(new RayTracerBasic(scene)).renderImage();
+		camera.writeToImage();
+	}
+
+	@Test
+	public void createClownImage2() {
+		Camera camera = new Camera(new Point(0, 0, -40), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPSize(800, 800)
+				.setVPDistance(1000);
+		scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), 0.2));
+
+		// Head (Sphere)
+		Sphere head = (Sphere) new Sphere(new Point(0, 0, -100), 4d).setEmission(new Color(244, 186, 126));// .setMaterial(new
+																											// Material().setKd(0.5).setKs(0.5).setShininess(60));
+		
+		
+		scene.geometries.add(head);
+
+		// Face
+		Sphere leftEye = (Sphere) new Sphere(new Point(-1, 1.7, -96), 0.55d).setEmission(new Color(BLACK))
+		        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+		Sphere rightEye = (Sphere) new Sphere(new Point(1, 1.7, -96), 0.55d).setEmission(new Color(BLACK))
+		        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+		Sphere nose = (Sphere) new Sphere(new Point(0, 0.3, -96), 0.62d).setEmission(new Color(RED))
+				.setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+		Sphere mouth = (Sphere) new Sphere(new Point(0, -1.4, -96), 0.72d).setEmission(new Color(BLUE))
+				.setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+		scene.geometries.add(leftEye, rightEye, nose, mouth);
+		
+		  // Bow Tie (Triangles)
+	    Triangle bowTie1 = (Triangle) new Triangle(new Point(-2, -3, -94.5), new Point(0, -3.5, -94.5),
+	            new Point(-1.5, -5, -94.5)).setEmission(new Color(0, 0, 0))
+	            .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+	    Triangle bowTie2 = (Triangle) new Triangle(new Point(2, -3, -94.5), new Point(0, -3.5, -94.5),
+	            new Point(1.5, -5, -94.5)).setEmission(new Color(0, 0, 0))
+	            .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+	    scene.geometries.add(bowTie1, bowTie2);
+		
+		// Body (Sphere)
+		Sphere body = (Sphere) new Sphere(new Point(0, -8, -100), 5.5d).setEmission(new Color(244, 186, 126));// .setMaterial(new
+																												// Material().setKd(0.5).setKs(0.5).setShininess(60));
+		scene.geometries.add(body);
+		
+		// Buttons (Spheres)
+	    Sphere button1 = (Sphere) new Sphere(new Point(0, -5, -94.5), 0.5d).setEmission(new Color(BLACK))
+	            .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+	    Sphere button2 = (Sphere) new Sphere(new Point(0, -7, -94.5), 0.5d).setEmission(new Color(BLACK))
+	            .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+	    Sphere button3 = (Sphere) new Sphere(new Point(0, -9, -94.5), 0.5d).setEmission(new Color(BLACK))
+	            .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+	    scene.geometries.add(button1, button2, button3);    
+
+		// Hands (Triangles)
+		Triangle leftHand = (Triangle) new Triangle(new Point(-6.5, -7.4, -98), new Point(-8, -3.5, -98),
+				new Point(-2, -3.4, -98)).setEmission(new Color(250, 186, 126));// .setMaterial(new
+																				// Material().setKd(0.5).setKs(0.5).setShininess(60));
+		Triangle rightHand = (Triangle) new Triangle(new Point(6.5, -7.4, -98), new Point(8, -3.5, -98),
+				new Point(2, -3.4, -98)).setEmission(new Color(250, 186, 126));// .setMaterial(new
+																				// Material().setKd(0.5).setKs(0.5).setShininess(60));
+		scene.geometries.add(leftHand, rightHand);
+
+		// Legs (Triangles)
+		Triangle leftLeg = (Triangle) new Triangle(new Point(-4, -13, -105), new Point(-2, -17, -105),
+				new Point(0, -13, -105)).setEmission(new Color(250, 186, 126));// .setMaterial(new
+																				// Material().setKd(0.5).setKs(0.5).setShininess(60));
+		Triangle rightLeg = (Triangle) new Triangle(new Point(4, -13, -105), new Point(2, -17, -105),
+				new Point(0, -13, -105)).setEmission(new Color(250, 186, 126));// .setMaterial(new
+																				// Material().setKd(0.5).setKs(0.5).setShininess(60));
+
+		scene.geometries.add(leftLeg, rightLeg);
+
+		// Shoes (Rectangles)
+		Polygon leftShoe = (Polygon) new Polygon(new Point(-3.5, -15, -100), new Point(-1.5, -15, -100),
+				new Point(-1.5, -16.3, -100), new Point(-3.5, -16.3, -100)).setEmission(new Color(60, 60, 60));
+		Polygon rightShoe = (Polygon) new Polygon(new Point(3.5, -15, -100), new Point(1.5, -15, -100),
+				new Point(1.5, -16.3, -100), new Point(3.5, -16.3, -100)).setEmission(new Color(60, 60, 60));
+		scene.geometries.add(leftShoe, rightShoe);
+
+		// stage (Rectangles)
+		Polygon stage = (Polygon) new Polygon(new Point(6, -18, -105), new Point(6, -21, -105),
+				new Point(-6, -21, -105), new Point(-6, -18, -105)).setEmission(new Color(250, 80, 80));
+		scene.geometries.add(stage);
+
+		// Hat (Triangle)
+		Triangle hat = (Triangle) new Triangle(new Point(-4, 3, -115), new Point(4, 3, -115), new Point(0, 8, -110))
+				.setEmission(new Color(RED)).setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+		scene.geometries.add(hat);
+		
+		
+		// Balls (Spheres)
+		Sphere ball1 = (Sphere) new Sphere(new Point(-13.5, 5, -130), 4d).setEmission(new Color(0, 255, 0))
+				.setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+		Sphere ball2 = (Sphere) new Sphere(new Point(-9, 13.5, -130), 4d).setEmission(new Color(255, 0, 0))
+				.setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+		Sphere ball3 = (Sphere) new Sphere(new Point(9, 13.5, -130), 4d).setEmission(new Color(0, 0, 255))
+				.setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+		Sphere ball4 = (Sphere) new Sphere(new Point(13.5, 5, -130), 4d).setEmission(new Color(255, 255, 0))
+				.setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+		Sphere ball5 = (Sphere) new Sphere(new Point(0, 18, -130), 4d).setEmission(new Color(255, 150, 0))
+				.setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60));
+		scene.geometries.add(ball1, ball2, ball3, ball4, ball5);
+		
+
+		// Background plane defined by three points
+		Point p1 = new Point(-1000, -1000, -150);
+		Point p2 = new Point(1000, -1000, -150);
+		Point p3 = new Point(1000, 1000, -150);
+		Plane backgroundPlane = (Plane) new Plane(p1, p2, p3).setEmission(new Color(255, 255, 255));
+		scene.geometries.add(backgroundPlane);
+
+		// Light source
+		scene.lights.add(new SpotLight(new Color(255, 255, 255), new Point(0, 10, 0), new Vector(0, -1, 0))
+				.setkL(0.0001).setkQ(0.000005));
+
+		ImageWriter imageWriter = new ImageWriter("clownImage2", 800, 800);
+		camera.setImageWriter(imageWriter).setRayTracer(new RayTracerBasic(scene)).renderImage().writeToImage();
+	}
+	
+	
+	@Test
+	public void picture() {
+		Camera camera = new Camera(new Point(-140, 20, 34), new Vector(1, -0.15, -0.25), new Vector(1, 0, 4))
+				.setVPSize(200, 200).setVPDistance(800);
+
+		scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), new Double3(0.15)));
+
+		scene.geometries.add(new Sphere(new Point(0, 0, 5.5), 4).setEmission(new Color(209, 180, 180)), // ראש
+				new Sphere(new Point(0, 0, -4), 5.5).setEmission(new Color(209, 180, 180)), // גוף
+				new Triangle(new Point(2.5, -0.5, 1), new Point(2, -1.5, 1), new Point(0, -1.5, -1.5))
+						.setMaterial(new Material().setKd(0.2).setKs(0.2).setShininess(60).setkT(1)),
+				new Plane(new Point(10, 0, -30), new Point(7, -8.5, 0), new Point(9, 18.5, 0))
+						.setEmission(new Color(WHITE))
+						.setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60).setkT(0).setkR(1)));
+
+		/*
+		 * scene.geometries.add( new Plane(new Point(10, 0, -30), new Point(0, 10, -30),
+		 * new Point(-10, 0, -30)) .setEmission(new Color(BLUE)) .setMaterial(new
+		 * Material().setKd(0.5).setKs(0.5).setShininess(60).setkT(0).setkR(1)), new
+		 * Polygon(new Point(10, 0, -5), new Point(0, 10, -5), new Point(-10, 0, -5),
+		 * new Point(0, -10, -5)) .setMaterial(new
+		 * Material().setKd(0.5).setKs(0.5).setShininess(60).setkT(0.2).setkR(0)), new
+		 * Polygon(new Point(10, 0, -5), new Point(0, 10, -5), new Point(0, 10, 0), new
+		 * Point(10, 0, 0)) .setMaterial(new
+		 * Material().setKd(0.5).setKs(0.5).setShininess(60).setkT(0.4)), new
+		 * Polygon(new Point(10, 0, -5), new Point(0, -10, -5), new Point(0, -10, 0),
+		 * new Point(10, 0, 0)) .setMaterial(new
+		 * Material().setKd(0.5).setKs(0.5).setShininess(60).setkT(0).setkR(1)), new
+		 * Polygon(new Point(-10, 0, -5), new Point(0, 10, -5), new Point(0, 10, 0), new
+		 * Point(-10, 0, 0)) .setMaterial(new
+		 * Material().setKd(0.5).setKs(0.5).setShininess(60).setkT(0.8)), new
+		 * Polygon(new Point(-10, 0, -5), new Point(0, -10, -5), new Point(0, -10, 0),
+		 * new Point(-10, 0, 0)) .setMaterial(new
+		 * Material().setKd(0.5).setKs(0.5).setShininess(60).setkT(0.4)), new
+		 * Polygon(new Point(10, 0, 0), new Point(0, -10, 0), new Point(-10, 0, 0), new
+		 * Point(0, 10, 0)) .setMaterial(new
+		 * Material().setKd(0.5).setKs(0.5).setShininess(60).setkT(0.5)), new
+		 * Triangle(new Point(10, 0, 0), new Point(0, -10, 0), new Point(0, 0, 10))
+		 * .setMaterial(new
+		 * Material().setKd(0.2).setKs(0.2).setShininess(60).setkT(0.5).setkR(0)), new
+		 * Triangle(new Point(10, 0, 0), new Point(0, 10, 0), new Point(0, 0, 10))
+		 * .setMaterial(new Material().setKd(0.2).setKs(0.2).setShininess(60).setkT(1)),
+		 * new Triangle(new Point(-10, 0, 0), new Point(0, 10, 0), new Point(0, 0, 10))
+		 * .setMaterial(new
+		 * Material().setKd(0.2).setKs(0.2).setShininess(60).setkT(0.8)), new
+		 * Triangle(new Point(-10, 0, 0), new Point(0, -10, 0), new Point(0, 0, 10))
+		 * .setMaterial(new Material().setKd(0.2).setKs(0.2).setShininess(60).setkT(1)),
+		 * new Sphere(new Point(0, 0, 3), 2).setEmission(new Color(254, 41, 77))
+		 * .setMaterial(new
+		 * Material().setKd(0.2).setKs(0.2).setShininess(30).setkT(0.8)), new Sphere(new
+		 * Point(1.5, 0, 2), 1).setEmission(new Color(GREEN)) .setMaterial(new
+		 * Material().setKd(0.2).setKs(0.2).setShininess(30).setkT(0.6)));
+		 */
+
+		scene.lights.add(new SpotLight(new Color(700, 400, 400), new Point(30, 30, 100), new Vector(0, 0, -1))
+				.setkL(4E-5).setkQ(2E-7));
+
+		ImageWriter imageWriter = new ImageWriter("picture", 600, 600);
 		camera.setImageWriter(imageWriter).setRayTracer(new RayTracerBasic(scene)).renderImage();
 		camera.writeToImage();
 	}
