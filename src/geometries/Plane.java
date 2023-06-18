@@ -42,7 +42,7 @@ public class Plane extends Geometry {
 	 * @param p the point on the plane
 	 * @param n the normal vector to the plane
 	 */
-	Plane(Point p, Vector n) {
+	public Plane(Point p, Vector n) {
 		p0 = p;
 		normal = n.normalize();
 	}

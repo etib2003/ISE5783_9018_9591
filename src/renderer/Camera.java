@@ -9,6 +9,8 @@ import static primitives.Util.*;
 
 import java.util.MissingResourceException;
 
+import geometries.Plane;
+
 /**
  * This class represents a camera in a 3D space. It is responsible for creating
  * rays from the camera's position to the view plane, and rendering the image
@@ -194,6 +196,7 @@ public class Camera {
 	 * casting a ray for each pixel, then writing the resulting color to the image
 	 * writer. Throws a MissingResourceException if either the image writer or the
 	 * ray tracer base are not set.
+	 * 
 	 * @return camera object itself
 	 */
 	public Camera renderImage() {
@@ -225,6 +228,8 @@ public class Camera {
 	 */
 	private Color castRay(int j, int i, int nX, int nY) {
 		Ray ray = constructRay(nX, nY, j, i);
+		if (useDOFFlag)
+			return beamAveColor(ray);
 		return this.rayTracerBase.traceRay(ray);
 	}
 
@@ -259,4 +264,133 @@ public class Camera {
 			throw new MissingResourceException("Camera resource not set", "Camera", "Image writer");
 		imageWriter.writeToImage();
 	}
+
+	/**
+	 * Sets the flag indicating whether to use Depth of Field (DOF) effect.
+	 *
+	 * @param useDOFFlag the flag indicating whether to use DOF
+	 * @return the camera object
+	 */
+	public Camera setUseDOFFlag(boolean useDOFFlag) {
+		this.useDOFFlag = useDOFFlag;
+		return this;
+	}
+
+	/**
+	 * Sets the number of points to use for Depth of Field effect.
+	 *
+	 * @param numPoints the number of points for DOF
+	 * @return the camera object
+	 */
+	public Camera setNumPoints(int numPoints) {
+		this.numPoints = numPoints;
+		return this;
+	}
+
+	/**
+	 * Sets the focal plane of the camera for Depth of Field effect.
+	 *
+	 * @param focalPlane the focal plane to set
+	 * @return the camera object
+	 */
+	public Camera setFocalPlane(Plane focalPlane) {
+		this.focalPlane = focalPlane;
+		return this;
+	}
+
+	/**
+	 * Returns the focal plane distance of the camera.
+	 *
+	 * @return the focal plane distance
+	 */
+	public double getFocalPlaneDistance() {
+		return focalPlaneDistance;
+	}
+
+	/**
+	 * Sets the focal plane distance of the camera for Depth of Field effect.
+	 *
+	 * @param focalPlaneDistance the focal plane distance to set
+	 * @return the camera object
+	 */
+	public Camera setFocalPlaneDistance(double focalPlaneDistance) {
+		this.focalPlaneDistance = focalPlaneDistance;
+		focalPlane = new Plane(p0.add(this.vTo.scale(focalPlaneDistance)), vTo);
+		return this;
+	}
+
+	/**
+	 * Sets the aperture size of the camera for Depth of Field effect.
+	 *
+	 * @param apertureSize the aperture size to set
+	 * @return the camera object
+	 */
+	public Camera setApertureSize(double apertureSize) {
+		this.apertureSize = apertureSize;
+		if (apertureSize != 0)
+			initAperturePoints();
+		return this;
+	}
+
+	private boolean useDOFFlag = false;
+
+	private int numPoints;
+
+	private Plane focalPlane;
+	private double focalPlaneDistance;
+
+	private Point[] aperturePointsArr;
+	private double apertureSize;
+
+	/**
+	 * Calculates the average color of the beam of rays for Depth of Field effect.
+	 *
+	 * @param ray the primary ray
+	 * @return the average color of the beam of rays
+	 */
+	private Color beamAveColor(Ray ray) {
+		Color aveColor = Color.BLACK;
+		Ray apertureRay;
+		Color apertureColor;
+		Point focalPoint = focalPlane.findGeoIntersections(ray).get(0).point;
+
+		// Calculate the average color by tracing rays through the aperture points
+		for (Point p : aperturePointsArr) {
+			// Generate a ray from the aperture point to the focal point
+			apertureRay = new Ray(p, focalPoint.subtract(p));
+
+			// Trace the aperture ray to get the color
+			apertureColor = rayTracerBase.traceRay(apertureRay);
+
+			// Accumulate the color for averaging
+			aveColor = aveColor.add(apertureColor.reduce(numPoints));
+		}
+
+		return aveColor;
+	}
+
+	/**
+	 * Initializes the aperture points for Depth of Field effect. The aperture
+	 * points are evenly distributed within the aperture area.
+	 */
+	private void initAperturePoints() {
+		int pointsPerRow = (int) Math.sqrt(numPoints);
+		aperturePointsArr = new Point[pointsPerRow * pointsPerRow];
+		double pointsDis = (apertureSize * 2) / pointsPerRow;
+		double s = -(apertureSize + pointsDis / 2);
+		Point initPoint = p0.add(this.vUp.scale(s).add(this.vRight.scale(s)));
+
+		// Generate aperture points in a grid pattern within the aperture area
+		for (int i = 0; i < pointsPerRow; i++) {
+			for (int j = 0; j < pointsPerRow; j++) {
+				// Calculate the position of the aperture point in the grid
+				Point aperturePoint = initPoint
+						.add(this.vUp.scale((i + 1) * pointsDis).add(this.vRight.scale((j + 1) * pointsDis)));
+
+				// Store the aperture point in the array
+				this.aperturePointsArr[i + j * pointsPerRow] = aperturePoint;
+			}
+		}
+	}
+
 }
