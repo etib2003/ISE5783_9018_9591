@@ -4,12 +4,14 @@ import static java.awt.Color.*;
 
 import org.junit.jupiter.api.Test;
 
+import geometries.Geometry;
 import geometries.Plane;
 import geometries.Polygon;
 import geometries.Sphere;
 import geometries.Triangle;
 import lighting.AmbientLight;
 import lighting.DirectionalLight;
+import lighting.LightSource;
 import lighting.SpotLight;
 import primitives.*;
 import renderer.*;
@@ -156,7 +158,8 @@ public class ReflectionRefractionTests {
 	@Test
 	public void createClownImage3() {
 		Camera camera = new Camera(new Point(0, 0, -40), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPSize(800, 800)
-				.setVPDistance(1000).setNumPoints(50).setFocalPlaneDistance(55).setApertureSize(1);
+				.setVPDistance(1000).setDoFActive(true).setFocalLength(55).setApertureRadius(1);
+		//.setNumPoints(50).setFocalPlaneDistance(55).setApertureSize(1);
 
 		Material spMaterial = new Material().setKd(0.6).setKs(0.9).setShininess(3000).setkT(0.0).setkR(0.0);
 		Material spMaterial1 = new Material().setKd(0.2).setKs(0.6).setShininess(60);
@@ -240,7 +243,7 @@ public class ReflectionRefractionTests {
 				.setMaterial(trMaterial1);
 		scene.geometries.add(hat);
 
-		/*
+		
 		// Balls3 (Spheres)
 		Sphere ball1 = (Sphere) new Sphere(new Point(-17, 6, -150), 4.5d).setEmission(new Color(255, 0, 0))
 				.setMaterial(spMaterial1);
@@ -251,7 +254,7 @@ public class ReflectionRefractionTests {
 		Sphere ball4 = (Sphere) new Sphere(new Point(-7.5, -3, -90), 1.95d).setEmission(new Color(0, 255, 0))
 				.setMaterial(spMaterial1);
 		Sphere ball5 = (Sphere) new Sphere(new Point(0, 23, -150), 4.5d).setEmission(new Color(0, 0, 255))
-				.setMaterial(spMaterial1);*/
+				.setMaterial(spMaterial1);
 		
 		/*
 		// Balls4 (Spheres)
@@ -267,7 +270,7 @@ public class ReflectionRefractionTests {
 						.setMaterial(spMaterial1);
 		*/
 		
-		
+		/*
 		// Balls5 (Spheres)
 		Sphere ball1 = (Sphere) new Sphere(new Point(7.5, -3, -90), 1.95d).setEmission(new Color(255, 255, 0))//green(255, 255, 0)
 				.setMaterial(spMaterial1);
@@ -279,7 +282,7 @@ public class ReflectionRefractionTests {
 				.setMaterial(spMaterial1);
 		Sphere ball5 = (Sphere) new Sphere(new Point(0, 23, -150), 4.5d).setEmission(new Color(255, 0, 0))//orange255, 0, 0)
 				.setMaterial(spMaterial1);
-		
+		*/
 		
 		scene.geometries.add(ball1, ball2, ball3, ball4, ball5);
 				
@@ -297,9 +300,8 @@ public class ReflectionRefractionTests {
 				.setkL(0.000004).setkQ(0.00009));
 
 		scene.lights.add(new DirectionalLight(new Color(150, 150, 50), new Vector(-50, -1, -1)));
-		ImageWriter imageWriter = new ImageWriter("clownImage5", 800, 800);
+		ImageWriter imageWriter = new ImageWriter("clownImage9", 800, 800);
 		camera.setImageWriter(imageWriter).setRayTracer(new RayTracerBasic(scene)).renderImage().writeToImage();
 	}
-
 
 }

@@ -1,5 +1,10 @@
 package primitives;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import static primitives.Util.isZero;
+
 /**
  * 
  * The Point class represents a point in 3-dimensional space.
@@ -138,5 +143,42 @@ public class Point {
 	public double getZ() {
 		return this.xyz.d3;
 	}
+	
+	
+	
+	
+	
+	
+	/**
 
+    Generates points on a circle given the center, up vector, right vector, radius, and grid density.
+
+    @param center the center point of the circle
+
+    @param vUp the up vector defining the orientation of the circle
+
+    @param vRight the right vector defining the orientation of the circle
+
+    @param radius the radius of the circle
+
+    @param gridDensity the density of the grid used for generating points
+
+    @return a list of points generated on the circle
+    */
+   public static List<Point> generatePointsOnCircle(Point center, Vector vUp, Vector vRight, double radius, double gridDensity){
+       Random random = new Random();
+       var points = new ArrayList<Point>();
+       for(double i = -radius; i < radius; i+= radius/gridDensity){
+           if(isZero(i)) continue;
+           double jitterOffset =  random.nextDouble(-0.1,0.1);
+           for(double j = -radius; j < radius; j+= radius/gridDensity){
+               if(isZero(j)) continue;
+               var p = center.add(vUp.scale(i).add(vRight.scale(j + jitterOffset)));
+               if(center.distance(p) <= radius) points.add(p);
+           }
+       }
+       return points;
+   }
+	 
+    
 }

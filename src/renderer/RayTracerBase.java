@@ -5,6 +5,9 @@ package renderer;
 
 import scene.Scene;
 import primitives.Ray;
+
+import java.util.List;
+
 import primitives.Color;
 
 /**
@@ -36,5 +39,18 @@ public abstract class RayTracerBase {
 	 *         no hit
 	 */
 	public abstract Color traceRay(Ray ray);
+	
+	
+	
+	
+
+    public Color traceMultipleRays(List<Ray> rayList) {
+        int size = rayList.size();
+        Color avgColor = Color.BLACK;
+        for (Ray ray : rayList) {
+            avgColor = avgColor.add(traceRay(ray));
+        }
+        return avgColor.scale(1.0 / size);
+    }
 
 }

@@ -123,4 +123,6 @@ public class Vector extends Point {
 	public Vector normalize() {
 		return new Vector(xyz.reduce(length()));
 	}
+	
+	  
 }

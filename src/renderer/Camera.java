@@ -7,6 +7,8 @@ import primitives.Color;
 
 import static primitives.Util.*;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.MissingResourceException;
 
 import geometries.Plane;
@@ -36,6 +38,20 @@ public class Camera {
 	private ImageWriter imageWriter;
 	/** The ray tracer used to trace the rays from the camera to the scene */
 	private RayTracerBase rayTracerBase;
+
+	/** Aperture radius */
+	double apertureRadius = 0;
+
+	/** Focal length */
+	double focalLength = 0;
+
+	/** DoF active */
+	boolean DoFActive = false;
+
+	/**
+	 * DoF points on the aperture plane
+	 */
+	List<Point> DoFPoints = null;
 
 	/**
 	 * Sets the image writer for the camera.
@@ -190,7 +206,54 @@ public class Camera {
 
 		return new Ray(p0, pIJ.subtract(p0));
 	}
+	
+	
+	
+	
+	
+	/**
+	 * @param apertureRadius the apertureRadius to set
+	 */
+	public Camera setApertureRadius(double apertureRadius) {
+		this.apertureRadius = apertureRadius;
+		return this;
+	}
 
+	/**
+	 * @param focalLength the focalLength to set
+	 */
+	public Camera setFocalLength(double focalLength) {
+		this.focalLength = focalLength;
+		return this;
+
+	}
+
+
+
+
+
+	/**
+	 * Ray tracer
+	 */
+	RayTracerBase rayTracer;
+	private int gridDensity = 4;
+
+	/**
+	 * Casts a ray through the given pixel (i,j) on the view plane and returns the
+	 * color that results from tracing the ray.
+	 * 
+	 * @param i the x-coordinate of the pixel on the view plane
+	 * @param j the y-coordinate of the pixel on the view plane
+	 * @return the color resulting from tracing the ray through the given pixel
+	 */
+	private Color castRay(int j, int i, int nX, int nY) {
+		Ray ray = constructRay(nX, nY, j, i);
+		/*if (numPoints != 0)
+			return beamAveColor(ray);*/
+		return this.rayTracerBase.traceRay(ray);
+	}
+	
+	
 	/**
 	 * Renders the image by iterating through each pixel in the image writer and
 	 * casting a ray for each pixel, then writing the resulting color to the image
@@ -206,32 +269,46 @@ public class Camera {
 		if (rayTracerBase == null)
 			throw new MissingResourceException("Camera resource not set", "Camera", "rayTracerBase");
 
-		int nX = imageWriter.getNx();
-		int nY = imageWriter.getNy();
+		/**
+		 * Aperture area grid density
+		 */
+		int width = imageWriter.getNx(), height = imageWriter.getNy();
 
-		for (int j = 0; j < nX; j++) {
-			for (int i = 0; i < nY; i++) {
-				Color color = castRay(j, i, nX, nY);
-				this.imageWriter.writePixel(j, i, color);
+		if (DoFActive) {
+			this.DoFPoints = Point.generatePointsOnCircle(p0, vUp, vRight, apertureRadius, gridDensity);
+			for (int j = 0; j < width; j++) {
+				for (int i = 0; i < height; i++) {
+ 					var focalPoint = constructRay(width, height,j, i).getPoint(focalLength);
+
+					imageWriter.writePixel(j, i, this.rayTracerBase
+							.traceMultipleRays(Ray.constructRaysFromListOfPointsToPoint(focalPoint, DoFPoints)));
+				}
+			}
+		} else {
+
+			int nX = imageWriter.getNx();
+			int nY = imageWriter.getNy();
+			for (int j = 0; j < nX; j++) {
+				for (int i = 0; i < nY; i++) {
+					Color color = castRay(j, i, nX, nY);
+					this.imageWriter.writePixel(j, i, color);
+				}
 			}
 		}
 		return this;
+		 
+
 	}
 
 	/**
-	 * Casts a ray through the given pixel (i,j) on the view plane and returns the
-	 * color that results from tracing the ray.
-	 * 
-	 * @param i the x-coordinate of the pixel on the view plane
-	 * @param j the y-coordinate of the pixel on the view plane
-	 * @return the color resulting from tracing the ray through the given pixel
+	 * @param doFActive the doFActive to set
 	 */
-	private Color castRay(int j, int i, int nX, int nY) {
-		Ray ray = constructRay(nX, nY, j, i);
-		if (numPoints!=0)
-			return beamAveColor(ray);
-		return this.rayTracerBase.traceRay(ray);
+	public Camera setDoFActive(boolean doFActive) {
+		DoFActive = doFActive;
+		return this;
 	}
+
+
 
 	/**
 	 * Writes a grid of pixels to the image writer, with a given interval between
@@ -265,119 +342,6 @@ public class Camera {
 		imageWriter.writeToImage();
 	}
 
-	/**
-	 * Sets the number of points to use for Depth of Field effect.
-	 *
-	 * @param numPoints the number of points for DOF
-	 * @return the camera object
-	 */
-	public Camera setNumPoints(int numPoints) {
-		this.numPoints = numPoints;
-		return this;
-	}
-
-	/**
-	 * Sets the focal plane of the camera for Depth of Field effect.
-	 *
-	 * @param focalPlane the focal plane to set
-	 * @return the camera object
-	 */
-	public Camera setFocalPlane(Plane focalPlane) {
-		this.focalPlane = focalPlane;
-		return this;
-	}
-
-	/**
-	 * Returns the focal plane distance of the camera.
-	 *
-	 * @return the focal plane distance
-	 */
-	public double getFocalPlaneDistance() {
-		return focalPlaneDistance;
-	}
-
-	/**
-	 * Sets the focal plane distance of the camera for Depth of Field effect.
-	 *
-	 * @param focalPlaneDistance the focal plane distance to set
-	 * @return the camera object
-	 */
-	public Camera setFocalPlaneDistance(double focalPlaneDistance) {
-		this.focalPlaneDistance = focalPlaneDistance;
-		focalPlane = new Plane(p0.add(this.vTo.scale(focalPlaneDistance)), vTo);
-		return this;
-	}
-
-	/**
-	 * Sets the aperture size of the camera for Depth of Field effect.
-	 *
-	 * @param apertureSize the aperture size to set
-	 * @return the camera object
-	 */
-	public Camera setApertureSize(double apertureSize) {
-		this.apertureSize = apertureSize;
-		if (apertureSize != 0)
-			initAperturePoints();
-		return this;
-	}
-
-	private int numPoints=0;
-
-	private Plane focalPlane;
-	private double focalPlaneDistance;
-
-	private Point[] aperturePointsArr;
-	private double apertureSize;
-
-	/**
-	 * Calculates the average color of the beam of rays for Depth of Field effect.
-	 *
-	 * @param ray the primary ray
-	 * @return the average color of the beam of rays
-	 */
-	private Color beamAveColor(Ray ray) {
-		Color aveColor = Color.BLACK;
-		Ray apertureRay;
-		Color apertureColor;
-		Point focalPoint = focalPlane.findGeoIntersections(ray).get(0).point;
-
-		// Calculate the average color by tracing rays through the aperture points
-		for (Point p : aperturePointsArr) {
-			// Generate a ray from the aperture point to the focal point
-			apertureRay = new Ray(p, focalPoint.subtract(p));
-
-			// Trace the aperture ray to get the color
-			apertureColor = rayTracerBase.traceRay(apertureRay);
-
-			// Accumulate the color for averaging
-			aveColor = aveColor.add(apertureColor.reduce(numPoints));
-		}
-
-		return aveColor;
-	}
-
-	/**
-	 * Initializes the aperture points for Depth of Field effect. The aperture
-	 * points are evenly distributed within the aperture area.
-	 */
-	private void initAperturePoints() {
-		int pointsPerRow = (int) Math.sqrt(numPoints);
-		aperturePointsArr = new Point[pointsPerRow * pointsPerRow];
-		double pointsDis = (apertureSize * 2) / pointsPerRow;
-		double s = -(apertureSize + pointsDis / 2);
-		Point initPoint = p0.add(this.vUp.scale(s).add(this.vRight.scale(s)));
-
-		// Generate aperture points in a grid pattern within the aperture area
-		for (int i = 0; i < pointsPerRow; i++) {
-			for (int j = 0; j < pointsPerRow; j++) {
-				// Calculate the position of the aperture point in the grid
-				Point aperturePoint = initPoint
-						.add(this.vUp.scale((i + 1) * pointsDis).add(this.vRight.scale((j + 1) * pointsDis)));
-
-				// Store the aperture point in the array
-				this.aperturePointsArr[i + j * pointsPerRow] = aperturePoint;
-			}
-		}
-	}
+ 
 
 }
