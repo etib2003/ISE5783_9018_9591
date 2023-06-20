@@ -228,7 +228,7 @@ public class Camera {
 	 */
 	private Color castRay(int j, int i, int nX, int nY) {
 		Ray ray = constructRay(nX, nY, j, i);
-		if (useDOFFlag)
+		if (numPoints!=0)
 			return beamAveColor(ray);
 		return this.rayTracerBase.traceRay(ray);
 	}
@@ -263,17 +263,6 @@ public class Camera {
 		if (imageWriter == null)
 			throw new MissingResourceException("Camera resource not set", "Camera", "Image writer");
 		imageWriter.writeToImage();
-	}
-
-	/**
-	 * Sets the flag indicating whether to use Depth of Field (DOF) effect.
-	 *
-	 * @param useDOFFlag the flag indicating whether to use DOF
-	 * @return the camera object
-	 */
-	public Camera setUseDOFFlag(boolean useDOFFlag) {
-		this.useDOFFlag = useDOFFlag;
-		return this;
 	}
 
 	/**
@@ -332,9 +321,7 @@ public class Camera {
 		return this;
 	}
 
-	private boolean useDOFFlag = false;
-
-	private int numPoints;
+	private int numPoints=0;
 
 	private Plane focalPlane;
 	private double focalPlaneDistance;

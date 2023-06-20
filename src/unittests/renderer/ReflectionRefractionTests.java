@@ -112,7 +112,7 @@ public class ReflectionRefractionTests {
 	@Test
 	public void pyramidTransparentSphere() {
 		Camera camera = new Camera(new Point(-140, 20, 35), new Vector(1, -0.15, -0.25), new Vector(1, 0, 4))
-				.setVPSize(200, 200).setVPDistance(1000);
+				.setVPSize(200, 200).setVPDistance(1000);//.setNumPoints(25).setFocalPlaneDistance(140).setApertureSize(1);
 
 		scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), new Double3(0.15)));
 
@@ -156,7 +156,7 @@ public class ReflectionRefractionTests {
 	@Test
 	public void createClownImage3() {
 		Camera camera = new Camera(new Point(0, 0, -40), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPSize(800, 800)
-				.setVPDistance(1000).setUseDOFFlag(true).setNumPoints(60).setFocalPlaneDistance(55).setApertureSize(1);
+				.setVPDistance(1000).setNumPoints(50).setFocalPlaneDistance(55).setApertureSize(1);
 
 		Material spMaterial = new Material().setKd(0.6).setKs(0.9).setShininess(3000).setkT(0.0).setkR(0.0);
 		Material spMaterial1 = new Material().setKd(0.2).setKs(0.6).setShininess(60);
