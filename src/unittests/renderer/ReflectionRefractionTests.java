@@ -236,14 +236,14 @@ public class ReflectionRefractionTests {
 				new Point(-6, -21, -105), new Point(-6, -18, -105)).setEmission(new Color(250, 186, 126)).setMaterial(trMaterial1);
    
 		scene.geometries.add(stage);
-
+		
 		// Hat (Triangle)
 		Triangle hat = (Triangle) new Triangle(new Point(-3, 2.5, -100), new Point(3, 2.5, -100), new Point(0, 6.5, -100))
 				.setEmission(new Color(RED)).setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60))
 				.setMaterial(trMaterial1);
 		scene.geometries.add(hat);
 
-		
+		/*
 		// Balls3 (Spheres)
 		Sphere ball1 = (Sphere) new Sphere(new Point(-17, 6, -150), 4.5d).setEmission(new Color(255, 0, 0))
 				.setMaterial(spMaterial1);
@@ -254,7 +254,7 @@ public class ReflectionRefractionTests {
 		Sphere ball4 = (Sphere) new Sphere(new Point(-7.5, -3, -90), 1.95d).setEmission(new Color(0, 255, 0))
 				.setMaterial(spMaterial1);
 		Sphere ball5 = (Sphere) new Sphere(new Point(0, 23, -150), 4.5d).setEmission(new Color(0, 0, 255))
-				.setMaterial(spMaterial1);
+				.setMaterial(spMaterial1);*/
 		
 		/*
 		// Balls4 (Spheres)
@@ -267,10 +267,8 @@ public class ReflectionRefractionTests {
 				Sphere ball4 = (Sphere) new Sphere(new Point(17, 6, -150), 4.5d).setEmission(new Color(255, 255, 0))
 						.setMaterial(spMaterial1);
 				Sphere ball5 = (Sphere) new Sphere(new Point(0, 23, -150), 4.5d).setEmission(new Color(255, 150, 0))
-						.setMaterial(spMaterial1);
-		*/
+						.setMaterial(spMaterial1);*/	
 		
-		/*
 		// Balls5 (Spheres)
 		Sphere ball1 = (Sphere) new Sphere(new Point(7.5, -3, -90), 1.95d).setEmission(new Color(255, 255, 0))//green(255, 255, 0)
 				.setMaterial(spMaterial1);
@@ -282,11 +280,9 @@ public class ReflectionRefractionTests {
 				.setMaterial(spMaterial1);
 		Sphere ball5 = (Sphere) new Sphere(new Point(0, 23, -150), 4.5d).setEmission(new Color(255, 0, 0))//orange255, 0, 0)
 				.setMaterial(spMaterial1);
-		*/
-		
+				
 		scene.geometries.add(ball1, ball2, ball3, ball4, ball5);
 				
-
 		// Background plane defined by three points
 		Point p1 = new Point(-1000, -1000, -150);
 		Point p2 = new Point(1000, -1000, -350);
@@ -301,7 +297,7 @@ public class ReflectionRefractionTests {
 
 		scene.lights.add(new DirectionalLight(new Color(150, 150, 50), new Vector(-50, -1, -1)));
 		ImageWriter imageWriter = new ImageWriter("clownImage9", 800, 800);
+		scene.geometries.BuildBVH();
 		camera.setImageWriter(imageWriter).setRayTracer(new RayTracerBasic(scene)).renderImage().writeToImage();
 	}
-
 }

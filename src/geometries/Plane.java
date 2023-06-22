@@ -33,6 +33,8 @@ public class Plane extends Geometry {
 		Vector v = p3.subtract(p0);
 		Vector n = u.crossProduct(v);
 		normal = n.normalize();
+        bbox = new AABB(new Point(Double.NEGATIVE_INFINITY), new Point(Double.POSITIVE_INFINITY), new Point(0)).setInfinity(true);
+
 	}
 
 	/**
@@ -45,6 +47,8 @@ public class Plane extends Geometry {
 	public Plane(Point p, Vector n) {
 		p0 = p;
 		normal = n.normalize();
+        bbox = new AABB(new Point(Double.NEGATIVE_INFINITY), new Point(Double.POSITIVE_INFINITY), new Point(0)).setInfinity(true);
+
 	}
 
 	/**

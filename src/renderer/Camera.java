@@ -6,11 +6,9 @@ import primitives.Vector;
 import primitives.Color;
 
 import static primitives.Util.*;
-
-import java.util.LinkedList;
 import java.util.List;
 import java.util.MissingResourceException;
-
+import java.util.stream.*;
 import geometries.Plane;
 
 /**
@@ -248,8 +246,7 @@ public class Camera {
 	 */
 	private Color castRay(int j, int i, int nX, int nY) {
 		Ray ray = constructRay(nX, nY, j, i);
-		/*if (numPoints != 0)
-			return beamAveColor(ray);*/
+	
 		return this.rayTracerBase.traceRay(ray);
 	}
 	
@@ -272,13 +269,15 @@ public class Camera {
 		/**
 		 * Aperture area grid density
 		 */
+		/*
 		int width = imageWriter.getNx(), height = imageWriter.getNy();
 
 		if (DoFActive) {
+		 var focalPlane = new Plane(p0.add(vTo.scale(focalLength)), vTo);
 			this.DoFPoints = Point.generatePointsOnCircle(p0, vUp, vRight, apertureRadius, gridDensity);
 			for (int j = 0; j < width; j++) {
 				for (int i = 0; i < height; i++) {
- 					var focalPoint = constructRay(width, height,j, i).getPoint(focalLength);
+                    var focalPoint = focalPlane.findIntersections(constructRay(width, height, j, i)).get(0);
 
 					imageWriter.writePixel(j, i, this.rayTracerBase
 							.traceMultipleRays(Ray.constructRaysFromListOfPointsToPoint(focalPoint, DoFPoints)));
@@ -295,11 +294,34 @@ public class Camera {
 				}
 			}
 		}
-		return this;
-		 
+		return this;*/
+		
+		int width = imageWriter.getNx(), height = imageWriter.getNy();
+        Pixel.initialize(height, width, 1);
+        if(DoFActive) {
+            var focalPlane = new Plane(p0.add(vTo.scale(focalLength)), vTo);
+            this.DoFPoints = Point.generatePointsOnCircle(p0, vUp, vRight, apertureRadius, gridDensity);
+            IntStream.range(0, height).parallel().forEach(i -> {
+                IntStream.range(0, width).parallel().forEach(j -> {
+                    var focalPoint = focalPlane.findIntersections(constructRay(width, height, j, i)).get(0);
+                    imageWriter.writePixel(j, i, this.rayTracerBase.traceMultipleRays(Ray.constructRaysFromListOfPointsToPoint(focalPoint, DoFPoints)));
+                    Pixel.pixelDone();
+                });
+            });
+        }else {
+            IntStream.range(0, height).parallel().forEach(i -> {
+                IntStream.range(0, width).parallel().forEach(j -> {
+                    imageWriter.writePixel(j, i, this.rayTracerBase.traceRay(constructRay(width, height, j, i)));
+                    Pixel.pixelDone();
+                });
+            });
 
+        }
+        return this;
+		 
 	}
 
+	
 	/**
 	 * @param doFActive the doFActive to set
 	 */
@@ -307,7 +329,6 @@ public class Camera {
 		DoFActive = doFActive;
 		return this;
 	}
-
 
 
 	/**
@@ -318,7 +339,7 @@ public class Camera {
 	 * @param interval the interval between grid lines
 	 * @param color    the color to use for the grid lines
 	 */
-	public void printGrid(int interval, Color color) throws MissingResourceException {
+	public Camera printGrid(int interval, Color color) throws MissingResourceException {
 		if (imageWriter == null)
 			throw new MissingResourceException("Camera resource not set", "Camera", "Image writer");
 		// === running on the view plane===//
@@ -329,6 +350,7 @@ public class Camera {
 			for (int i = 0; i < nY; ++i)
 				if (i % interval == 0 || j % interval == 0)
 					imageWriter.writePixel(j, i, color);
+		return this;
 
 	}
 

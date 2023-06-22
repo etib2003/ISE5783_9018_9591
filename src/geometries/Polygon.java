@@ -46,45 +46,65 @@ public class Polygon extends Geometry {
 	 *                                  </ul>
 	 */
 	public Polygon(Point... vertices) {
-		if (vertices.length < 3)
-			throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
-		this.vertices = List.of(vertices);
-		size = vertices.length;
+        if (vertices.length < 3)
+            throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
+        this.vertices = List.of(vertices);
+        size = vertices.length;
 
-		// Generate the plane according to the first three vertices and associate the
-		// polygon with this plane.
-		// The plane holds the invariant normal (orthogonal unit) vector to the polygon
-		plane = new Plane(vertices[0], vertices[1], vertices[2]);
-		if (size == 3)
-			return; // no need for more tests for a Triangle
+        //calc bbox
+        double sumX = 0;
+        double sumY = 0;
+        double sumZ = 0;
 
-		Vector n = plane.getNormal();
-		// Subtracting any subsequent points will throw an IllegalArgumentException
-		// because of Zero Vector if they are in the same point
-		Vector edge1 = vertices[vertices.length - 1].subtract(vertices[vertices.length - 2]);
-		Vector edge2 = vertices[0].subtract(vertices[vertices.length - 1]);
+        Point minPoint = new Point(Double.POSITIVE_INFINITY);
+        Point maxPoint = new Point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY,Double.NEGATIVE_INFINITY);
+        //find min point and max point and center point
+        for (Point p : vertices) {
+            minPoint = Point.createMinPoint(minPoint, p);
+            maxPoint = Point.createMaxPoint(maxPoint, p);
+            sumX += p.getX();
+            sumY += p.getY();
+            sumZ += p.getZ();
+        }
 
-		// Cross Product of any subsequent edges will throw an IllegalArgumentException
-		// because of Zero Vector if they connect three vertices that lay in the same
-		// line.
-		// Generate the direction of the polygon according to the angle between last and
-		// first edge being less than 180 deg. It is hold by the sign of its dot product
-		// with
-		// the normal. If all the rest consequent edges will generate the same sign -
-		// the
-		// polygon is convex ("kamur" in Hebrew).
-		boolean positive = edge1.crossProduct(edge2).dotProduct(n) > 0;
-		for (var i = 1; i < vertices.length; ++i) {
-			// Test that the point is in the same plane as calculated originally
-			if (!isZero(vertices[i].subtract(vertices[0]).dotProduct(n)))
-				throw new IllegalArgumentException("All vertices of a polygon must lay in the same plane");
-			// Test the consequent edges have
-			edge1 = edge2;
-			edge2 = vertices[i].subtract(vertices[i - 1]);
-			if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
-				throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
-		}
-	}
+        // Create the center point
+        var centerAABB = new Point(sumX / size, sumY / size, sumZ / size);
+        bbox = new AABB(minPoint, maxPoint, centerAABB);
+
+
+        // Generate the plane according to the first three vertices and associate the
+        // polygon with this plane.
+        // The plane holds the invariant normal (orthogonal unit) vector to the polygon
+        plane = new Plane(vertices[0], vertices[1], vertices[2]);
+        if (size == 3) return; // no need for more tests for a Triangle
+
+        Vector n = plane.getNormal();
+        // Subtracting any subsequent points will throw an IllegalArgumentException
+        // because of Zero Vector if they are in the same point
+        Vector edge1 = vertices[vertices.length - 1].subtract(vertices[vertices.length - 2]);
+        Vector edge2 = vertices[0].subtract(vertices[vertices.length - 1]);
+
+        // Cross Product of any subsequent edges will throw an IllegalArgumentException
+        // because of Zero Vector if they connect three vertices that lay in the same
+        // line.
+        // Generate the direction of the polygon according to the angle between last and
+        // first edge being less than 180 deg. It is hold by the sign of its dot product
+        // with
+        // the normal. If all the rest consequent edges will generate the same sign -
+        // the
+        // polygon is convex ("kamur" in Hebrew).
+        boolean positive = edge1.crossProduct(edge2).dotProduct(n) > 0;
+        for (var i = 1; i < vertices.length; ++i) {
+            // Test that the point is in the same plane as calculated originally
+            if (!isZero(vertices[i].subtract(vertices[0]).dotProduct(n)))
+                throw new IllegalArgumentException("All vertices of a polygon must lay in the same plane");
+            // Test the consequent edges have
+            edge1 = edge2;
+            edge2 = vertices[i].subtract(vertices[i - 1]);
+            if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
+                throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
+        }
+    }
 
 	/**
 	 * Computes the normal vector to the polygon at the specified point.

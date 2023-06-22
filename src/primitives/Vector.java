@@ -30,7 +30,7 @@ public class Vector extends Point {
 	 * @param point the Double3 point representing the vector
 	 * @throws IllegalArgumentException if the vector is the zero vector
 	 */
-	Vector(Double3 point) {
+	public Vector(Double3 point) {
 		super(point);
 		if (xyz.equals(Double3.ZERO))
 			throw new IllegalArgumentException("Zero vector");
