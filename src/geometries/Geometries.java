@@ -53,20 +53,9 @@ public class Geometries extends Intersectable {
 	public List<Intersectable> getBodies() {
 		return geometricBodies;
 	}
-
-	/**
-	 * Adds a variable number of intersectable objects to the list.
-	 *
-	 * @param geometries A variable number of intersectable objects to add to the
-	 *                   list.
-	 *//*
-	public void add(Intersectable... geometries) {
-		geometricBodies.addAll(List.of(geometries));
-	}*/
-	
 	
 	/***
-     * add geometries to te list
+     * add geometries to the list
      * @param geometries to add
      */
     public void add(Intersectable... geometries){
@@ -98,22 +87,7 @@ public class Geometries extends Intersectable {
 	 *
 	 * @param ray The ray to check for intersections.
 	 * @return A list of intersection points, or null if there are no intersections.
-	 *//*
-	@Override
-	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-		List<GeoPoint> res = null;
-		for (Intersectable geometry : this.geometricBodies) {
-			var resi = geometry.findGeoIntersections(ray);
-			if (resi != null) {
-				if (res == null) {
-					res = new LinkedList<>();
-				}
-				res.addAll(resi);
-			}
-		}
-		return res;
-	}*/
-    
+	 */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         LinkedList<GeoPoint> list = null;
@@ -127,9 +101,6 @@ public class Geometries extends Intersectable {
         }
         return list;
     }
-    
-    
-    
     
     
     /**

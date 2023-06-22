@@ -259,7 +259,6 @@ public abstract class Intersectable {
     /**
      * The box for AABB improvement
      */
-
     AABB bbox;
 
 

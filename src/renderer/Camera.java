@@ -178,7 +178,6 @@ public class Camera {
 		return this;
 	}
 
-	// region constructRay
 	/**
 	 * constructs a ray from the camera through pixel i,j.
 	 * 
@@ -206,9 +205,6 @@ public class Camera {
 	}
 	
 	
-	
-	
-	
 	/**
 	 * @param apertureRadius the apertureRadius to set
 	 */
@@ -226,31 +222,9 @@ public class Camera {
 
 	}
 
-
-
-
-
-	/**
-	 * Ray tracer
-	 */
-	RayTracerBase rayTracer;
 	private int gridDensity = 4;
 
-	/**
-	 * Casts a ray through the given pixel (i,j) on the view plane and returns the
-	 * color that results from tracing the ray.
-	 * 
-	 * @param i the x-coordinate of the pixel on the view plane
-	 * @param j the y-coordinate of the pixel on the view plane
-	 * @return the color resulting from tracing the ray through the given pixel
-	 */
-	private Color castRay(int j, int i, int nX, int nY) {
-		Ray ray = constructRay(nX, nY, j, i);
-	
-		return this.rayTracerBase.traceRay(ray);
-	}
-	
-	
+		
 	/**
 	 * Renders the image by iterating through each pixel in the image writer and
 	 * casting a ray for each pixel, then writing the resulting color to the image
@@ -268,34 +242,7 @@ public class Camera {
 
 		/**
 		 * Aperture area grid density
-		 */
-		/*
-		int width = imageWriter.getNx(), height = imageWriter.getNy();
-
-		if (DoFActive) {
-		 var focalPlane = new Plane(p0.add(vTo.scale(focalLength)), vTo);
-			this.DoFPoints = Point.generatePointsOnCircle(p0, vUp, vRight, apertureRadius, gridDensity);
-			for (int j = 0; j < width; j++) {
-				for (int i = 0; i < height; i++) {
-                    var focalPoint = focalPlane.findIntersections(constructRay(width, height, j, i)).get(0);
-
-					imageWriter.writePixel(j, i, this.rayTracerBase
-							.traceMultipleRays(Ray.constructRaysFromListOfPointsToPoint(focalPoint, DoFPoints)));
-				}
-			}
-		} else {
-
-			int nX = imageWriter.getNx();
-			int nY = imageWriter.getNy();
-			for (int j = 0; j < nX; j++) {
-				for (int i = 0; i < nY; i++) {
-					Color color = castRay(j, i, nX, nY);
-					this.imageWriter.writePixel(j, i, color);
-				}
-			}
-		}
-		return this;*/
-		
+		 */	
 		int width = imageWriter.getNx(), height = imageWriter.getNy();
         Pixel.initialize(height, width, 1);
         if(DoFActive) {
