@@ -31,7 +31,7 @@ public class Geometries extends Intersectable {
 	 */
 	public Geometries() {
 		geometricBodies = new LinkedList<>();
-	     bbox = new AABB(new Point(Double.POSITIVE_INFINITY), new Point(Double.NEGATIVE_INFINITY));
+	    bbox = new AABB(new Point(Double.POSITIVE_INFINITY), new Point(Double.NEGATIVE_INFINITY));
 	}
 
 	/**
@@ -42,6 +42,7 @@ public class Geometries extends Intersectable {
 	 *                   list.
 	 */
 	public Geometries(Intersectable... geometries) {
+	    bbox = new AABB(new Point(Double.POSITIVE_INFINITY), new Point(Double.NEGATIVE_INFINITY));
 		add(geometries);
 	}
 

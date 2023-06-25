@@ -148,15 +148,15 @@ class clownImageTest {
 						.setMaterial(spMaterial1);*/	
 		
 		// Balls5 (Spheres)
-		Sphere ball1 = (Sphere) new Sphere(new Point(7.5, -3, -90), 1.95d).setEmission(new Color(255, 255, 0))//green(255, 255, 0)
+		Sphere ball1 = (Sphere) new Sphere(new Point(7.5, -3, -90), 1.95d).setEmission(new Color(255, 255, 0))
 				.setMaterial(spMaterial1);
-		Sphere ball2 = (Sphere) new Sphere(new Point(-11, 17, -150), 4.5d).setEmission(new Color(0, 255, 0))//red(0, 255, 0)
+		Sphere ball2 = (Sphere) new Sphere(new Point(-11, 17, -150), 4.5d).setEmission(new Color(0, 255, 0))
 				.setMaterial(spMaterial1);
-		Sphere ball3 = (Sphere) new Sphere(new Point(11, 17, -150), 4.5d).setEmission(new Color(255, 150, 0))//blue(255, 150, 0)
+		Sphere ball3 = (Sphere) new Sphere(new Point(11, 17, -150), 4.5d).setEmission(new Color(255, 150, 0))
 				.setMaterial(spMaterial1);
-		Sphere ball4 = (Sphere) new Sphere(new Point(17, 6, -150), 4.5d).setEmission(new Color(0, 0, 255))//yellow->(0, 0, 255)
+		Sphere ball4 = (Sphere) new Sphere(new Point(17, 6, -150), 4.5d).setEmission(new Color(0, 0, 255))
 				.setMaterial(spMaterial1);
-		Sphere ball5 = (Sphere) new Sphere(new Point(0, 23, -150), 4.5d).setEmission(new Color(255, 0, 0))//orange255, 0, 0)
+		Sphere ball5 = (Sphere) new Sphere(new Point(0, 23, -150), 4.5d).setEmission(new Color(255, 0, 0))
 				.setMaterial(spMaterial1);
 				
 		scene.geometries.add(ball1, ball2, ball3, ball4, ball5);
@@ -174,7 +174,7 @@ class clownImageTest {
 				.setkL(0.000004).setkQ(0.00009));
 
 		scene.lights.add(new DirectionalLight(new Color(150, 150, 50), new Vector(-50, -1, -1)));
-		ImageWriter imageWriter = new ImageWriter("clownImage11", 800, 800);
+		ImageWriter imageWriter = new ImageWriter("clownImage12", 800, 800);
 		scene.geometries.BuildBVH();
 		camera.setImageWriter(imageWriter).setRayTracer(new RayTracerBasic(scene)).renderImage().writeToImage();
 	}
