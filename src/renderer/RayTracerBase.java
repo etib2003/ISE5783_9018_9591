@@ -39,21 +39,20 @@ public abstract class RayTracerBase {
 	 *         no hit
 	 */
 	public abstract Color traceRay(Ray ray);
-	
 
-    /**
-     * Traces multiple rays and returns the average color of the traced rays.
-     *
-     * @param rayList the list of Ray objects to trace
-     * @return the average Color of the traced rays
-     */
-    public Color traceMultipleRays(List<Ray> rayList) {
-        int size = rayList.size();
-        Color avgColor = Color.BLACK;
-        for (Ray ray : rayList) {
-            avgColor = avgColor.add(traceRay(ray));
-        }
-        return avgColor.scale(1.0 / size);
-    }
+	/**
+	 * Traces multiple rays and returns the average color of the traced rays.
+	 *
+	 * @param rayList the list of Ray objects to trace
+	 * @return the average Color of the traced rays
+	 */
+	public Color traceMultipleRays(List<Ray> rayList) {
+		int size = rayList.size();
+		Color avgColor = Color.BLACK;
+		for (Ray ray : rayList) {
+			avgColor = avgColor.add(traceRay(ray));
+		}
+		return avgColor.scale(1.0 / size);
+	}
 
 }

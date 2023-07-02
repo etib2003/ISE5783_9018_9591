@@ -1,15 +1,12 @@
 package renderer;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
-import primitives.Color;
+import primitives.*;
 
 import static primitives.Util.*;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.stream.*;
-import geometries.Plane;
+import geometries.*;
 
 /**
  * This class represents a camera in a 3D space. It is responsible for creating
@@ -38,18 +35,20 @@ public class Camera {
 	private RayTracerBase rayTracerBase;
 
 	/** Aperture radius */
-	double apertureRadius = 0;
+	private double apertureRadius = 0;
 
 	/** Focal length */
-	double focalLength = 0;
+	private double focalLength = 0;
 
 	/** DoF active */
-	boolean DoFActive = false;
+	private boolean doFActive = false;
 
 	/**
 	 * DoF points on the aperture plane
 	 */
-	List<Point> DoFPoints = null;
+	private List<Point> doFPoints = null;
+
+	private PixelManager pm;
 
 	/**
 	 * Sets the image writer for the camera.
@@ -203,8 +202,7 @@ public class Camera {
 
 		return new Ray(p0, pIJ.subtract(p0));
 	}
-	
-	
+
 	/**
 	 * @param apertureRadius the apertureRadius to set
 	 */
@@ -222,9 +220,17 @@ public class Camera {
 
 	}
 
-	private int gridDensity = 4;
+	/**
+	 * @param gridDensity the gridDensity to set
+	 */
+	public Camera setGridDensity(int gridDensity) {
+		this.gridDensity = gridDensity;
+		return this;
 
-		
+	}
+
+	private int gridDensity;
+
 	/**
 	 * Renders the image by iterating through each pixel in the image writer and
 	 * casting a ray for each pixel, then writing the resulting color to the image
@@ -242,41 +248,41 @@ public class Camera {
 
 		/**
 		 * Aperture area grid density
-		 */	
+		 */
 		int width = imageWriter.getNx(), height = imageWriter.getNy();
-        Pixel.initialize(height, width, 1);
-        if(DoFActive) {
-            var focalPlane = new Plane(p0.add(vTo.scale(focalLength)), vTo);
-            this.DoFPoints = Point.generatePointsOnCircle(p0, vUp, vRight, apertureRadius, gridDensity);
-            IntStream.range(0, height).parallel().forEach(i -> {
-                IntStream.range(0, width).parallel().forEach(j -> {
-                    var focalPoint = focalPlane.findIntersections(constructRay(width, height, j, i)).get(0);
-                    imageWriter.writePixel(j, i, this.rayTracerBase.traceMultipleRays(Ray.constructRaysFromListOfPointsToPoint(focalPoint, DoFPoints)));
-                    Pixel.pixelDone();
-                });
-            });
-        }else {
-            IntStream.range(0, height).parallel().forEach(i -> {
-                IntStream.range(0, width).parallel().forEach(j -> {
-                    imageWriter.writePixel(j, i, this.rayTracerBase.traceRay(constructRay(width, height, j, i)));
-                    Pixel.pixelDone();
-                });
-            });
+		pm = new PixelManager(height, width, 0.2);
 
-        }
-        return this;
-		 
+		final Plane focalPlane = doFActive ? new Plane(p0.add(vTo.scale(focalLength)), vTo) : null;
+		if (doFActive)
+			this.doFPoints = Point.generatePointsOnCircle(p0, vUp, vRight, apertureRadius, gridDensity);
+
+		IntStream.range(0, height).parallel().forEach(i -> {
+			IntStream.range(0, width).parallel().forEach(j -> {
+				castRay(width, height, i, j, focalPlane);
+			});
+		});
+
+		return this;
 	}
 
-	
+	private void castRay(int width, int height, int i, int j, Plane focalPlane) {
+		Ray ray = constructRay(width, height, j, i);
+		List<Point> intersection = focalPlane == null ? null : focalPlane.findIntersections(ray);
+		imageWriter.writePixel(j, i,
+				doFActive
+						? this.rayTracerBase.traceMultipleRays(
+								Ray.constructRaysFromListOfPointsToPoint(intersection.get(0), doFPoints))
+						: this.rayTracerBase.traceRay(ray));
+		pm.pixelDone();
+	}
+
 	/**
 	 * @param doFActive the doFActive to set
 	 */
 	public Camera setDoFActive(boolean doFActive) {
-		DoFActive = doFActive;
+		this.doFActive = doFActive;
 		return this;
 	}
-
 
 	/**
 	 * Writes a grid of pixels to the image writer, with a given interval between
@@ -310,7 +316,5 @@ public class Camera {
 			throw new MissingResourceException("Camera resource not set", "Camera", "Image writer");
 		imageWriter.writeToImage();
 	}
-
- 
 
 }

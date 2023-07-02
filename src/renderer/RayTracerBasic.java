@@ -109,8 +109,6 @@ public class RayTracerBasic extends RayTracerBase {
 		return calcGlobalEffects(gp, level, color, material.kR, k, constructReflectedRay(gp, v, n))
 				.add(calcGlobalEffects(gp, level, color, material.kT, k, constructRefractedRay(gp, v, n)));
 	}
-	
-	
 
 	/**
 	 * Calculates the global effects (reflection and refraction) at a given

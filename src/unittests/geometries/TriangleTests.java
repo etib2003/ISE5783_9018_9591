@@ -36,7 +36,8 @@ class TriangleTests {
 	}
 
 	/**
-	 * Test method for {@link geometries.Polygon#findIntersections(primitives.Point3D)}.
+	 * Test method for
+	 * {@link geometries.Polygon#findIntersections(primitives.Point3D)}.
 	 */
 	@Test
 	public void testfindIntersections() {

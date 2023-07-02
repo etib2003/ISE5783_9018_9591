@@ -40,10 +40,10 @@ public class Point {
 	Point(Double3 point) {
 		xyz = point;
 	}
-	
-	public Point(double xyz){
-        this(xyz,xyz,xyz);
-    }
+
+	public Point(double xyz) {
+		this(xyz, xyz, xyz);
+	}
 
 	/**
 	 * 
@@ -147,55 +147,62 @@ public class Point {
 	public double getZ() {
 		return this.xyz.d3;
 	}
-	
 
 	/**
+	 * 
+	 * Generates points on a circle given the center, up vector, right vector,
+	 * radius, and grid density.
+	 * 
+	 * @param center      the center point of the circle
+	 * @param vUp         the up vector defining the orientation of the circle
+	 * @param vRight      the right vector defining the orientation of the circle
+	 * @param radius      the radius of the circle
+	 * @param gridDensity the density of the grid used for generating points
+	 * @return a list of points generated on the circle
+	 */
+	public static List<Point> generatePointsOnCircle(Point center, Vector vUp, Vector vRight, double radius,
+			double gridDensity) {
+		Random random = new Random();
+		var points = new ArrayList<Point>();
+		for (double i = -radius; i < radius; i += radius / gridDensity) {
+			if (isZero(i))
+				continue;
+			double jitterOffset = random.nextDouble(-0.1, 0.1);
+			for (double j = -radius; j < radius; j += radius / gridDensity) {
+				if (isZero(j))
+					continue;
+				var p = center.add(vUp.scale(i).add(vRight.scale(j + jitterOffset)));
+				if (center.distance(p) <= radius)
+					points.add(p);
+			}
+		}
+		return points;
+	}
 
-    Generates points on a circle given the center, up vector, right vector, radius, and grid density.
-    @param center the center point of the circle
-    @param vUp the up vector defining the orientation of the circle
-    @param vRight the right vector defining the orientation of the circle
-    @param radius the radius of the circle
-    @param gridDensity the density of the grid used for generating points
-    @return a list of points generated on the circle
-    */
-   public static List<Point> generatePointsOnCircle(Point center, Vector vUp, Vector vRight, double radius, double gridDensity){
-       Random random = new Random();
-       var points = new ArrayList<Point>();
-       for(double i = -radius; i < radius; i+= radius/gridDensity){
-           if(isZero(i)) continue;
-           double jitterOffset =  random.nextDouble(-0.1,0.1);
-           for(double j = -radius; j < radius; j+= radius/gridDensity){
-               if(isZero(j)) continue;
-               var p = center.add(vUp.scale(i).add(vRight.scale(j + jitterOffset)));
-               if(center.distance(p) <= radius) points.add(p);
-           }
-       }
-       return points;
-   }
-   
-   
-   
-   /**
-    * Creates a new Point object with the maximum coordinates from two given points.
-    *
-    * @param p1 the first Point object
-    * @param p2 the second Point object
-    * @return a new Point object with the maximum coordinates
-    */
-   public static Point createMaxPoint(Point p1, Point p2) {
-      return new Point(Math.max(p1.getX(), p2.getX()), Math.max(p1.getY(), p2.getY()), Math.max(p1.getZ(), p2.getZ()));
-   }
+	/**
+	 * Creates a new Point object with the maximum coordinates from two given
+	 * points.
+	 *
+	 * @param p1 the first Point object
+	 * @param p2 the second Point object
+	 * @return a new Point object with the maximum coordinates
+	 */
+	public static Point createMaxPoint(Point p1, Point p2) {
+		return new Point(Math.max(p1.getX(), p2.getX()), Math.max(p1.getY(), p2.getY()),
+				Math.max(p1.getZ(), p2.getZ()));
+	}
 
-   /**
-    * Creates a new Point object with the minimum coordinates from two given points.
-    *
-    * @param p1 the first Point object
-    * @param p2 the second Point object
-    * @return a new Point object with the minimum coordinates
-    */
-   public static Point createMinPoint(Point p1, Point p2) {
-      return new Point(Math.min(p1.getX(), p2.getX()), Math.min(p1.getY(), p2.getY()), Math.min(p1.getZ(), p2.getZ()));
-   } 
-    
+	/**
+	 * Creates a new Point object with the minimum coordinates from two given
+	 * points.
+	 *
+	 * @param p1 the first Point object
+	 * @param p2 the second Point object
+	 * @return a new Point object with the minimum coordinates
+	 */
+	public static Point createMinPoint(Point p1, Point p2) {
+		return new Point(Math.min(p1.getX(), p2.getX()), Math.min(p1.getY(), p2.getY()),
+				Math.min(p1.getZ(), p2.getZ()));
+	}
+
 }

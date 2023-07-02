@@ -103,5 +103,4 @@ public class ReflectionRefractionTests {
 				.writeToImage();
 	}
 
-	
 }

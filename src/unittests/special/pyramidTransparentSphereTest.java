@@ -37,7 +37,7 @@ class pyramidTransparentSphereTest {
 	@Test
 	public void pyramidTransparentSphere() {
 		Camera camera = new Camera(new Point(-140, 20, 35), new Vector(1, -0.15, -0.25), new Vector(1, 0, 4))
-				.setVPSize(200, 200).setVPDistance(1000);//.setNumPoints(25).setFocalPlaneDistance(140).setApertureSize(1);
+				.setVPSize(200, 200).setVPDistance(1000);// .setNumPoints(25).setFocalPlaneDistance(140).setApertureSize(1);
 
 		scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), new Double3(0.15)));
 
@@ -77,6 +77,5 @@ class pyramidTransparentSphereTest {
 		camera.setImageWriter(imageWriter).setRayTracer(new RayTracerBasic(scene)).renderImage();
 		camera.writeToImage();
 	}
-
 
 }

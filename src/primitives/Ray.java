@@ -38,8 +38,8 @@ public class Ray {
 	/**
 	 * Constructs a ray with a given starting point, direction, and surface normal.
 	 *
-	 * @param p The starting point of the ray.
-	 * @param dir The direction of the ray (must be already normalized)
+	 * @param p      The starting point of the ray.
+	 * @param dir    The direction of the ray (must be already normalized)
 	 * @param normal The surface normal at the starting point.
 	 */
 	public Ray(Point p, Vector dir, Vector normal) {
@@ -140,22 +140,21 @@ public class Ray {
 		}
 		return closest;
 	}
-	
-		
-	
-    /**
-     Constructs a list of rays from a given point to a list of points.
-     @param point the destination point
-     @param points the list of points to construct rays from
-     @return a list of rays from each point in the list to the destination point
-     */
-    public static List<Ray> constructRaysFromListOfPointsToPoint(Point point, List<Point> points) {
-        List<Ray> rays = new LinkedList<>();
 
-        for (Point p : points) {
-            rays.add(new Ray(p, point.subtract(p)));
-        }
-        return rays;
-    }
+	/**
+	 * Constructs a list of rays from a given point to a list of points.
+	 * 
+	 * @param point  the destination point
+	 * @param points the list of points to construct rays from
+	 * @return a list of rays from each point in the list to the destination point
+	 */
+	public static List<Ray> constructRaysFromListOfPointsToPoint(Point point, List<Point> points) {
+		List<Ray> rays = new LinkedList<>();
+
+		for (Point p : points) {
+			rays.add(new Ray(p, point.subtract(p)));
+		}
+		return rays;
+	}
 
 }

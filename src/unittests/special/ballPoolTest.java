@@ -3,23 +3,13 @@
  */
 package unittests.special;
 
-import static java.awt.Color.BLACK;
-import static java.awt.Color.BLUE;
-import static java.awt.Color.GREEN;
-import static java.awt.Color.RED;
-
 import org.junit.jupiter.api.Test;
 
-import geometries.Plane;
-import geometries.Polygon;
+import geometries.Intersectable;
 import geometries.Sphere;
-import geometries.Triangle;
 import lighting.AmbientLight;
-import lighting.DirectionalLight;
-import lighting.LightSource;
 import lighting.SpotLight;
 import primitives.Color;
-import primitives.Double3;
 import primitives.Material;
 import primitives.Point;
 import primitives.Vector;
@@ -29,21 +19,17 @@ import renderer.RayTracerBasic;
 import scene.Scene;
 
 class ballPoolTest {
-	private Scene scene = new Scene("Ball Pool");
-
 	@Test
 	public void createBallPoolImage() {
-		Camera camera = new Camera(new Point(0, 0, -40), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPSize(800, 800)
-				.setVPDistance(58);
+		Intersectable.setCBR();
+		Scene scene = new Scene("Ball Pool");
 
 		Material ballMaterial = new Material().setKd(0.6).setKs(0.9).setShininess(3000);
-
-		scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), 0.15));
 
 		int rowCount = 45; // Number of rows in the ball pool
 		int ballsPerRow = 45; // Number of balls per row
 
-		double ballRadius = 8; // Radius of each ball
+		double ballRadius = 6; // Radius of each ball
 		double poolWidth = 2 * ballRadius * ballsPerRow; // Total width of the ball pool
 		double poolLength = 2 * ballRadius * rowCount; // Total length of the ball pool
 
@@ -73,12 +59,26 @@ class ballPoolTest {
 			color++;
 		}
 
+		double x = startX + 263;// x-coordinate of the current ball
+		double y = startY + 263;// y-coordinate of the current ball
+		double z = -70; // z-coordinate of the balls (depth)
+
+		Point center = new Point(x, y, z);
+		Sphere ball = (Sphere) new Sphere(center, 25).setEmission(colorArray[color++ % 5]).setMaterial(ballMaterial);
+		scene.geometries.add(ball);
+
+		scene.geometries.BuildBVH();
+
 		// Light source
+		scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), 0.15));
 		scene.lights.add(new SpotLight(new Color(700, 400, 400), new Point(0, 100, 0), new Vector(0, 0, -1))
 				.setkL(0.000004).setkQ(0.00009));
 
-		ImageWriter imageWriter = new ImageWriter("ballPoolImage", 800, 800);
-		scene.geometries.BuildBVH();
-		camera.setImageWriter(imageWriter).setRayTracer(new RayTracerBasic(scene)).renderImage().writeToImage();
+		new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setVPSize(600, 600).setVPDistance(1000) //
+				.setDoFActive(true).setGridDensity(2).setApertureRadius(100).setFocalLength(1070) //
+				.setImageWriter(new ImageWriter("ballPoolImage1", 800, 800)) //
+				.setRayTracer(new RayTracerBasic(scene)) //
+				.renderImage().writeToImage();
 	}
 }

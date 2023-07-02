@@ -39,8 +39,7 @@ class TubeTests {
 	}
 
 	/**
-	 * BONUS
-	 * Finds the intersections between a ray and the tube.
+	 * BONUS Finds the intersections between a ray and the tube.
 	 */
 	@Test
 	void findIntersections() {

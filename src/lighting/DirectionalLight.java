@@ -57,7 +57,8 @@ public class DirectionalLight extends Light implements LightSource {
 	 * Returns the distance from the light source to a given point.
 	 * 
 	 * @param point The point for which to calculate the distance.
-	 * @return The distance from the light source to the point (always positive infinity).
+	 * @return The distance from the light source to the point (always positive
+	 *         infinity).
 	 */
 	@Override
 	public double getDistance(Point point) {

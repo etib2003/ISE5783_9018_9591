@@ -26,7 +26,8 @@ public class ShadowTests {
 			.setVPSize(200, 200).setVPDistance(1000) //
 			.setRayTracer(new RayTracerBasic(scene));
 
-	/** Helper function for the tests in this module
+	/**
+	 * Helper function for the tests in this module
 	 * 
 	 * @param pictName
 	 * @param triangle
